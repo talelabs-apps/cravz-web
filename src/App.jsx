@@ -3718,7 +3718,7 @@ function OppBottomCard({crossSell, adjacentOpps, tier, bump}){
   const totalCount = crossSell.length + adjacentOpps.slice(0,3).length;
 
   return (
-    <div style={{maxWidth:680,margin:"0 auto",padding:"0 16px 80px"}}>
+    <div style={{padding:"0 16px 80px"}}>
       <div style={{borderRadius:16,border:`1px solid ${C.amber}30`,overflow:"hidden",background:`${C.amber}06`}}>
         {/* Collapsed header — always visible */}
         <button onClick={()=>setOpen(o=>!o)}
@@ -4375,7 +4375,7 @@ function BizDashboard({session,onLogout,onUpdateSession}){
         })}
       </div>
 
-      <div style={{maxWidth:680,margin:"0 auto",padding:"0 0 80px"}}>
+      <div style={{padding:"0 0 80px"}}>
 
       {/* DEMAND TAB */}
       {bizTab==="demand"&&(
@@ -6385,7 +6385,7 @@ function TheBrief({coinAlloc, user}) {
   var signals = extractSignals(comments, selItem ? selItem.cat : null);
 
   return (
-    <div style={{padding:"20px 16px 100px",maxWidth:680,margin:"0 auto"}}>
+    <div style={{padding:"20px 16px 100px"}}>
       {reportTarget&&<ReportModal onClose={function(){setReportTarget(null);}} onSubmit={function(reason){console.log("Report:",reportTarget,reason);setReportTarget(null);}}/>}
       <div style={{marginBottom:20}}>
         <h2 style={{...ty.h2,marginBottom:4}}>The Brief</h2>
