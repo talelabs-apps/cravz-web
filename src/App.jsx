@@ -105,424 +105,906 @@ function calcMetrics(item) {
 
 
 const CAT_CFG = {
-  business:  {label:"Businesses",   emoji:"🏪", color:C.coral,  bg:"#2A0A06"},
-  activity:  {label:"Activities",   emoji:"🎯", color:C.purple, bg:"#160A2A"},
-  food:      {label:"Food & Drink", emoji:"🍽️", color:C.coral,  bg:"#2A0A06"},
-  retail:    {label:"Retail",       emoji:"🛍️", color:C.amber,  bg:"#2A1400"},
-  health:    {label:"Health",       emoji:"💊",  color:C.green,  bg:"#0A1A0A"},
-  fitness:   {label:"Fitness",      emoji:"🏋️", color:C.green,  bg:"#0A1A0A"},
-  kids:      {label:"Family & Kids",emoji:"🧸",  color:C.coral,  bg:"#2A0A06"},
-  entertain: {label:"Entertainment",emoji:"🎭",  color:C.purple, bg:"#160A2A"},
-  services:  {label:"Services",     emoji:"🔧",  color:C.amber,  bg:"#2A1400"},
-  sports:    {label:"Sports",       emoji:"⚽",  color:C.green,  bg:"#0A1A0A"},
-  dance:     {label:"Dance",        emoji:"💃",  color:C.purple, bg:"#160A2A"},
-  creative:  {label:"Creative",     emoji:"🎨",  color:C.purple, bg:"#160A2A"},
-  learning:  {label:"Learning",     emoji:"📚",  color:C.amber,  bg:"#2A1400"},
-  community: {label:"Community",    emoji:"🏘️", color:C.green,  bg:"#0A1A0A"},
-};
-// VoteFlow only shows these two top-level categories
-const VOTE_CATS = {
-  business: CAT_CFG.business,
-  activity:  CAT_CFG.activity,
+  food:      {label:"Food & Drink",        emoji:"🍽️", color:C.coral,  bg:"#2A0A06"},
+  retail:    {label:"Retail",              emoji:"🛍️", color:C.amber,  bg:"#2A1400"},
+  health:    {label:"Health & Wellness",   emoji:"💆", color:C.green,  bg:"#0A1A0A"},
+  fitness:   {label:"Fitness & Sports",    emoji:"🏋️", color:C.green,  bg:"#0A1A0A"},
+  kids:      {label:"Kids & Family",       emoji:"🧸",  color:C.coral,  bg:"#2A0A06"},
+  entertain: {label:"Entertainment",       emoji:"🎭",  color:C.purple, bg:"#160A2A"},
+  services:  {label:"Services & Learning", emoji:"📚", color:C.amber,  bg:"#2A1400"},
 };
 
-// Catalogue display groups (collapsible sections)
-const CATALOGUE_GROUPS = {
-  business: {
-    food: {
-      label: "Food & Drink", emoji: "🍽️",
-      groups: [
-        {id:"rest_cuisine", label:"Cuisine Restaurants", ids:["b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "b10", "b11", "b12", "b13", "b14", "b15", "b16"]},
-        {id:"rest_concept", label:"Concept Restaurants", ids:["b17", "b18", "b19", "b20", "b21", "b22"]},
-        {id:"cafe",   label:"Café",                ids:["b23"]},
-        {id:"bakery", label:"Bakeries",             ids:["b24"]},
-        {id:"dessert",label:"Dessert & Ice Cream",  ids:["b25", "b26"]},
-        {id:"bars", label:"Bars & Pubs", ids:["b27", "b28", "b29", "b30", "b31"]},
-        {id:"food_grocery", label:"Grocery", ids:["b32", "b33"]},
-        {id:"food_specialty", label:"Specialty Food", ids:["b34", "b35", "b36", "b37", "b38", "b39"]},
-        {id:"food_alcohol", label:"Drinks Retail", ids:["b40", "b41"]},
-      ],
-    },
-    retail: {
-      label: "Retail", emoji: "🛍️",
-      groups: [
-        {id:"retail", label:"Retail Shops", ids:["b42", "b43", "b44", "b45", "b46", "b47", "b48", "b49"]},
-      ],
-    },
-    health: {
-      label: "Health", emoji: "💆",
-      groups: [
-        {id:"beauty_hair", label:"Hair & Grooming", ids:["b50", "b51", "b52", "b53"]},
-        {id:"beauty_wellness", label:"Wellness", ids:["b54", "b55"]},
-        {id:"clinics", label:"Health Clinics", ids:["b56", "b57", "b58", "b59"]},
-      ],
-    },
-    fitness: {
-      label: "Fitness & Sports", emoji: "🏋️",
-      groups: [
-        {id:"fit_gym",     label:"Gym",             ids:["b60"]},
-        {id:"fit_wellness", label:"Wellness Club",   ids:["b61"]},
-        {id:"fit_boutique", label:"Boutique Fitness", ids:["b62"]},
-        {id:"fit_mind", label:"Mind & Body", ids:["b63", "b66"]},
-        {id:"fit_functional", label:"Functional Fitness", ids:["b65"]},
-        {id:"fit_climbing", label:"Climbing", ids:["b66"]},
-        {id:"fit_combat", label:"Combat Sports", ids:["b67", "b68", "b69"]},
-        {id:"sports_courts", label:"Courts & Pitches", ids:["b70", "b71", "b72", "b75"]},
-        {id:"sports_aquatic", label:"Aquatic", ids:["b74"]},
-      ],
-    },
-    kids: {
-      label: "Family & Kids", emoji: "🧸",
-      groups: [
-        {id:"kids_play", label:"Play Venues", ids:["b75", "b76", "b77"]},
-        {id:"kids_fitness", label:"Kids Fitness", ids:["b78"]},
-      ],
-    },
-    entertain: {
-      label: "Entertainment", emoji: "🎭",
-      groups: [
-        {id:"screen_stage", label:"Screen & Stage", ids:["b81", "b80"]},
-        {id:"music", label:"Live Music", ids:["b81"]},
-      ],
-    },
-    services: {
-      label: "Services", emoji: "🔧",
-      groups: [
-        {id:"coworking", label:"Coworking Space", ids:["b82"]},
-        {id:"tutoring",   label:"Tutoring Centre",  ids:["b83"]},
-        {id:"household", label:"Household & Repairs", ids:["b84", "b85", "b86"]},
-        {id:"pet_services", label:"Pet Services", ids:["b87"]},
-      ],
-    },
-  },
-  activity: {
-    sports: {
-      label: "Sports", emoji: "🏅",
-      groups: [
-        {id:"racket", label:"Racket Sports", ids:["a1", "a2"]},
-        {id:"water", label:"Water Sports", ids:["a3"]},
-        {id:"team", label:"Team Sports", ids:["a4", "a5"]},
-        {id:"gymnastics", label:"Gymnastics", ids:["a6"]},
-        {id:"martial_arts", label:"Martial Arts", ids:["a7"]},
-      ],
-    },
-    fitness: {
-      label: "Fitness", emoji: "🏃",
-      groups: [
-        {id:"yoga_pilates", label:"Yoga & Pilates", ids:["a8", "a9"]},
-        {id:"fit_training", label:"Fitness Training", ids:["a10", "a11"]},
-        {id:"cycling", label:"Cycling", ids:["a12"]},
-      ],
-    },
-    dance: {
-      label: "Dance", emoji: "💃",
-      groups: [
-        {id:"dance", label:"Dance", ids:["a13"]},
-        {id:"ballet", label:"Ballet", ids:["a14"]},
-      ],
-    },
-    creative: {
-      label: "Creative", emoji: "🎨",
-      groups: [
-        {id:"ceramics", label:"Ceramics", ids:["a15"]},
-        {id:"art", label:"Art", ids:["a16", "a17"]},
-        {id:"photography", label:"Photography", ids:["a18"]},
-        {id:"crafts", label:"Crafts", ids:["a19"]},
-      ],
-    },
-    learning: {
-      label: "Learning", emoji: "📚",
-      groups: [
-        {id:"languages", label:"Languages", ids:["a20"]},
-        {id:"cooking", label:"Cooking", ids:["a21"]},
-        {id:"technology", label:"Technology", ids:["a22"]},
-        {id:"music", label:"Music", ids:["a23"]},
-      ],
-    },
-    community: {
-      label: "Community", emoji: "🤝",
-      groups: [
-        {id:"running", label:"Running", ids:["a24"]},
-        {id:"reading", label:"Reading", ids:["a25"]},
-        {id:"strategy", label:"Strategy Games", ids:["a26"]},
-        {id:"games", label:"Games", ids:["a27"]},
-      ],
-    },
-  },
+const VOTE_CATS = CAT_CFG;
+
+/* 10 coins total — unified across all services */
+const TOTAL_COINS = 10;
+
+/* ==================================================
+   UNIFIED SERVICES CATALOGUE
+================================================== */
+
+const SERVICES = [
+  /* ── FOOD & DRINK ── */
+  /* Restaurants – Cuisine */
+  {id:"s1",  cat:"food", subcat:"rest_cuisine",  emoji:"🇮🇹", label:"Italian restaurant"},
+  {id:"s2",  cat:"food", subcat:"rest_cuisine",  emoji:"🥐", label:"French restaurant"},
+  {id:"s3",  cat:"food", subcat:"rest_cuisine",  emoji:"🥘", label:"Spanish restaurant"},
+  {id:"s4",  cat:"food", subcat:"rest_cuisine",  emoji:"🌍", label:"Modern European restaurant"},
+  {id:"s5",  cat:"food", subcat:"rest_cuisine",  emoji:"🇧🇷", label:"Brazilian restaurant"},
+  {id:"s6",  cat:"food", subcat:"rest_cuisine",  emoji:"🌮", label:"Mexican restaurant"},
+  {id:"s7",  cat:"food", subcat:"rest_cuisine",  emoji:"🥡", label:"Japanese restaurant"},
+  {id:"s8",  cat:"food", subcat:"rest_cuisine",  emoji:"🥡", label:"Chinese restaurant"},
+  {id:"s9",  cat:"food", subcat:"rest_cuisine",  emoji:"🌶️", label:"Thai restaurant"},
+  {id:"s10", cat:"food", subcat:"rest_cuisine",  emoji:"🍛", label:"Indian restaurant"},
+  {id:"s11", cat:"food", subcat:"rest_cuisine",  emoji:"🧆", label:"Middle Eastern restaurant"},
+  {id:"s12", cat:"food", subcat:"rest_cuisine",  emoji:"🇬🇷", label:"Greek restaurant"},
+  {id:"s13", cat:"food", subcat:"rest_cuisine",  emoji:"🍜", label:"Korean restaurant"},
+  {id:"s14", cat:"food", subcat:"rest_cuisine",  emoji:"🍲", label:"Vietnamese restaurant"},
+  {id:"s15", cat:"food", subcat:"rest_cuisine",  emoji:"🥩", label:"Steakhouse"},
+  {id:"s16", cat:"food", subcat:"rest_cuisine",  emoji:"🦞", label:"Seafood restaurant"},
+  /* Restaurants – Concept */
+  {id:"s17", cat:"food", subcat:"rest_concept",  emoji:"🍔", label:"Burger place"},
+  {id:"s18", cat:"food", subcat:"rest_concept",  emoji:"🍕", label:"Pizzeria"},
+  {id:"s19", cat:"food", subcat:"rest_concept",  emoji:"🥞", label:"Crêperie"},
+  {id:"s20", cat:"food", subcat:"rest_concept",  emoji:"🍗", label:"Rotisserie chicken"},
+  {id:"s21", cat:"food", subcat:"rest_concept",  emoji:"🐟", label:"Fish & chips"},
+  {id:"s22", cat:"food", subcat:"rest_concept",  emoji:"🍱", label:"Food hall / street food market"},
+  /* Cafés & Bakeries */
+  {id:"s23", cat:"food", subcat:"cafe",          emoji:"☕", label:"Café"},
+  {id:"s24", cat:"food", subcat:"bakery",        emoji:"🥐", label:"Artisan bakery"},
+  /* Dessert */
+  {id:"s25", cat:"food", subcat:"dessert",       emoji:"🍰", label:"Dessert shop"},
+  {id:"s26", cat:"food", subcat:"dessert",       emoji:"🍦", label:"Ice cream / gelato shop"},
+  /* Bars & Pubs */
+  {id:"s27", cat:"food", subcat:"bars",          emoji:"🍺", label:"Pub"},
+  {id:"s28", cat:"food", subcat:"bars",          emoji:"🍸", label:"Cocktail bar"},
+  {id:"s29", cat:"food", subcat:"bars",          emoji:"🍷", label:"Wine bar"},
+  {id:"s30", cat:"food", subcat:"bars",          emoji:"🍻", label:"Craft beer bar"},
+  {id:"s31", cat:"food", subcat:"bars",          emoji:"📺", label:"Sports bar"},
+  /* Food Retail – Grocery */
+  {id:"s32", cat:"food", subcat:"grocery",       emoji:"🛒", label:"Supermarket"},
+  {id:"s33", cat:"food", subcat:"grocery",       emoji:"🏪", label:"Neighbourhood grocery store"},
+  /* Food Retail – Specialty */
+  {id:"s34", cat:"food", subcat:"food_specialty",emoji:"🥖", label:"Delicatessen"},
+  {id:"s35", cat:"food", subcat:"food_specialty",emoji:"🧀", label:"Cheese shop"},
+  {id:"s36", cat:"food", subcat:"food_specialty",emoji:"🥩", label:"Butcher"},
+  {id:"s37", cat:"food", subcat:"food_specialty",emoji:"🐟", label:"Fishmonger"},
+  {id:"s38", cat:"food", subcat:"food_specialty",emoji:"🥦", label:"Greengrocer"},
+  {id:"s39", cat:"food", subcat:"food_specialty",emoji:"🌿", label:"Organic food shop"},
+  /* Food Retail – Alcohol */
+  {id:"s40", cat:"food", subcat:"food_alcohol",  emoji:"🍾", label:"Wine shop"},
+  {id:"s41", cat:"food", subcat:"food_alcohol",  emoji:"🥃", label:"Wine & spirits shop"},
+
+  /* ── RETAIL ── */
+  {id:"s42", cat:"retail", subcat:"books_gifts",  emoji:"📚", label:"Bookstore"},
+  {id:"s43", cat:"retail", subcat:"books_gifts",  emoji:"🧸", label:"Toy shop"},
+  {id:"s44", cat:"retail", subcat:"books_gifts",  emoji:"🎁", label:"Gift shop"},
+  {id:"s45", cat:"retail", subcat:"home_life",    emoji:"🏡", label:"Homeware shop"},
+  {id:"s46", cat:"retail", subcat:"home_life",    emoji:"💐", label:"Florist"},
+  {id:"s47", cat:"retail", subcat:"fashion_pets", emoji:"👗", label:"Clothing shop"},
+  {id:"s48", cat:"retail", subcat:"fashion_pets", emoji:"🐾", label:"Pet shop"},
+  {id:"s49", cat:"retail", subcat:"hardware",     emoji:"🔧", label:"Hardware / DIY shop"},
+
+  /* ── HEALTH & WELLNESS ── */
+  {id:"s50", cat:"health", subcat:"beauty",       emoji:"💇", label:"Hair salon"},
+  {id:"s51", cat:"health", subcat:"beauty",       emoji:"💅", label:"Nail salon"},
+  {id:"s52", cat:"health", subcat:"beauty",       emoji:"✨", label:"Beauty salon"},
+  {id:"s53", cat:"health", subcat:"beauty",       emoji:"✂️", label:"Barbershop"},
+  {id:"s54", cat:"health", subcat:"wellness",     emoji:"🧖", label:"Spa"},
+  {id:"s55", cat:"health", subcat:"wellness",     emoji:"💆", label:"Massage studio"},
+  {id:"s56", cat:"health", subcat:"medical",      emoji:"🏥", label:"Doctor clinic"},
+  {id:"s57", cat:"health", subcat:"medical",      emoji:"🦷", label:"Dentist clinic"},
+  {id:"s58", cat:"health", subcat:"medical",      emoji:"🩺", label:"Physiotherapy clinic"},
+  {id:"s59", cat:"health", subcat:"medical",      emoji:"💊", label:"Pharmacy"},
+
+  /* ── FITNESS & SPORTS ── */
+  {id:"s60", cat:"fitness", subcat:"gym",         emoji:"🏋️", label:"Gym"},
+  {id:"s61", cat:"fitness", subcat:"gym",         emoji:"🏊", label:"Wellness club"},
+  {id:"s62", cat:"fitness", subcat:"gym",         emoji:"🤸", label:"Boutique fitness studio"},
+  {id:"s63", cat:"fitness", subcat:"yoga_pilates",emoji:"🧘", label:"Yoga studio"},
+  {id:"s64", cat:"fitness", subcat:"yoga_pilates",emoji:"🧘", label:"Pilates studio"},
+  {id:"s65", cat:"fitness", subcat:"functional",  emoji:"🏋️", label:"CrossFit gym"},
+  {id:"s66", cat:"fitness", subcat:"climbing",    emoji:"🧗", label:"Climbing gym"},
+  {id:"s67", cat:"fitness", subcat:"combat",      emoji:"🥊", label:"Boxing gym"},
+  {id:"s68", cat:"fitness", subcat:"combat",      emoji:"🥋", label:"Martial arts gym"},
+  {id:"s69", cat:"fitness", subcat:"combat",      emoji:"🥋", label:"Jiu-jitsu gym"},
+  {id:"s70", cat:"fitness", subcat:"sports_courts",emoji:"🎾", label:"Tennis courts"},
+  {id:"s71", cat:"fitness", subcat:"sports_courts",emoji:"🏸", label:"Padel courts"},
+  {id:"s72", cat:"fitness", subcat:"sports_courts",emoji:"⚽", label:"Football / 5-a-side pitch"},
+  {id:"s73", cat:"fitness", subcat:"sports_courts",emoji:"🏀", label:"Basketball courts"},
+  {id:"s74", cat:"fitness", subcat:"sports_courts",emoji:"🏊", label:"Swimming pool"},
+
+  /* ── KIDS & FAMILY ── */
+  {id:"s75", cat:"kids", subcat:"kids_play",      emoji:"🧸", label:"Soft play café"},
+  {id:"s76", cat:"kids", subcat:"kids_play",      emoji:"🎠", label:"Indoor activity centre"},
+  {id:"s77", cat:"kids", subcat:"kids_play",      emoji:"🌳", label:"Outdoor playground"},
+  {id:"s78", cat:"kids", subcat:"kids_fitness",   emoji:"🤸", label:"Kids gym"},
+
+  /* ── ENTERTAINMENT ── */
+  {id:"s79", cat:"entertain", subcat:"screen_stage",emoji:"🎬", label:"Cinema"},
+  {id:"s80", cat:"entertain", subcat:"screen_stage",emoji:"🎭", label:"Theatre"},
+  {id:"s81", cat:"entertain", subcat:"music_events",emoji:"🎵", label:"Concert hall / live music venue"},
+
+  /* ── SERVICES & LEARNING ── */
+  /* Sports Classes */
+  {id:"s82", cat:"services", subcat:"sports_classes",emoji:"🎾", label:"Tennis lessons"},
+  {id:"s83", cat:"services", subcat:"sports_classes",emoji:"🏸", label:"Padel lessons"},
+  {id:"s84", cat:"services", subcat:"sports_classes",emoji:"🏊", label:"Swimming lessons"},
+  {id:"s85", cat:"services", subcat:"sports_classes",emoji:"⚽", label:"Football training"},
+  {id:"s86", cat:"services", subcat:"sports_classes",emoji:"🏀", label:"Basketball training"},
+  {id:"s87", cat:"services", subcat:"sports_classes",emoji:"🤸", label:"Gymnastics classes"},
+  {id:"s88", cat:"services", subcat:"sports_classes",emoji:"🥋", label:"Martial arts classes"},
+  /* Fitness Classes */
+  {id:"s89", cat:"services", subcat:"fitness_classes",emoji:"🧘", label:"Yoga classes"},
+  {id:"s90", cat:"services", subcat:"fitness_classes",emoji:"🧘", label:"Pilates classes"},
+  {id:"s91", cat:"services", subcat:"fitness_classes",emoji:"💪", label:"HIIT / fitness classes"},
+  {id:"s92", cat:"services", subcat:"fitness_classes",emoji:"🏋️", label:"Strength training classes"},
+  {id:"s93", cat:"services", subcat:"fitness_classes",emoji:"🚴", label:"Spin / cycling classes"},
+  /* Creative Classes */
+  {id:"s94", cat:"services", subcat:"creative_classes",emoji:"🏺", label:"Pottery classes"},
+  {id:"s95", cat:"services", subcat:"creative_classes",emoji:"🎨", label:"Painting classes"},
+  {id:"s96", cat:"services", subcat:"creative_classes",emoji:"✏️", label:"Drawing classes"},
+  {id:"s97", cat:"services", subcat:"creative_classes",emoji:"📷", label:"Photography classes"},
+  {id:"s98", cat:"services", subcat:"creative_classes",emoji:"✂️", label:"Craft workshops"},
+  /* Learning */
+  {id:"s99",  cat:"services", subcat:"learning",    emoji:"🗣️", label:"Language classes"},
+  {id:"s100", cat:"services", subcat:"learning",    emoji:"👨‍🍳", label:"Cooking classes"},
+  {id:"s101", cat:"services", subcat:"learning",    emoji:"💻", label:"Coding classes"},
+  {id:"s102", cat:"services", subcat:"learning",    emoji:"🎵", label:"Music lessons"},
+  /* Community */
+  {id:"s103", cat:"services", subcat:"community",   emoji:"🏃", label:"Running club"},
+  {id:"s104", cat:"services", subcat:"community",   emoji:"📖", label:"Book club"},
+  {id:"s105", cat:"services", subcat:"community",   emoji:"♟️", label:"Chess club"},
+  {id:"s106", cat:"services", subcat:"community",   emoji:"🎲", label:"Board game club"},
+  /* Workspace & Education */
+  {id:"s107", cat:"services", subcat:"workspace",   emoji:"💼", label:"Coworking space"},
+  {id:"s108", cat:"services", subcat:"workspace",   emoji:"📖", label:"Tutoring centre"},
+  /* Household & Repairs */
+  {id:"s109", cat:"services", subcat:"household",   emoji:"👕", label:"Laundry / dry cleaners"},
+  {id:"s110", cat:"services", subcat:"household",   emoji:"🚲", label:"Bike repair shop"},
+  {id:"s111", cat:"services", subcat:"household",   emoji:"📱", label:"Electronics repair shop"},
+  /* Pet Services */
+  {id:"s112", cat:"services", subcat:"pet_services",emoji:"🐾", label:"Pet grooming"},
+];
+
+/* ==================================================
+   SERVICE CATALOGUE grouped for VoteFlow
+================================================== */
+const SERVICE_GROUPS = {
+  food: [
+    {label:"Restaurants – Cuisine",  subcat:"rest_cuisine"},
+    {label:"Restaurants – Concept",  subcat:"rest_concept"},
+    {label:"Cafés & Bakeries",       subcat:"cafe"},
+    {label:"Cafés & Bakeries",       subcat:"bakery"},
+    {label:"Dessert",                subcat:"dessert"},
+    {label:"Bars & Pubs",            subcat:"bars"},
+    {label:"Grocery",                subcat:"grocery"},
+    {label:"Specialty Food",         subcat:"food_specialty"},
+    {label:"Wine & Spirits",         subcat:"food_alcohol"},
+  ],
+  retail: [
+    {label:"Books, Toys & Gifts",    subcat:"books_gifts"},
+    {label:"Home & Lifestyle",       subcat:"home_life"},
+    {label:"Fashion & Pets",         subcat:"fashion_pets"},
+    {label:"Hardware",               subcat:"hardware"},
+  ],
+  health: [
+    {label:"Beauty & Grooming",      subcat:"beauty"},
+    {label:"Wellness",               subcat:"wellness"},
+    {label:"Medical",                subcat:"medical"},
+  ],
+  fitness: [
+    {label:"Gyms & Studios",         subcat:"gym"},
+    {label:"Yoga & Pilates",         subcat:"yoga_pilates"},
+    {label:"Functional Fitness",     subcat:"functional"},
+    {label:"Climbing",               subcat:"climbing"},
+    {label:"Combat Sports",          subcat:"combat"},
+    {label:"Sports Facilities",      subcat:"sports_courts"},
+  ],
+  kids: [
+    {label:"Play & Activity",        subcat:"kids_play"},
+    {label:"Kids Fitness",           subcat:"kids_fitness"},
+  ],
+  entertain: [
+    {label:"Screen & Stage",         subcat:"screen_stage"},
+    {label:"Music & Events",         subcat:"music_events"},
+  ],
+  services: [
+    {label:"Sports Classes",         subcat:"sports_classes"},
+    {label:"Fitness Classes",        subcat:"fitness_classes"},
+    {label:"Creative Classes",       subcat:"creative_classes"},
+    {label:"Learning",               subcat:"learning"},
+    {label:"Community",              subcat:"community"},
+    {label:"Workspace & Education",  subcat:"workspace"},
+    {label:"Household & Repairs",    subcat:"household"},
+    {label:"Pet Services",           subcat:"pet_services"},
+  ],
 };
 
-const CATALOGUE = {
-  business: [
-    {id:"b1", emoji:"🇮🇹", label:"Italian restaurant", cat:"food", subcat:"rest_cuisine"},
-    {id:"b2", emoji:"🥐", label:"French restaurant", cat:"food", subcat:"rest_cuisine"},
-    {id:"b3", emoji:"🥘", label:"Spanish restaurant", cat:"food", subcat:"rest_cuisine"},
-    {id:"b4", emoji:"🌍", label:"Modern European restaurant", cat:"food", subcat:"rest_cuisine"},
-    {id:"b5", emoji:"🇧🇷", label:"Brazilian restaurant", cat:"food", subcat:"rest_cuisine"},
-    {id:"b6", emoji:"🌮", label:"Mexican restaurant", cat:"food", subcat:"rest_cuisine"},
-    {id:"b7", emoji:"🥡", label:"Japanese restaurant", cat:"food", subcat:"rest_cuisine"},
-    {id:"b8", emoji:"🥡", label:"Chinese restaurant", cat:"food", subcat:"rest_cuisine"},
-    {id:"b9", emoji:"🌶️", label:"Thai restaurant", cat:"food", subcat:"rest_cuisine"},
-    {id:"b10", emoji:"🍛", label:"Indian restaurant", cat:"food", subcat:"rest_cuisine"},
-    {id:"b11", emoji:"🧆", label:"Middle Eastern restaurant", cat:"food", subcat:"rest_cuisine"},
-    {id:"b12", emoji:"🇬🇷", label:"Greek restaurant", cat:"food", subcat:"rest_cuisine"},
-    {id:"b13", emoji:"🍜", label:"Korean restaurant", cat:"food", subcat:"rest_cuisine"},
-    {id:"b14", emoji:"🍲", label:"Vietnamese restaurant", cat:"food", subcat:"rest_cuisine"},
-    {id:"b15", emoji:"🥩", label:"Steakhouse", cat:"food", subcat:"rest_cuisine"},
-    {id:"b16", emoji:"🦞", label:"Seafood restaurant", cat:"food", subcat:"rest_cuisine"},
-    {id:"b17", emoji:"🍔", label:"Burger place", cat:"food", subcat:"rest_concept"},
-    {id:"b18", emoji:"🍕", label:"Pizzeria", cat:"food", subcat:"rest_concept"},
-    {id:"b19", emoji:"🥞", label:"Crêperie", cat:"food", subcat:"rest_concept"},
-    {id:"b20", emoji:"🍗", label:"Rotisserie chicken", cat:"food", subcat:"rest_concept"},
-    {id:"b21", emoji:"🐟", label:"Fish & chips", cat:"food", subcat:"rest_concept"},
-    {id:"b22", emoji:"🏪", label:"Food hall / street food market", cat:"food", subcat:"rest_concept"},
-    {id:"b23", emoji:"☕", label:"Café", cat:"food", subcat:"cafe"},
-    {id:"b24", emoji:"🥖", label:"Artisan bakery", cat:"food", subcat:"bakery"},
-    {id:"b25", emoji:"🍮", label:"Dessert shop", cat:"food", subcat:"dessert"},
-    {id:"b26", emoji:"🍦", label:"Ice cream / gelato shop", cat:"food", subcat:"dessert"},
-    {id:"b27", emoji:"🍺", label:"Pub", cat:"food", subcat:"bars"},
-    {id:"b28", emoji:"🍸", label:"Cocktail bar", cat:"food", subcat:"bars"},
-    {id:"b29", emoji:"🍷", label:"Wine bar", cat:"food", subcat:"bars"},
-    {id:"b30", emoji:"🍻", label:"Craft beer bar", cat:"food", subcat:"bars"},
-    {id:"b31", emoji:"📺", label:"Sports bar", cat:"food", subcat:"bars"},
-    {id:"b32", emoji:"🛒", label:"Supermarket", cat:"food", subcat:"food_grocery"},
-    {id:"b33", emoji:"🏘️", label:"Neighbourhood grocery store", cat:"food", subcat:"food_grocery"},
-    {id:"b34", emoji:"🥗", label:"Delicatessen", cat:"food", subcat:"food_specialty"},
-    {id:"b35", emoji:"🧀", label:"Cheese shop", cat:"food", subcat:"food_specialty"},
-    {id:"b36", emoji:"🥩", label:"Butcher", cat:"food", subcat:"food_specialty"},
-    {id:"b37", emoji:"🐟", label:"Fishmonger", cat:"food", subcat:"food_specialty"},
-    {id:"b38", emoji:"🥦", label:"Greengrocer", cat:"food", subcat:"food_specialty"},
-    {id:"b39", emoji:"🌿", label:"Organic food shop", cat:"food", subcat:"food_specialty"},
-    {id:"b40", emoji:"🍷", label:"Wine shop", cat:"food", subcat:"food_alcohol"},
-    {id:"b41", emoji:"🥃", label:"Wine & spirits shop", cat:"food", subcat:"food_alcohol"},
-    {id:"b42", emoji:"📚", label:"Bookstore", cat:"retail", subcat:"retail"},
-    {id:"b43", emoji:"🧸", label:"Toy shop", cat:"retail", subcat:"retail"},
-    {id:"b44", emoji:"🏠", label:"Homeware shop", cat:"retail", subcat:"retail"},
-    {id:"b45", emoji:"🎁", label:"Gift shop", cat:"retail", subcat:"retail"},
-    {id:"b46", emoji:"💐", label:"Florist", cat:"retail", subcat:"retail"},
-    {id:"b47", emoji:"👗", label:"Clothing shop", cat:"retail", subcat:"retail"},
-    {id:"b48", emoji:"🐾", label:"Pet shop", cat:"retail", subcat:"retail"},
-    {id:"b49", emoji:"🔨", label:"Hardware / DIY shop", cat:"retail", subcat:"retail"},
-    {id:"b50", emoji:"✂️", label:"Hair salon", cat:"health", subcat:"beauty_hair"},
-    {id:"b51", emoji:"💅", label:"Nail salon", cat:"health", subcat:"beauty_hair"},
-    {id:"b52", emoji:"💆", label:"Beauty salon", cat:"health", subcat:"beauty_hair"},
-    {id:"b53", emoji:"💈", label:"Barbershop", cat:"health", subcat:"beauty_hair"},
-    {id:"b54", emoji:"🧖", label:"Spa", cat:"health", subcat:"beauty_wellness"},
-    {id:"b55", emoji:"🫁", label:"Massage studio", cat:"health", subcat:"beauty_wellness"},
-    {id:"b56", emoji:"🩺", label:"Doctor clinic", cat:"health", subcat:"clinics"},
-    {id:"b57", emoji:"🦷", label:"Dentist clinic", cat:"health", subcat:"clinics"},
-    {id:"b58", emoji:"🦴", label:"Physiotherapy clinic", cat:"health", subcat:"clinics"},
-    {id:"b59", emoji:"💊", label:"Pharmacy", cat:"health", subcat:"clinics"},
-    {id:"b60", emoji:"🏋️", label:"Gym", cat:"fitness", subcat:"fit_gym"},
-    {id:"b61", emoji:"🌸", label:"Wellness club", cat:"fitness", subcat:"fit_wellness"},
-    {id:"b62", emoji:"🏃", label:"Boutique fitness studio", cat:"fitness", subcat:"fit_boutique"},
-    {id:"b63", emoji:"🧘", label:"Yoga studio", cat:"fitness", subcat:"fit_mind"},
-    {id:"b66", emoji:"🤸", label:"Pilates studio", cat:"fitness", subcat:"fit_mind"},
-    {id:"b65", emoji:"💪", label:"CrossFit gym", cat:"fitness", subcat:"fit_functional"},
-    {id:"b66", emoji:"🧗", label:"Climbing gym", cat:"fitness", subcat:"fit_climbing"},
-    {id:"b67", emoji:"🥊", label:"Boxing gym", cat:"fitness", subcat:"fit_combat"},
-    {id:"b68", emoji:"🥋", label:"Martial arts gym", cat:"fitness", subcat:"fit_combat"},
-    {id:"b69", emoji:"🥋", label:"Jiu-jitsu gym", cat:"fitness", subcat:"fit_combat"},
-    {id:"b70", emoji:"🎾", label:"Tennis courts", cat:"fitness", subcat:"sports_courts"},
-    {id:"b71", emoji:"🏓", label:"Padel courts", cat:"fitness", subcat:"sports_courts"},
-    {id:"b72", emoji:"⚽", label:"Football / 5-a-side pitch", cat:"fitness", subcat:"sports_courts"},
-    {id:"b75", emoji:"🏀", label:"Basketball courts", cat:"fitness", subcat:"sports_courts"},
-    {id:"b74", emoji:"🏊", label:"Swimming pool", cat:"fitness", subcat:"sports_aquatic"},
-    {id:"b75", emoji:"🧸", label:"Soft play café", cat:"kids", subcat:"kids_play"},
-    {id:"b76", emoji:"🎪", label:"Indoor activity centre", cat:"kids", subcat:"kids_play"},
-    {id:"b77", emoji:"🛝", label:"Outdoor playground", cat:"kids", subcat:"kids_play"},
-    {id:"b78", emoji:"🤸", label:"Kids gym", cat:"kids", subcat:"kids_fitness"},
-    {id:"b81", emoji:"🎬", label:"Cinema", cat:"entertain", subcat:"screen_stage"},
-    {id:"b80", emoji:"🎭", label:"Theatre", cat:"entertain", subcat:"screen_stage"},
-    {id:"b81", emoji:"🎵", label:"Concert hall / live music venue", cat:"entertain", subcat:"music"},
-    {id:"b82", emoji:"💻", label:"Coworking space", cat:"services", subcat:"coworking"},
-    {id:"b83", emoji:"📖", label:"Tutoring centre", cat:"services", subcat:"tutoring"},
-    {id:"b84", emoji:"👕", label:"Laundry / dry cleaners", cat:"services", subcat:"household"},
-    {id:"b85", emoji:"🚲", label:"Bike repair shop", cat:"services", subcat:"household"},
-    {id:"b86", emoji:"📱", label:"Electronics repair shop", cat:"services", subcat:"household"},
-    {id:"b87", emoji:"🐩", label:"Pet grooming", cat:"services", subcat:"pet_services"},
-  ],
-  activity: [
-    {id:"a1", emoji:"🎾", label:"Tennis lessons", cat:"sports", subcat:"racket"},
-    {id:"a2", emoji:"🏓", label:"Padel lessons", cat:"sports", subcat:"racket"},
-    {id:"a3", emoji:"🏊", label:"Swimming lessons", cat:"sports", subcat:"water"},
-    {id:"a4", emoji:"⚽", label:"Football training", cat:"sports", subcat:"team"},
-    {id:"a5", emoji:"🏀", label:"Basketball training", cat:"sports", subcat:"team"},
-    {id:"a6", emoji:"🤸", label:"Gymnastics classes", cat:"sports", subcat:"gymnastics"},
-    {id:"a7", emoji:"🥋", label:"Martial arts classes", cat:"sports", subcat:"martial_arts"},
-    {id:"a8", emoji:"🧘", label:"Yoga classes", cat:"fitness", subcat:"yoga_pilates"},
-    {id:"a9", emoji:"🤸", label:"Pilates classes", cat:"fitness", subcat:"yoga_pilates"},
-    {id:"a10", emoji:"🏃", label:"HIIT / fitness classes", cat:"fitness", subcat:"fit_training"},
-    {id:"a11", emoji:"🏋️", label:"Strength training classes", cat:"fitness", subcat:"fit_training"},
-    {id:"a12", emoji:"🚴", label:"Spin / cycling classes", cat:"fitness", subcat:"cycling"},
-    {id:"a13", emoji:"💃", label:"Dance classes", cat:"dance", subcat:"dance"},
-    {id:"a14", emoji:"🩰", label:"Ballet classes", cat:"dance", subcat:"ballet"},
-    {id:"a15", emoji:"🏺", label:"Pottery classes", cat:"creative", subcat:"ceramics"},
-    {id:"a16", emoji:"🎨", label:"Painting classes", cat:"creative", subcat:"art"},
-    {id:"a17", emoji:"✏️", label:"Drawing classes", cat:"creative", subcat:"art"},
-    {id:"a18", emoji:"📷", label:"Photography classes", cat:"creative", subcat:"photography"},
-    {id:"a19", emoji:"✂️", label:"Craft workshops", cat:"creative", subcat:"crafts"},
-    {id:"a20", emoji:"🗣️", label:"Language classes", cat:"learning", subcat:"languages"},
-    {id:"a21", emoji:"🍳", label:"Cooking classes", cat:"learning", subcat:"cooking"},
-    {id:"a22", emoji:"💻", label:"Coding classes", cat:"learning", subcat:"technology"},
-    {id:"a23", emoji:"🎵", label:"Music lessons", cat:"learning", subcat:"music"},
-    {id:"a24", emoji:"🏃", label:"Running club", cat:"community", subcat:"running"},
-    {id:"a25", emoji:"📚", label:"Book club", cat:"community", subcat:"reading"},
-    {id:"a26", emoji:"♟️", label:"Chess club", cat:"community", subcat:"strategy"},
-    {id:"a27", emoji:"🎲", label:"Board game club", cat:"community", subcat:"games"},
-  ],
+/* ==================================================
+   SERVICE QUESTION MODEL
+   getServiceQuestions(subcat) -> {level, q1, q2?, q3?}
+   level A = rich tags (up to 3)
+   level B = light (up to 1-2)
+   level C = no extra questions
+================================================== */
+
+const SQ = {
+  /* ── FOOD ── */
+  rest_cuisine: {level:"A", q:"What matters most?", max:3, opts:[
+    "Cozy / quiet","Relaxed / casual","Lively","Great for groups","Dog-friendly",
+    "Lunch / brunch","Evening","Date night","Celebration","Outdoor space",
+    "Design-led / Instagrammable","Authentic food","Innovative concept",
+    "Vegetarian / vegan options","Gluten-free options","Great wine selection",
+    "Great cocktails","Delivery / takeaway",
+  ]},
+  rest_concept: {level:"A", q:"What matters most?", max:3, opts:[
+    "Relaxed / casual","Lively","Great for groups","Dog-friendly",
+    "Quick / casual","Evening","Outdoor space","Authentic food",
+    "Innovative concept","Vegetarian / vegan options","Gluten-free options",
+    "Delivery / takeaway",
+  ]},
+  cafe: {level:"A", q:"What matters most?", max:3, opts:[
+    "Cozy / quiet","Relaxed / casual","Great for groups","Dog-friendly",
+    "Laptop-friendly","Quick stop","Weekday","Weekend","Outdoor space",
+    "Design-led / Instagrammable","Healthy options","Local / independent",
+  ]},
+  bakery: {level:"B", q:"What would you use it for most?", max:2, opts:[
+    "Quick stop","Everyday bakery","All-day breakfast / brunch","Weekend destination",
+  ]},
+  dessert: {level:"B", q:"What matters most?", max:2, opts:[
+    "Sit-down experience","Quick takeaway","Evening / weekend treat",
+    "Family-friendly","Design-led / Instagrammable","Specialist offer",
+  ]},
+  bars: {level:"A", q:"What matters most?", max:3, opts:[
+    "Relaxed / casual","Lively","Great for groups","Dog-friendly",
+    "Evening","Late night","Date night","Celebration","Outdoor space",
+    "Great wine selection","Great cocktails","Live music / events","Local / independent",
+  ]},
+  grocery: {level:"B", q:"What type do you want?", max:1, opts:[
+    "Large supermarket","Small neighbourhood store","Premium / curated","Organic-focused",
+  ]},
+  food_specialty: {level:"B", q:"What matters most?", max:2, opts:[
+    "Premium quality","Organic / healthy","Local / independent","Specialist selection",
+  ]},
+  food_alcohol: {level:"B", q:"What matters most?", max:2, opts:[
+    "Premium quality","Specialist selection","Local / independent",
+  ]},
+
+  /* ── RETAIL ── */
+  books_gifts: {level:"B", q:"What matters most?", max:2, opts:[
+    "Local / independent","Premium / curated","Practical / everyday",
+  ]},
+  home_life: {level:"B", q:"What matters most?", max:2, opts:[
+    "Local / independent","Premium / curated","Practical / everyday",
+  ]},
+  fashion_pets: {level:"B", q:"What type do you want?", max:1, opts:[
+    "Everyday / affordable","Premium / boutique","Family / kids-focused",
+  ]},
+  hardware: {level:"C"},
+
+  /* ── HEALTH ── */
+  beauty: {level:"B", q:"What matters most?", max:2, opts:[
+    "Quick / practical","Premium / design-led","Relaxed experience","Walk-ins available",
+  ]},
+  wellness: {level:"B", q:"What matters most?", max:2, opts:[
+    "Relaxing / calming","Premium experience","Walk-ins available",
+  ]},
+  medical: {level:"C"},
+
+  /* ── FITNESS ── */
+  gym: {level:"A", q:"What matters most?", max:3, opts:[
+    "Beginner-friendly","Serious training","Classes available","Pool / wellness facilities",
+    "Coaching available","Flexible hours","Family-friendly (creche)",
+    "Outdoor facilities","Community / social gym","Independent training / solo use",
+  ]},
+  yoga_pilates: {level:"B", q:"What matters most?", max:2, opts:[
+    "Beginner-friendly","Relaxed / calming","Structured classes",
+    "Pre / post-natal classes","Group classes / community","Individual focus",
+  ]},
+  functional: {level:"A", q:"What matters most?", max:3, opts:[
+    "Beginner-friendly","Serious training","Coaching available","Classes available",
+    "Community / social","Flexible hours","Individual training",
+  ]},
+  climbing: {level:"B", q:"What matters most?", max:2, opts:[
+    "Beginner-friendly","Coaching available","Casual climbing",
+    "Family-friendly","Social activity","Individual practice",
+  ]},
+  combat: {level:"A", q:"What matters most?", max:3, opts:[
+    "Beginner-friendly","Kids classes","Competitive training",
+    "Coaching quality","Small group training","Serious progression","Casual training",
+  ]},
+  sports_courts: {level:"A", q:"What matters most?", max:3, opts:[
+    "Coaching available","Kids programs","Casual play","Competitive play",
+    "Indoor / outdoor","Evening access","Social play","Structured use",
+  ]},
+
+  /* ── KIDS ── */
+  kids_play: {level:"A", q:"What matters most?", max:3, opts:[
+    "Structured activities","Free / casual play","Weekday (after school)",
+    "Weekend use","Indoor / outdoor",
+  ]},
+  kids_fitness: {level:"B", q:"What matters most?", max:2, opts:[
+    "Structured classes","Beginner-friendly","Fun / social","Kids competitions",
+  ]},
+
+  /* ── ENTERTAINMENT ── */
+  screen_stage: {level:"B", q:"What matters most?", max:2, opts:[
+    "Evening / weekend","Live events","Great for groups","Social experience","Specific shows",
+  ]},
+  music_events: {level:"B", q:"What matters most?", max:2, opts:[
+    "Evening / weekend","Live events","Great for groups","Social experience","Specific genres",
+  ]},
+
+  /* ── SERVICES ── */
+  sports_classes: {level:"classes", competitive:true},
+  fitness_classes: {level:"classes", competitive:false, prenatal:true},
+  creative_classes: {level:"classes", competitive:false},
+  learning: {level:"classes", competitive:false},
+  community: {level:"classes", competitive:false},
+  workspace: {level:"B", q:"What matters most?", max:2, opts:[
+    "Quiet / focused workspace","Community / networking","Flexible access",
+  ]},
+  household: {level:"C"},
+  pet_services: {level:"C"},
 };
+
+// Non-competitive subcats (hide Advanced / competitive option)
+const NON_COMPETITIVE = new Set([
+  "creative_classes","learning","community",
+]);
+
+function getServiceQuestions(subcat) {
+  return SQ[subcat] || {level:"C"};
+}
+
+function isClassesLevel(subcat) {
+  const q = SQ[subcat];
+  return q && q.level === "classes";
+}
+
+function showCompetitiveOption(subcat) {
+  return !NON_COMPETITIVE.has(subcat);
+}
+
+/* ==================================================
+   FEED — 8 representative services with metrics
+   Used for Insights, Reports, Brief seed data
+================================================== */
+
 
 
 /* ==================================================
-   TAG SYSTEM
-   ALL_TAGS: master list with id, label, group
-   SUBCAT_TAGS: maps subcat key → array of tag ids
-   Activity competitive whitelist: competitive:true on item
+   DEMAND METRICS ENGINE
+   Based on Cravz metrics spec v1
 ================================================== */
 
-const ALL_TAGS = {
-  // ATMOSPHERE
-  cozy_quiet:       {label:"Cozy / Quiet",              group:"Atmosphere"},
-  relaxed:          {label:"Relaxed / Casual",           group:"Atmosphere"},
-  lively:           {label:"Lively",                     group:"Atmosphere"},
-  // AUDIENCE
-  family:           {label:"Family friendly",            group:"Audience"},
-  dog:              {label:"Dog friendly",               group:"Audience"},
-  groups:           {label:"Great for groups",           group:"Audience"},
-  laptop:           {label:"Laptop-friendly",            group:"Audience"},
-  health_conscious: {label:"Health-conscious",           group:"Audience"},
-  beginner:         {label:"Beginner friendly",          group:"Audience"},
-  kid_focused:      {label:"Kid-focused",                group:"Audience"},
-  adults:           {label:"Adults",                     group:"Audience"},
-  // OCCASION
-  quick_stop:       {label:"Quick stop",                 group:"Occasion"},
-  lunch:            {label:"Lunch / Brunch",             group:"Occasion"},
-  evening:          {label:"Evening",                    group:"Occasion"},
-  late_night:       {label:"Late night",                 group:"Occasion"},
-  weekday:          {label:"Weekday",                    group:"Occasion"},
-  weekend:          {label:"Weekend",                    group:"Occasion"},
-  date_night:       {label:"Date night",                 group:"Occasion"},
-  celebration:      {label:"Celebration",                group:"Occasion"},
-  // SETTING
-  outdoor:          {label:"Outdoor space",              group:"Setting"},
-  design_led:       {label:"Design-led / Instagrammable",group:"Setting"},
-  natural:          {label:"Natural / green feel",       group:"Setting"},
-  flexible_space:   {label:"Flexible space",             group:"Setting"},
-  coworking_space:  {label:"Coworking / work space",     group:"Setting"},
-  indoor:           {label:"Indoor venue",               group:"Setting"},
-  outdoor_venue:    {label:"Outdoor venue",              group:"Setting"},
-  // OFFER
-  specialist:       {label:"Specialist offer",           group:"Offer"},
-  healthy:          {label:"Healthy options",            group:"Offer"},
-  vegan:            {label:"Vegetarian / Vegan options", group:"Offer"},
-  gluten_free:      {label:"Gluten-free options",        group:"Offer"},
-  authentic:        {label:"Authentic",                  group:"Offer"},
-  innovative:       {label:"Innovative",                 group:"Offer"},
-  local_indie:      {label:"Local / independent",        group:"Offer"},
-  organic:          {label:"Organic products",           group:"Offer"},
-  premium:          {label:"Premium products",           group:"Offer"},
-  wine:             {label:"Great wine selection",       group:"Offer"},
-  cocktails:        {label:"Great cocktails",            group:"Offer"},
-  live_music:       {label:"Live music / events",        group:"Offer"},
-  workshops:        {label:"Classes / workshops",        group:"Offer"},
-  fitness_classes:  {label:"Fitness classes",            group:"Offer"},
-  active_kids:      {label:"Active play (kids)",         group:"Offer"},
-  pool:             {label:"Pool / aquatic facilities",  group:"Offer"},
-  sports_courts:    {label:"Sports courts / facilities", group:"Offer"},
-  // EXPERIENCE
-  coaching:         {label:"Coaching available",         group:"Experience"},
-  beginner_classes: {label:"Beginner classes",           group:"Experience"},
-  competitive:      {label:"Competitive training",       group:"Experience"},
-  kids_programs:    {label:"Kids programs",              group:"Experience"},
-  performance:      {label:"Performance events",         group:"Experience"},
-  // FORMAT
-  delivery:         {label:"Delivery / takeaway",        group:"Format"},
-  flexible_hours:   {label:"Flexible hours",             group:"Format"},
-  small_group:      {label:"Small group format",         group:"Format"},
-  one_to_one:       {label:"One-to-one service",         group:"Format"},
+// ── Normalisation maps ──────────────────────────────
+const FREQ_WEIGHT = {
+  "few_per_year": 0.025, "monthly": 0.25, "2_3_per_month": 0.6,
+  "weekly": 1.0, "multiple_per_week": 2.0,
+  // UI label -> key mapping
+  "A few times a year": 0.025, "Once a month": 0.25, "2–3× a month": 0.6,
+  "Weekly": 1.0, "Multiple times a week": 2.0,
+};
+const TRAVEL_WEIGHT = {
+  "<5": 1.0, "5_10": 1.0, "10_20": 1.05, "20_plus": 1.1,
+  "< 5 min walk": 1.0, "5–10 min walk": 1.0,
+  "10–20 min walk": 1.05, "20 min+ / drive": 1.1,
+};
+const SUBST_WEIGHT = {
+  "already_local": 1.0, "travel_elsewhere": 1.1,
+  "occasionally": 1.05, "dont_get": 0.9,
+  "local": 1.0, "leakage": 1.1, "suppressed": 1.05, "unmet": 0.9, "online": 0.95,
+};
+const SPEND_MID_METRICS = {
+  "£0–5":2.5,"£5–10":7.5,"£10–20":15,"£20–35":27,
+  "£35–50":42.5,"£50–100":75,"£100–150":125,"£150+":175,
+};
+const CONF_FACTOR = {
+  indicative:0.4, low:0.55, medium:0.7, high:0.85, very_high:1.0
+};
+const CONF_MAX_SCALE = {
+  indicative:5, low:5, medium:10, high:15, very_high:20
 };
 
-const SUBCAT_TAGS = {
-  rest_cuisine:  ["cozy_quiet","relaxed","lively","family","dog","groups","lunch","evening","weekday","weekend","date_night","celebration","outdoor","design_led","authentic","innovative","vegan","gluten_free","wine","cocktails","delivery"],
-  rest_concept:  ["relaxed","lively","family","groups","lunch","evening","weekday","weekend","outdoor","authentic","innovative","vegan","gluten_free","delivery"],
-  cafe:          ["cozy_quiet","relaxed","family","dog","laptop","quick_stop","lunch","weekday","weekend","outdoor","natural","design_led","specialist","healthy","vegan","gluten_free","delivery"],
-  bakery:        ["cozy_quiet","relaxed","family","quick_stop","weekday","weekend","specialist","delivery"],
-  dessert:       ["relaxed","lively","family","quick_stop","evening","weekend","outdoor","specialist"],
-  bars:          ["cozy_quiet","lively","groups","evening","late_night","weekday","weekend","date_night","celebration","outdoor","design_led","wine","cocktails","live_music"],
-  food_grocery:  ["family","health_conscious","quick_stop","weekday","weekend","local_indie","organic","premium"],
-  food_specialty:["health_conscious","quick_stop","weekday","weekend","specialist","organic","local_indie","premium"],
-  food_alcohol:  ["adults","weekday","weekend","specialist","premium"],
-  retail:        ["family","weekday","weekend","specialist","premium","local_indie"],
-  beauty_hair:   ["relaxed","adults","health_conscious","weekday","weekend","design_led","one_to_one"],
-  beauty_wellness:["relaxed","adults","health_conscious","weekday","weekend","natural","one_to_one"],
-  clinics:       ["family","weekday","weekend","one_to_one"],
-  fit_gym:       ["health_conscious","beginner","family","weekday","weekend","evening","indoor","flexible_space","fitness_classes","coaching","beginner_classes","one_to_one"],
-  fit_wellness:  ["health_conscious","beginner","family","weekday","weekend","evening","indoor","flexible_space","natural","fitness_classes","pool","coaching","beginner_classes","one_to_one"],
-  fit_boutique:  ["health_conscious","beginner","family","weekday","weekend","evening","indoor","flexible_space","natural","fitness_classes","coaching","beginner_classes","one_to_one"],
-  fit_mind:      ["relaxed","health_conscious","beginner","weekday","weekend","evening","indoor","natural","fitness_classes","beginner_classes"],
-  fit_functional:["health_conscious","beginner","weekday","weekend","evening","indoor","fitness_classes","coaching","beginner_classes"],
-  fit_combat:    ["beginner","health_conscious","kid_focused","weekday","weekend","evening","indoor","coaching","beginner_classes","competitive","kids_programs","small_group","one_to_one"],
-  fit_climbing:  ["beginner","family","weekday","weekend","evening","indoor","coaching","beginner_classes"],
-  sports_courts: ["family","kid_focused","health_conscious","weekday","weekend","evening","indoor","outdoor_venue","sports_courts","pool","coaching","beginner_classes","competitive","kids_programs"],
-  sports_aquatic:["family","kid_focused","health_conscious","weekday","weekend","evening","indoor","pool","coaching","beginner_classes","competitive","kids_programs"],
-  kids_play:     ["family","kid_focused","weekday","weekend","evening","indoor","outdoor_venue","flexible_space","active_kids","kids_programs"],
-  kids_fitness:  ["family","kid_focused","weekday","weekend","evening","indoor","flexible_space","active_kids","kids_programs","coaching"],
-  screen_stage:  ["family","groups","evening","weekday","weekend","celebration","indoor","live_music","performance"],
-  music:         ["family","groups","evening","weekday","weekend","celebration","indoor","live_music","performance"],
-  coworking:     ["laptop","weekday","weekend","evening","coworking_space","workshops","one_to_one","small_group"],
-  tutoring:      ["beginner","weekday","weekend","evening","indoor","workshops","one_to_one","small_group"],
-  household:     ["family","quick_stop","weekday","weekend","specialist","one_to_one"],
-  pet_services:  ["family","quick_stop","weekday","weekend","specialist","one_to_one"],
+// ── Area populations (district level only) ─────────
+const AREA_POPULATION = {
+  "SW4":14200,"SW9":18500,"SW11":22000,"SW2":12800,
+  "SE5":16000,"SE1":24000,"SW8":11000,"SW12":15500,
+  "SW16":19000,"SW17":21000,"SW18":18000,"SW19":20000,
 };
 
-// Activities with competitive mode available
-const COMPETITIVE_ACTIVITIES = new Set(["a1","a2","a3","a4","a5","a6","a7","a10","a11","a12","a13"]);
+// ── Category benchmarks ─────────────────────────────
+const CATEGORY_BENCHMARKS = {
+  coffee_bakery:    {target:0.20,capture:0.15},
+  casual_dining:    {target:0.15,capture:0.12},
+  premium_dining:   {target:0.08,capture:0.10},
+  fast_casual:      {target:0.18,capture:0.15},
+  dessert:          {target:0.12,capture:0.12},
+  brunch:           {target:0.14,capture:0.12},
+  wine_bar:         {target:0.10,capture:0.10},
+  cocktail_bar:     {target:0.09,capture:0.10},
+  pub:              {target:0.18,capture:0.12},
+  craft_bar:        {target:0.08,capture:0.10},
+  food_retail:      {target:0.25,capture:0.20},
+  specialty_food:   {target:0.12,capture:0.15},
+  gym:              {target:0.12,capture:0.20},
+  boutique_fitness: {target:0.08,capture:0.15},
+  yoga:             {target:0.07,capture:0.15},
+  combat_sports:    {target:0.04,capture:0.20},
+  climbing:         {target:0.05,capture:0.18},
+  sports_facility:  {target:0.10,capture:0.15},
+  soft_play:        {target:0.08,capture:0.20},
+  kids_activity:    {target:0.07,capture:0.18},
+  entertainment:    {target:0.10,capture:0.12},
+  beauty:           {target:0.12,capture:0.15},
+  wellness_spa:     {target:0.06,capture:0.15},
+  medical:          {target:0.15,capture:0.25},
+  retail_general:   {target:0.08,capture:0.12},
+  retail_specialty: {target:0.06,capture:0.12},
+  classes_fitness:  {target:0.07,capture:0.15},
+  classes_sport:    {target:0.06,capture:0.15},
+  classes_creative: {target:0.04,capture:0.12},
+  classes_learning: {target:0.05,capture:0.12},
+  community:        {target:0.06,capture:0.10},
+  workspace:        {target:0.08,capture:0.15},
+  household_services:{target:0.20,capture:0.20},
+  pet_services:     {target:0.08,capture:0.18},
+  fallback:         {target:0.05,capture:0.10},
+};
+
+const SUBCAT_TO_BENCHMARK = {
+  rest_cuisine:"casual_dining", rest_concept:"fast_casual",
+  cafe:"coffee_bakery", bakery:"coffee_bakery", dessert:"dessert",
+  bars:"pub", grocery:"food_retail", food_specialty:"specialty_food",
+  food_alcohol:"specialty_food", books_gifts:"retail_specialty",
+  home_life:"retail_specialty", fashion_pets:"retail_general",
+  hardware:"retail_general", beauty:"beauty", wellness:"wellness_spa",
+  medical:"medical", gym:"gym", yoga_pilates:"yoga",
+  functional:"boutique_fitness", climbing:"climbing", combat:"combat_sports",
+  sports_courts:"sports_facility", kids_play:"soft_play",
+  kids_fitness:"kids_activity", screen_stage:"entertainment",
+  music_events:"entertainment", sports_classes:"classes_sport",
+  fitness_classes:"classes_fitness", creative_classes:"classes_creative",
+  learning:"classes_learning", community:"community", workspace:"workspace",
+  household:"household_services", pet_services:"pet_services",
+};
+
+const SERVICE_BENCHMARK_OVERRIDES = {
+  s2:"premium_dining",s4:"premium_dining",s15:"premium_dining",s16:"premium_dining",
+  s27:"pub",s28:"cocktail_bar",s29:"wine_bar",s30:"craft_bar",s31:"pub",
+  s19:"brunch",s22:"fast_casual",s63:"yoga",s64:"yoga",
+  s62:"boutique_fitness",s65:"boutique_fitness",
+  s54:"wellness_spa",s55:"wellness_spa",
+  s75:"soft_play",s76:"kids_activity",
+};
+
+// ── Core metric functions ───────────────────────────
+function getBenchmarkKey(serviceId, subcat) {
+  return SERVICE_BENCHMARK_OVERRIDES[serviceId]
+    || SUBCAT_TO_BENCHMARK[subcat]
+    || "fallback";
+}
+
+function getConfidenceLabel(voices) {
+  if(voices < 50)  return "indicative";
+  if(voices < 100) return "low";
+  if(voices < 200) return "medium";
+  if(voices < 500) return "high";
+  return "very_high";
+}
+
+function computeEWU(coinAlloc, total_coins, freq, travel, subst) {
+  var coin_share = coinAlloc / total_coins;
+  var fw = FREQ_WEIGHT[freq] || 1.0;
+  var tw = TRAVEL_WEIGHT[travel] || 1.0;
+  var sw = SUBST_WEIGHT[subst] || 1.0;
+  return coin_share * fw * tw * sw;
+}
+
+function computeMetrics(votes, serviceId, subcat, areaId) {
+  // votes = array of {coins, totalCoins, freq, travel, subst, spend}
+  if(!votes || votes.length === 0) return null;
+
+  var voices = votes.filter(function(v){return v.coins > 0;}).length;
+  if(voices === 0) return null;
+
+  var totalEWU = 0;
+  var weightedSpend = 0;
+  var totalCoinShare = 0;
+  var totalCoinShareAll = 0;
+
+  votes.forEach(function(v) {
+    var cs = v.coins / (v.totalCoins || 10);
+    totalCoinShareAll += cs;
+    if(v.coins > 0) {
+      var ewu = computeEWU(v.coins, v.totalCoins||10, v.freq, v.travel, v.subst);
+      totalEWU += ewu;
+      var sm = SPEND_MID_METRICS[v.spend] || 15;
+      weightedSpend += sm * cs;
+      totalCoinShare += cs;
+    }
+  });
+
+  var avgSpend = totalCoinShare > 0 ? weightedSpend / totalCoinShare : 15;
+  var intensity = totalCoinShareAll > 0
+    ? Math.round((totalCoinShare / votes.length) * 10 * 10) / 10
+    : 0;
+
+  var conf = getConfidenceLabel(voices);
+  var confFactor = CONF_FACTOR[conf];
+
+  var weeklyRev = totalEWU * avgSpend;
+  var monthlyRev = weeklyRev * 4.3;
+  var adjRev = monthlyRev * confFactor;
+
+  // Revenue only shown at low+ confidence
+  var showRevenue = voices >= 50;
+
+  // Scaled revenue only at medium+ confidence
+  var showScaled = conf === "medium" || conf === "high" || conf === "very_high";
+  var scaledLow = null, scaledHigh = null;
+
+  if(showScaled) {
+    var pop = AREA_POPULATION[areaId];
+    if(pop) {
+      var samplePenetration = voices / pop;
+      var benchKey = getBenchmarkKey(serviceId, subcat);
+      var bench = CATEGORY_BENCHMARKS[benchKey] || CATEGORY_BENCHMARKS.fallback;
+      var targetPenetration = bench.target * bench.capture;
+      var rawScale = targetPenetration / samplePenetration;
+      var maxScale = CONF_MAX_SCALE[conf];
+      // Blend with confidence factor to suppress at lower confidence
+      var scaleFactor = Math.min(rawScale, maxScale) * confFactor;
+      var scaledAdj = Math.max(adjRev * scaleFactor, adjRev); // never lower than measured
+      scaledLow  = Math.round(scaledAdj * 0.8);
+      scaledHigh = Math.round(scaledAdj * 1.2);
+    }
+  }
+
+  return {
+    voices:    voices,
+    intensity: intensity,
+    ewu:       Math.round(totalEWU * 100) / 100,
+    avgSpend:  Math.round(avgSpend),
+    confidence: conf,
+    revLow:    showRevenue ? Math.round(adjRev * 0.8) : null,
+    revHigh:   showRevenue ? Math.round(adjRev * 1.2) : null,
+    scaledLow:  scaledLow,
+    scaledHigh: scaledHigh,
+    annualLow:  showRevenue ? Math.round(adjRev * 0.8 * 12) : null,
+    annualHigh: showRevenue ? Math.round(adjRev * 1.2 * 12) : null,
+  };
+}
+
+// ── Format helpers ──────────────────────────────────
+function fmtRevRange(low, high) {
+  if(low === null || high === null) return null;
+  function fmt(n) {
+    if(n >= 1000000) return "£"+(n/1000000).toFixed(1)+"m";
+    if(n >= 1000)    return "£"+(n/1000).toFixed(n>=10000?0:1)+"k";
+    return "£"+n;
+  }
+  return fmt(low)+" – "+fmt(high);
+}
+
+function getConfidenceDisplay(conf) {
+  var labels = {
+    indicative:"Indicative", low:"Low", medium:"Medium",
+    high:"High", very_high:"Very High"
+  };
+  var colors = {
+    indicative:C.t3, low:C.amber, medium:C.amber,
+    high:C.green, very_high:C.green
+  };
+  return {label:labels[conf]||conf, color:colors[conf]||C.t3};
+}
 
 
-const ALL_ITEMS = Object.values(CATALOGUE).flat();
-
-
-// spendDist: [%=0-5, %=5-10, %=10-20, %=20-35, %=35-50, %=50+]
-// freqDist:  [%once/mo, %2-3x, %weekly, %multiple/wk]
-// distrib:   [%<5min, %5-10min, %10-20min, %20min+]
 const FEED = [
-  {id:"b75",cat:"business",emoji:"🧸",label:"Soft play café",
-    voters:284, avgCoins:8.2, momentum:+31,
-    spendDist:[0,5,45,35,12,3],   freqDist:[20,55,20,5],  distrib:[18,42,30,10],
-    demo:{age:"25–34",gender:"Mostly women",hh:"Families with kids"}},
-  {id:"a13",cat:"activity",emoji:"💃",label:"Dance classes",
-    voters:167, avgCoins:7.1, momentum:+24,
-    spendDist:[0,8,52,28,10,2],   freqDist:[10,35,40,15], distrib:[10,28,48,14],
-    demo:{age:"25–44",gender:"Mixed",hh:"Couples & solo"}},
-  {id:"b81",cat:"business",emoji:"🎵",label:"Concert hall / live music venue",
-    voters:134, avgCoins:5.4, momentum:+12,
-    spendDist:[0,2,12,28,38,20],  freqDist:[45,35,14,6],  distrib:[8,20,38,34],
-    demo:{age:"25–44",gender:"Mostly men",hh:"Solo"}},
-  {id:"a15",cat:"activity",emoji:"🏺",label:"Pottery classes",
-    voters:121, avgCoins:7.6, momentum:+15,
-    spendDist:[0,3,18,45,28,6],   freqDist:[25,50,20,5],  distrib:[10,32,42,16],
-    demo:{age:"25–44",gender:"Mostly women",hh:"Solo & couples"}},
-  {id:"b29",cat:"business",emoji:"🍷",label:"Wine bar",
-    voters:108, avgCoins:6.1, momentum:+18,
-    spendDist:[0,3,22,40,28,7],   freqDist:[30,45,20,5],  distrib:[12,35,38,15],
-    demo:{age:"28–44",gender:"Mixed",hh:"Couples & solo"}},
-  {id:"b66",cat:"business",emoji:"🧗",label:"Climbing gym",
-    voters:97,  avgCoins:5.8, momentum:+22,
-    spendDist:[0,2,15,38,32,13],  freqDist:[15,40,35,10], distrib:[10,25,42,23],
-    demo:{age:"20–35",gender:"Mixed",hh:"Solo & couples"}},
-  {id:"a8", cat:"activity",emoji:"🧘",label:"Yoga classes",
-    voters:89,  avgCoins:6.3, momentum:+9,
-    spendDist:[0,4,28,42,22,4],   freqDist:[10,30,45,15], distrib:[8,28,44,20],
-    demo:{age:"25–44",gender:"Mostly women",hh:"Solo"}},
-  {id:"b23",cat:"business",emoji:"☕", label:"Café",
-    voters:76,  avgCoins:4.2, momentum:+7,
-    spendDist:[5,20,50,20,4,1],   freqDist:[8,22,40,30],  distrib:[22,45,25,8],
-    demo:{age:"18–45",gender:"Mixed",hh:"All"}},
+  {id:"s75", cat:"kids",    emoji:"🧸", label:"Soft play café",
+   voters:284, avgCoins:8.2, momentum:+31,
+   spendDist:[0,5,45,35,12,3,0,0], freqDist:[20,55,20,5,0], distrib:[18,42,30,10],
+   demo:{age:"25–34",gender:"Mostly women",hh:"Families with kids"}},
+  {id:"s1",  cat:"food",    emoji:"🇮🇹", label:"Italian restaurant",
+   voters:241, avgCoins:7.1, momentum:+18,
+   spendDist:[0,3,20,42,28,6,1,0], freqDist:[15,45,30,8,2], distrib:[12,38,38,12],
+   demo:{age:"25–44",gender:"Mixed",hh:"Couples & solo"}},
+  {id:"s81", cat:"entertain",emoji:"🎵", label:"Concert hall / live music venue",
+   voters:134, avgCoins:5.4, momentum:+12,
+   spendDist:[0,2,12,28,38,18,2,0], freqDist:[45,35,14,5,1], distrib:[8,20,38,34],
+   demo:{age:"25–44",gender:"Mostly men",hh:"Solo"}},
+  {id:"s94", cat:"services", emoji:"🏺", label:"Pottery classes",
+   voters:121, avgCoins:7.6, momentum:+15,
+   spendDist:[0,3,18,45,28,5,1,0], freqDist:[25,50,20,4,1], distrib:[10,32,42,16],
+   demo:{age:"25–44",gender:"Mostly women",hh:"Solo & couples"}},
+  {id:"s29", cat:"food",    emoji:"🍷", label:"Wine bar",
+   voters:108, avgCoins:6.1, momentum:+18,
+   spendDist:[0,3,22,40,28,6,1,0], freqDist:[30,45,20,4,1], distrib:[12,35,38,15],
+   demo:{age:"28–44",gender:"Mixed",hh:"Couples & solo"}},
+  {id:"s66", cat:"fitness",  emoji:"🧗", label:"Climbing gym",
+   voters:97,  avgCoins:5.8, momentum:+22,
+   spendDist:[0,2,15,38,32,11,2,0], freqDist:[15,40,35,9,1], distrib:[10,25,42,23],
+   demo:{age:"20–35",gender:"Mixed",hh:"Solo & couples"}},
+  {id:"s89", cat:"services", emoji:"🧘", label:"Yoga classes",
+   voters:89,  avgCoins:6.3, momentum:+9,
+   spendDist:[0,4,28,42,22,3,1,0], freqDist:[10,30,45,14,1], distrib:[8,28,44,20],
+   demo:{age:"25–44",gender:"Mostly women",hh:"Solo"}},
+  {id:"s23", cat:"food",    emoji:"☕", label:"Café",
+   voters:76,  avgCoins:4.2, momentum:+7,
+   spendDist:[5,20,50,20,4,1,0,0], freqDist:[8,22,40,28,2], distrib:[22,45,25,8],
+   demo:{age:"18–45",gender:"Mixed",hh:"All"}},
 ];
 
-// Pre-compute metrics for each item
-const FEED_WITH_METRICS = FEED.map(item=>({...item, ...calcMetrics(item)}));
+const FEED_WITH_METRICS = FEED.map(function(item){
+  return Object.assign({}, item, calcMetrics(item));
+});
 
+
+// ── Synthetic vote builder from FEED aggregate data ─
+// Converts FEED item stats into format compatible with computeMetrics
+// One vote per voice — attributes assigned by sampling the distributions
+function buildSyntheticVotes(item) {
+  var votes = [];
+  var freqKeys = ["A few times a year","Once a month","2–3× a month","Weekly","Multiple times a week"];
+  var spendKeys = ["£0–5","£5–10","£10–20","£20–35","£35–50","£50–100","£100–150","£150+"];
+  var distKeys = ["< 5 min walk","5–10 min walk","10–20 min walk","20 min+ / drive"];
+
+  var totalVoices = item.voters || 0;
+
+  // Helper: pick bucket by cumulative probability
+  function pickBucket(pctArray, keys) {
+    var rand = Math.random();
+    var cum = 0;
+    for(var i = 0; i < pctArray.length; i++) {
+      cum += (pctArray[i] || 0) / 100;
+      if(rand <= cum) return keys[i];
+    }
+    return keys[keys.length - 1];
+  }
+
+  // Build one vote per voice using distributions as probabilities
+  // Use deterministic sampling (evenly spaced) rather than random to avoid variance
+  for(var v = 0; v < totalVoices; v++) {
+    var t = v / totalVoices; // 0..1 position through the population
+
+    // Assign freq by cumulative distribution
+    var freq = freqKeys[freqKeys.length-1];
+    var cum = 0;
+    for(var fi = 0; fi < freqKeys.length; fi++) {
+      cum += (item.freqDist[fi] || 0) / 100;
+      if(t < cum) { freq = freqKeys[fi]; break; }
+    }
+
+    // Assign spend by cumulative distribution
+    var spend = spendKeys[2]; // default £10-20
+    cum = 0;
+    // Use a different offset so spend/freq don't perfectly correlate
+    var ts = ((v + Math.floor(totalVoices*0.3)) % totalVoices) / totalVoices;
+    for(var si = 0; si < spendKeys.length; si++) {
+      cum += (item.spendDist[si] || 0) / 100;
+      if(ts < cum) { spend = spendKeys[si]; break; }
+    }
+
+    // Assign travel by distrib
+    var travel = distKeys[1]; // default 5-10 min
+    cum = 0;
+    var td = ((v + Math.floor(totalVoices*0.6)) % totalVoices) / totalVoices;
+    for(var di = 0; di < distKeys.length; di++) {
+      cum += (item.distrib && item.distrib[di] ? item.distrib[di] : 25) / 100;
+      if(td < cum) { travel = distKeys[di]; break; }
+    }
+
+    votes.push({
+      coins: Math.round(item.avgCoins || 5),
+      totalCoins: 10,
+      freq: freq,
+      travel: travel,
+      subst: "leakage",
+      spend: spend,
+    });
+  }
+  return votes;
+}
+
+// Pre-compute spec-based metrics for all FEED items
+var FEED_METRICS_COMPUTED = {};
+FEED_WITH_METRICS.forEach(function(item) {
+  var votes = buildSyntheticVotes(item);
+  var result = computeMetrics(votes, item.id, item.subcat||"rest_cuisine", "SW4");
+  if(result) FEED_METRICS_COMPUTED[item.id] = result;
+});
+
+function getItemMetrics(itemId) {
+  return FEED_METRICS_COMPUTED[itemId] || null;
+}
+
+// ── Concept tag aggregation ─────────────────────────────────
+// Returns top N tags with synthetic frequency %s for FEED items
+function getConceptTags(item, topN) {
+  topN = topN || 10;
+  var subcat = item.subcat || "rest_cuisine";
+  var sq = SQ[subcat];
+  if(!sq || !sq.opts || sq.opts.length === 0) return [];
+  var opts = sq.opts;
+  var n = opts.length;
+  // Deterministic synthetic distribution: use item voters + index as seed
+  // Higher index = less popular, but with some randomness via item id
+  var seed = item.voters || 100;
+  var results = opts.map(function(opt, i) {
+    // Base score: inversely proportional to index, modulated by seed
+    var base = Math.max(5, Math.round(70 - (i * (65 / n))));
+    // Add deterministic variation using char codes
+    var variation = 0;
+    for(var c = 0; c < Math.min(opt.length, 4); c++) {
+      variation += opt.charCodeAt(c);
+    }
+    var pct = Math.min(92, Math.max(4, base + ((variation * seed) % 18) - 9));
+    return {tag: opt, pct: pct};
+  });
+  // Sort descending and return top N
+  results.sort(function(a, b) { return b.pct - a.pct; });
+  return results.slice(0, topN);
+}
+
+// ── Multi-area simulation (prototype only — Firebase replaces with real queries)
+// Simulates per-area metric variation for demo purposes
+function getAreaMetrics(item, area, sector) {
+  // Deterministic seed from area string
+  var seed = 0;
+  for(var i=0; i<area.length; i++) seed += area.charCodeAt(i);
+  var variance = ((seed * 13 + item.id.charCodeAt(1)) % 30) - 15; // -15 to +15%
+  var sectorFactor = 1;
+  if(sector) {
+    // Sector narrows population — typically 15-35% of area
+    var sectorSeed = 0;
+    for(var j=0; j<sector.length; j++) sectorSeed += sector.charCodeAt(j);
+    sectorFactor = 0.15 + ((sectorSeed * 7 + item.id.charCodeAt(0)) % 20) / 100;
+    // Sector variance shifts momentum slightly too
+    variance = variance + ((sectorSeed * 3) % 10) - 5;
+  }
+  return {
+    voters: Math.max(5, Math.round(item.voters * (1 + variance/100) * sectorFactor)),
+    momentum: Math.max(-10, Math.min(45, item.momentum + ((seed * 7) % 20) - 10)),
+    ewu: item.ewu ? Math.max(0.1, item.ewu * (1 + variance/200)) : null,
+  };
+}
+
+// Aggregate metrics across multiple areas
+function getAggregatedMetrics(item, areas, sector) {
+  if(!areas || areas.length === 0) return item;
+  if(areas.length === 1) return Object.assign({}, item, getAreaMetrics(item, areas[0], sector));
+  var totalVoters = 0;
+  var totalMomentum = 0;
+  areas.forEach(function(area) {
+    var m = getAreaMetrics(item, area, sector);
+    totalVoters += m.voters;
+    totalMomentum += m.momentum;
+  });
+  return Object.assign({}, item, {
+    voters: totalVoters,
+    momentum: Math.round(totalMomentum / areas.length),
+  });
+}
+
+// ── Demand label: EWU-ranked within area (top 25% = high, mid 50% = medium, bottom 25% = low)
+function computeDemandLabels(feedItems) {
+  var ranked = feedItems.slice().sort(function(a,b){
+    var ea = FEED_METRICS_COMPUTED[a.id] ? FEED_METRICS_COMPUTED[a.id].ewu : 0;
+    var eb = FEED_METRICS_COMPUTED[b.id] ? FEED_METRICS_COMPUTED[b.id].ewu : 0;
+    return eb - ea;
+  });
+  var n = ranked.length;
+  var labels = {};
+  ranked.forEach(function(item, i) {
+    if(i < Math.ceil(n * 0.25))      labels[item.id] = "high";
+    else if(i < Math.ceil(n * 0.75)) labels[item.id] = "medium";
+    else                              labels[item.id] = "low";
+  });
+  return labels;
+}
+var DEMAND_LABELS = computeDemandLabels(FEED_WITH_METRICS);
+
+function getDemandLabel(itemId) {
+  return DEMAND_LABELS[itemId] || "medium";
+}
+
+// ── Insight text engine (rule-based, spec v1) ─────────────────────────────
+function generateInsightText(concept, areaName) {
+  var specM = getItemMetrics(concept.id);
+  var voices = concept.voters || 0;
+  var intensity = specM ? specM.intensity : Math.round((concept.avgCoins||5)*10/10);
+  var ewu = specM ? specM.ewu : 0;
+  var demandLabel = getDemandLabel(concept.id);
+  var growth = (concept.momentum||0) / 100; // momentum stored as %, convert to decimal
+  var name = concept.label;
+
+  // Derive avg_frequency from freqDist
+  var freqWeights = [0.025, 0.25, 0.6, 1.0, 2.0];
+  var avgFreq = 0;
+  if(concept.freqDist) {
+    concept.freqDist.forEach(function(pct, i){ avgFreq += (pct/100) * (freqWeights[i]||0); });
+  }
+
+  // Derive avg_travel_minutes from distrib
+  var distMids = [2.5, 7.5, 15, 25];
+  var avgTravel = 0;
+  if(concept.distrib) {
+    concept.distrib.forEach(function(pct, i){ avgTravel += (pct/100) * (distMids[i]||0); });
+  }
+
+  // Substitution — use ACCESS_OPTS mapping (leakage = travel_elsewhere)
+  var travelElsewherePct = concept.distrib ? concept.distrib[2] + concept.distrib[3] : 30;
+  var alreadyLocalPct = concept.distrib ? concept.distrib[0] + concept.distrib[1] : 30;
+  var localPct = alreadyLocalPct;
+
+  // Flags
+  var HIGH_INTENSITY  = intensity >= 6;
+  var LOW_INTENSITY   = intensity < 4;
+  var HIGH_FREQ       = avgFreq >= 0.8;
+  var LOW_FREQ        = avgFreq < 0.3;
+  var LOCAL_DEMAND    = avgTravel <= 10;
+  var DEST_DEMAND     = avgTravel >= 15;
+  var UNMET_DEMAND    = travelElsewherePct >= 30;
+  var SATURATED       = alreadyLocalPct >= 60;
+  var STRONG_GROWTH   = growth >= 0.15;
+  var DECLINING       = growth <= -0.10;
+
+  // Derived numbers for use in text
+  var voicesFmt = voices;
+  var intensityFmt = intensity.toFixed(1);
+  var localPctFmt = Math.round(localPct);
+  var travelPctFmt = Math.round(travelElsewherePct);
+  var freqDesc = avgFreq >= 1.0 ? "weekly" : avgFreq >= 0.5 ? "2–3 times a month" : avgFreq >= 0.2 ? "monthly" : "a few times a year";
+
+  // Rule selection (first match wins)
+  var text = "";
+
+  if(demandLabel === "high" && HIGH_INTENSITY && voices >= 100) {
+    // Rule 1 — Strong demand (removed HIGH_FREQ requirement — families/leisure naturally lower freq)
+    text = voicesFmt+" verified residents in "+areaName+" have backed "+name+", with an intensity score of "+intensityFmt+"/10 — indicating strong personal preference, not passive interest. "+localPctFmt+"% of voters are within a 10-minute walk, suggesting a neighbourhood-level opportunity with a reliable local base.";
+  } else if(voices >= 100 && demandLabel !== "high" && LOW_FREQ) {
+    // Rule 2 — Popular but low frequency
+    text = "Interest in "+name+" is broad, with "+voicesFmt+" residents backing the concept, but visit frequency skews "+freqDesc+". This suggests strong appeal but limited repeat footfall — positioning and membership models may be key to commercial viability.";
+  } else if(demandLabel === "high" && voices < 150) {
+    // Rule 3 — Under-recognised opportunity
+    text = "With "+voicesFmt+" voices and an intensity of "+intensityFmt+"/10, demand for "+name+" is stronger than its scale suggests. Highly engaged users are driving disproportionate signal — this is a niche but commercially robust opportunity.";
+  } else if(HIGH_INTENSITY && voices < 150 && HIGH_FREQ) {
+    // Rule 4 — High intensity niche
+    text = "Demand is concentrated among a smaller group of highly engaged users visiting "+freqDesc+", with intensity at "+intensityFmt+"/10. This supports a targeted or premium positioning rather than a mass-market concept.";
+  } else if(LOW_FREQ && intensity >= 5) {
+    // Rule 5 — Trial heavy
+    text = "Interest in "+name+" is widespread, with "+voicesFmt+" backers, but usage patterns skew occasional — "+freqDesc+" on average. This indicates strong appeal at a trial level rather than consistent repeat demand.";
+  } else if(LOCAL_DEMAND && UNMET_DEMAND && HIGH_FREQ) {
+    // Rule 6 — Strong local gap
+    text = travelPctFmt+"% of voters are currently travelling outside the area to access "+name+", visiting "+freqDesc+". With "+localPctFmt+"% based within a short walk, this signals a clear and underserved local demand.";
+  } else if(SATURATED && demandLabel !== "high") {
+    // Rule 7 — Saturated
+    text = "While "+voicesFmt+" residents have backed "+name+", a significant share already access it locally. This suggests an existing competitive environment where a differentiated offer will be essential.";
+  } else if(DEST_DEMAND && HIGH_INTENSITY) {
+    // Rule 8 — Destination demand
+    text = "Residents show strong willingness to travel for "+name+", with intensity at "+intensityFmt+"/10 despite average travel times above 15 minutes. This indicates destination-level appeal that extends beyond the immediate neighbourhood.";
+  } else {
+    // Fallback — always includes numbers
+    text = voicesFmt+" residents in "+areaName+" have backed "+name+", with an intensity score of "+intensityFmt+"/10. "+localPctFmt+"% of voters are within a 10-minute walk, reflecting a "+( localPctFmt>=50?"locally anchored":"mixed-catchment")+" demand profile.";
+  }
+
+  // Confidence overlay
+  var confLabel = specM ? specM.confidence : getConfidenceLabel(voices);
+  if(confLabel === "indicative") {
+    text += " Current data should be interpreted as an early signal due to limited sample size.";
+  }
+
+  // Growth overlay
+  if(STRONG_GROWTH) {
+    text += " Demand is increasing, with growing participation over time.";
+  } else if(DECLINING) {
+    text += " Demand appears to be softening, with declining participation.";
+  }
+
+  return text;
+}
 
 // London postcode prefixes -- only these are accepted at launch
 const LONDON_PREFIXES = ["EC","WC","E","N","NW","SE","SW","W","BR","CR","DA","EN","HA","IG","KT","RM","SM","TW","UB","WD"];
@@ -598,7 +1080,7 @@ const ITEM_INDUSTRIES = {
   "a5": ["restaurant","experience"],                 // cooking classes
   "a6": ["experience","retail_other"],               // music lessons
   "a7": ["fitness","experience"],                    // boxing
-  "a8": ["fitness","wellness"],                      // running club
+  "s89": ["fitness","wellness"],                      // running club
   "a9": ["experience","bar","cafe"],                 // board game nights
   "a10":["experience","wellness"],                   // gardening club
   "a11":["experience","retail_other"],               // photography walks
@@ -729,7 +1211,9 @@ const CLOSING_NOTIFS = [
     title:"A business wants your input",
     body:"Someone planning a late-night ramen restaurant in SW9 has published a pre-launch page. Answer a few questions to help shape what opens.",
     cta:"Answer their questions",
-    area:"SW9", ts:"1 week ago"
+    cat:"food",
+    area:"SW9", ts:"1 week ago",
+    surveyId:"demo_pl1"
   },
   {
     id:"notif_almostthere_bakery", type:"almost_there",
@@ -747,18 +1231,42 @@ const ALL_NOTIFS = [
 ];
 
 // Tier definitions
+// ── Access tiers (time-limited, not subscriptions) ──────────────
 const TIERS = [
-  {id:"free",       name:"Free",       price:"£0/mo",   color:C.t3,    maxDistricts:1,
-   features:["Top 20 items","Voice count + confidence","1 district"]},
-  {id:"starter",    name:"Starter",    price:"£99/mo",  color:C.amber, maxDistricts:3,
-   features:["All items","Momentum trends","Up to 3 districts","Intensity score"]},
-  {id:"pro",        name:"Pro",        price:"£299/mo", color:C.coral, maxDistricts:3,
-   features:["Everything in Starter","Avg spend + frequency","Monthly & annual revenue","Full postcode sectors","Catchment classification"]},
-  {id:"enterprise", name:"Enterprise", price:"£799/mo", color:C.green, maxDistricts:99,
-   features:["Everything in Pro","Demographics breakdown","Distance distribution","Concept reports","Unlimited districts","API access"]},
+  {
+    id:"free", name:"Free", price:"£0", period:"",
+    color:C.green, badge:null,
+    headline:"See what your area is missing",
+    desc:"Start exploring local demand instantly.",
+    areas:1, days:null,
+    features:["1 area included","Top concepts ranking","Demand level (High / Medium / Low)","Voice count"],
+    locked:["Spend & frequency data","Revenue estimates","Demographics","The Brief","Pre-launch data"],
+  },
+  {
+    id:"builder", name:"Builder", price:"£149", period:"30 days access",
+    color:C.purple, badge:null,
+    headline:"Validate your concept before you commit",
+    desc:"The data you need to de-risk your location decision.",
+    areas:3, days:30,
+    features:["3 areas included","Full concept rankings","What demand is growing vs fading","How often people will come","How much they will spend","How far people will travel","Compare multiple concepts"],
+    locked:["Revenue potential","Customer demographics","The Brief","Pre-launch data"],
+  },
+  {
+    id:"investor", name:"Investor", price:"£399", period:"90 days access",
+    color:C.coral, badge:"Most popular",
+    headline:"Know if it is worth opening before you spend a pound",
+    desc:"Everything you need to validate, pitch, and decide.",
+    areas:5, days:90,
+    features:["Everything in Builder, plus:","Revenue potential (monthly and yearly)","Customer demographics","Demand leakage — unmet demand leaving the area","What people actually care about","The Brief — what locals are asking for","Pre-launch survey data","Multi-area comparison","District-level data"],
+    locked:[],
+  },
 ];
 
-function tierIdx(id){ return TIERS.findIndex(t=>t.id===id); }
+function tierAlias(id){
+  var map = {starter:"builder", pro:"builder", proplus:"investor", enterprise:"investor"};
+  return map[id]||id;
+}
+function tierIdx(id){ return TIERS.findIndex(function(t){return t.id===tierAlias(id);}); }
 function canSee(myTier,minTier){ return tierIdx(myTier)>=tierIdx(minTier); }
 
 function conf(v){
@@ -864,7 +1372,7 @@ const EXISTING_SUPPLY = {
 // Supply estimate = realistic count for inner/outer London postcodes.
 function areaHash(area){
   // Simple deterministic hash 0-100 from postcode string
-  let h=0; for(const c of area) h=(h*31+c.charCodeAt(0))&0xFFFF;
+  let h=0; area.split("").forEach(function(c){h=(h*31+c.charCodeAt(0))&0xFFFF;});
   return h/0xFFFF; // 0-1
 }
 const CAT_LABELS_REPORT = {
@@ -1039,7 +1547,7 @@ function ConfBar({voters}){
 function CravzLogo({size=28}){
   return <div style={{display:"flex",alignItems:"baseline",gap:0}}><span style={{fontFamily:serif,fontSize:size,fontWeight:700,color:C.t1,letterSpacing:-0.8,lineHeight:1}}>Cravz</span><span style={{width:size*0.16,height:size*0.16,borderRadius:"50%",background:C.coral,display:"inline-block",marginBottom:size*0.05,marginLeft:1,flexShrink:0}}/></div>;
 }
-function CoinStack({remaining,total=20}){
+function CoinStack({remaining,total=10}){
   const max=6,filled=Math.max(0,Math.round((remaining/total)*max));
   return <div style={{display:"flex",flexDirection:"column-reverse",alignItems:"center",gap:3}}>{Array.from({length:max}).map((_,i)=>{const on=i<filled;return <div key={i} style={{width:40-i*3,height:9,borderRadius:5,background:on?`linear-gradient(180deg,#F07858 0%,${C.coral} 55%,#B03020 100%)`:C.surface2,border:`1px solid ${on?"#943020":C.line}`,boxShadow:on?`0 2px 8px ${C.coral}30`:"none",transition:"all .3s"}}/>;})}<span style={{...ty.meta,color:C.coral,fontWeight:700,marginTop:6,fontSize:12}}>{remaining}</span></div>;
 }
@@ -1129,7 +1637,7 @@ function CatalogueItem({opt, coins, meta, cfg, selCat, coinsLeft, setSelItem, se
 }
 
 function CollapsibleGroup({grp, items, allocated, cfg, selCat, coinsLeft, setSelItem, setSpend, setFreq, setDist, setAccess, setStep, coinAlloc, itemMeta, setSelAttrs, setActAudience, setActStyle, setActAccess, setSelCoins}){
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   return (
     <div style={{borderRadius:12,border:`1px solid ${allocated>0?cfg.color+"40":C.line}`,overflow:"hidden",background:C.surface}}>
       <button onClick={()=>setOpen(o=>!o)}
@@ -1154,525 +1662,576 @@ function CollapsibleGroup({grp, items, allocated, cfg, selCat, coinsLeft, setSel
   );
 }
 
-function VoteFlow({coinAlloc,setCoinAlloc,itemMeta,setItemMeta,preItem,isSuggestMode,onClose}){
-  const [step,       setStep]      = useState(preItem?"gate":"cat");
-  const [selCat,     setSelCat]    = useState(preItem?.cat||"business");
-  const [selTopCat,  setSelTopCat] = useState(null);
-  const [selAttrs,   setSelAttrs]  = useState(new Set());
-  const [selCoins,   setSelCoins]  = useState(1);
-  const [actAudience,setActAudience] = useState("");
-  const [actStyle,   setActStyle]   = useState("");
-  const [actAccess,  setActAccess]  = useState(""); // top-level category tab within selCat
-  const [selItem,    setSelItem]   = useState(preItem||null);
-  const [search,     setSearch]    = useState("");
-  const [spend,      setSpend]     = useState("");
-  const [freq,       setFreq]      = useState("");
-  const [dist,       setDist]      = useState("");
-  const [access,     setAccess]    = useState("");
-  const [query,      setQuery]     = useState("");
-  const [similar,    setSimilar]   = useState([]);
-  const [sugStep,    setSugStep]   = useState("idle");
-  const [reason,     setReason]    = useState("");
+function ServiceItem({item, coins, meta, cc, totalCoinsLeft, onOpen}) {
+  const hasCoins = coins > 0;
+  return (
+    <button onClick={function(){onOpen(item);}}
+      style={{width:"100%",display:"flex",alignItems:"center",gap:12,padding:"11px 14px",
+        background:hasCoins?cc.color+"0A":C.surface,
+        border:"1px solid "+(hasCoins?cc.color+"40":C.line),
+        borderRadius:11,cursor:"pointer",fontFamily:sans,textAlign:"left",transition:"all .15s"}}>
+      <div style={{width:36,height:36,borderRadius:10,background:cc.bg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:19,flexShrink:0}}>{item.emoji}</div>
+      <div style={{flex:1,minWidth:0}}>
+        <div style={{...ty.sm,color:C.t1,fontWeight:hasCoins?600:400,marginBottom:hasCoins?2:0}}>{item.label}</div>
+        {hasCoins&&meta&&<div style={{...ty.meta,color:C.t3,fontSize:10}}>{coins} coin{coins!==1?"s":""} · {meta.spend} · {meta.freq}</div>}
+      </div>
+      {hasCoins
+        ? <div style={{display:"flex",gap:2,alignItems:"center",flexShrink:0}}>
+            {Array.from({length:Math.min(coins,5)}).map(function(_,j){return <div key={j} style={{width:5,height:5,borderRadius:"50%",background:cc.color}}/>;}) }
+            {coins>5&&<span style={{...ty.meta,color:cc.color,fontSize:9,marginLeft:2}}>+{coins-5}</span>}
+            <span style={{...ty.meta,color:cc.color,fontWeight:700,marginLeft:3}}>{coins}</span>
+          </div>
+        : <Plus size={14} color={totalCoinsLeft>0?C.t3:C.line}/>
+      }
+    </button>
+  );
+}
+
+function ServiceGroup({group, items, coinAlloc, itemMeta, cc, totalCoinsLeft, onOpen}) {
+  const [open, setOpen] = useState(false);
+  const allocated = items.reduce(function(s,i){return s+(coinAlloc[i.id]||0);},0);
+  return (
+    <div style={{borderRadius:12,border:"1px solid "+(allocated>0?cc.color+"40":C.line),overflow:"hidden",background:C.surface,marginBottom:6}}>
+      <button onClick={function(){setOpen(function(o){return !o;});}}
+        style={{width:"100%",padding:"11px 14px",background:"transparent",border:"none",cursor:"pointer",fontFamily:sans,display:"flex",alignItems:"center",gap:10,textAlign:"left"}}>
+        <div style={{flex:1}}>
+          <span style={{...ty.bodyMd,fontSize:13,color:C.t1}}>{group.label}</span>
+          <span style={{...ty.meta,color:C.t3,marginLeft:8}}>{items.length}</span>
+        </div>
+        {allocated>0&&<span style={{...ty.meta,color:cc.color,fontWeight:700,background:cc.color+"12",padding:"2px 7px",borderRadius:5,fontSize:10}}>{allocated} coins</span>}
+        <ChevronDown size={13} color={C.t3} style={{transform:open?"rotate(180deg)":"none",transition:"transform .2s",flexShrink:0}}/>
+      </button>
+      {open&&(
+        <div style={{padding:"0 10px 10px",borderTop:"1px solid "+C.line}}>
+          <div style={{height:6}}/>
+          {items.map(function(item){
+            return <ServiceItem key={item.id} item={item} coins={coinAlloc[item.id]||0} meta={itemMeta[item.id]} cc={cc} totalCoinsLeft={totalCoinsLeft} onOpen={onOpen}/>;
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ==================================================
+   VOTE FLOW — unified services, 10 coins total
+================================================== */
+function VoteFlow({coinAlloc,setCoinAlloc,itemMeta,setItemMeta,preItem,isSuggestMode,onClose,onGoToBrief}){
+  const [step,      setStep]     = useState(preItem?"gate":"cat");
+  const [selCat,    setSelCat]   = useState(preItem?preItem.cat:"food");
+  const [selItem,   setSelItem]  = useState(preItem||null);
+  const [selCoins,  setSelCoins] = useState(1);
+  const [selTags,   setSelTags]  = useState(new Set());
+  const [selWho,    setSelWho]   = useState("");
+  const [selStyle,  setSelStyle] = useState("");
+  const [spend,     setSpend]    = useState("");
+  const [freq,      setFreq]     = useState("");
+  const [dist,      setDist]     = useState("");
+  const [access,    setAccess]   = useState("");
+  const [search,    setSearch]   = useState("");
+  const [query,     setQuery]    = useState("");
+  const [similar,   setSimilar]  = useState([]);
+  const [sugStep,   setSugStep]  = useState("idle");
+  const [reason,    setReason]   = useState("");
   const [showSuggestFromVote, setShowSuggestFromVote] = useState(false);
+  const [brandSuggestions, setBrandSuggestions] = useState([]);
+  const [showBrandSugg, setShowBrandSugg] = useState(false);
 
-  const coinsUsed=cat=>(CATALOGUE[cat]||[]).reduce((s,i)=>s+(coinAlloc[i.id]||0),0);
-  const coinsLeft=cat=>10-coinsUsed(cat);
-  const setCoin=(id,cat,val)=>{
-    const avail=coinsLeft(cat)+(coinAlloc[id]||0);
-    const next=Math.min(Math.max(0,val),avail);
-    setCoinAlloc(p=>({...p,[id]:next}));
-    if(next===0) setItemMeta(m=>{const n={...m};delete n[id];return n;});
-  };
+  // Unified coin pool
+  const totalUsed = Object.values(coinAlloc).reduce(function(s,v){return s+v;},0);
+  const totalLeft = TOTAL_COINS - totalUsed;
 
-  // Derive active top-cat (auto-select first if none chosen)
-  const catConfig = CATALOGUE_GROUPS[selCat] || {};
-  const topCatKeys = Object.keys(catConfig);
-  const activeTopCat = selTopCat && catConfig[selTopCat] ? selTopCat : topCatKeys[0];
-  const activeTopCatCfg = catConfig[activeTopCat] || {};
-  const itemsInTopCat = (CATALOGUE[selCat]||[]).filter(i=>i.cat===activeTopCat);
+  function coinsLeft() { return totalLeft; }
 
-  function doSearch(){
-    if(!query.trim()) return;
-    const q=query.toLowerCase().trim();
-    const exact=ALL_ITEMS.find(i=>i.label.toLowerCase().includes(q));
-    if(exact){
-      const cat=Object.keys(CATALOGUE).find(c=>CATALOGUE[c].some(i=>i.id===exact.id))||"business";
-      setSelCat(cat);setSelItem(exact);setSpend("");setFreq("");setDist("");setAccess("");setStep("gate");return;
-    }
-    const allCatItems=(CATALOGUE[selCat]||[]);
-    const words=q.split(/\s+/).filter(w=>w.length>2);
-    const sim=allCatItems.map(i=>({...i,_s:words.filter(w=>i.label.toLowerCase().includes(w)).length}))
-      .filter(i=>i._s>0).sort((a,b)=>b._s-a._s).slice(0,4);
-    setSimilar(sim);setSugStep(sim.length?"results":"describe");
+  function setCoin(id, n) {
+    setCoinAlloc(function(prev) {
+      var next = Object.assign({}, prev);
+      if(n <= 0) delete next[id];
+      else next[id] = n;
+      return next;
+    });
   }
 
-  const displayItems=(CATALOGUE[selCat]||[]).filter(i=>
-    i.cat===activeTopCat && (!search||i.label.toLowerCase().includes(search.toLowerCase()))
-  );
-  const cfg=CAT_CFG[selCat]||CAT_CFG.business;
+  function openGate(item) {
+    setSelItem(item);
+    var existing = coinAlloc[item.id]||0;
+    var existingMeta = itemMeta[item.id]||{};
+    // Pre-fill coin count from existing allocation
+    setSelCoins(existing || 1);
+    // Pre-fill all answers from existing meta (user can change if they want)
+    setSelTags(existingMeta.tags ? new Set(existingMeta.tags) : new Set());
+    setSelWho(existingMeta.who||"");
+    setSelStyle(existingMeta.style||"");
+    setSpend(existingMeta.spend||"");
+    setFreq(existingMeta.freq||"");
+    setDist(existingMeta.dist||"");
+    setAccess(existingMeta.access||"");
+    setStep("gate");
+  }
+
+  // Search suggestions
+  var searchVal = isSuggestMode ? query : search;
+  var suggestions = [];
+  if(searchVal.length >= 3) {
+    var sq = searchVal.toLowerCase();
+    suggestions = SERVICES.filter(function(i){
+      return i.label.toLowerCase().includes(sq)
+        || i.subcat.replace(/_/g," ").includes(sq)
+        || i.cat.includes(sq);
+    }).slice(0,6);
+  }
+
+  // Similar items for suggest mode
+  function doSearch() {
+    if(!query.trim()) return;
+    var q = query.toLowerCase().trim();
+    var sim = SERVICES.map(function(i){
+      return Object.assign({},i,{_s:q.split(/\s+/).filter(function(w){return w.length>2&&i.label.toLowerCase().includes(w);}).length});
+    }).filter(function(i){return i._s>0;}).sort(function(a,b){return b._s-a._s;}).slice(0,4);
+    setSimilar(sim);
+    setSugStep(sim.length?"results":"describe");
+  }
 
   if(showSuggestFromVote) return (
-    <SuggestModal
-      defaultCat={selCat}
-      defaultName={query}
-      onSubmit={s=>{if(typeof window!=="undefined"&&window.__cravzOnSuggest)window.__cravzOnSuggest(s);}}
-      onClose={()=>{setShowSuggestFromVote(false);onClose();}}
-    />
+    <SuggestModal defaultCat={selCat} defaultName={query}
+      onSubmit={function(s){if(typeof window!=="undefined"&&window.__cravzOnSuggest)window.__cravzOnSuggest(s);}}
+      onClose={function(){setShowSuggestFromVote(false);onClose();}}/>
   );
 
-  if(step==="cat") return (
-    <div style={{background:C.bg,minHeight:"calc(100vh - 120px)",display:"flex",flexDirection:"column",fontFamily:sans,paddingBottom:80}}>
-      <div style={{padding:"16px 18px",borderBottom:`1px solid ${C.line}`,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-        <div style={{...ty.h2,fontSize:20}}>{isSuggestMode?"Suggest or vote":"Your demand coins"}</div>
-        <button onClick={onClose} style={{background:C.surface,border:`1px solid ${C.line}`,borderRadius:10,width:34,height:34,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",color:C.t2}}><X size={16}/></button>
-      </div>
+  /* ── CAT SELECTION ── */
+  if(step==="cat") {
+    var catGroups = SERVICE_GROUPS[selCat] || [];
+    var cc = CAT_CFG[selCat] || CAT_CFG.food;
+    var displayGroups = catGroups.map(function(g){
+      return Object.assign({},g,{items:SERVICES.filter(function(i){return i.subcat===g.subcat;})});
+    }).filter(function(g){return g.items.length>0;});
 
-      {/* == COIN EXPLAINER BANNER */}
-      <div style={{padding:"14px 18px",borderBottom:`1px solid ${C.line}`,background:C.surface}}>
-        <div style={{display:"flex",alignItems:"flex-start",gap:12,marginBottom:14}}>
-          <div style={{fontSize:28,lineHeight:1}}>🪙</div>
-          <div style={{flex:1}}>
-            <div style={{...ty.bodyMd,fontSize:15,color:C.t1,marginBottom:4}}>
-              You have <span style={{color:C.coral,fontWeight:700}}>20 coins</span> to place each year
-            </div>
-            <div style={{...ty.sm,color:C.t2,lineHeight:1.65}}>
-              Split across two categories — <span style={{color:C.coral,fontWeight:600}}>10 for Businesses</span> and <span style={{color:C.purple,fontWeight:600}}>10 for Activities</span>. Place them on the things you most want in your neighbourhood. The more coins a concept gets, the stronger the signal to operators deciding where to open.
-            </div>
-          </div>
+    return (
+      <div style={{background:C.bg,minHeight:"calc(100vh - 120px)",display:"flex",flexDirection:"column",fontFamily:sans,paddingBottom:80}}>
+        {/* Header */}
+        <div style={{padding:"14px 18px",borderBottom:"1px solid "+C.line,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+          <div style={{...ty.h2,fontSize:19}}>{isSuggestMode?"Suggest or vote":"Have your say"}</div>
+          <button onClick={onClose} style={{background:C.surface,border:"1px solid "+C.line,borderRadius:10,width:34,height:34,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",color:C.t2}}><X size={16}/></button>
         </div>
-        {/* Per-category progress */}
-        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
-          {Object.entries(VOTE_CATS).map(([cat,cc])=>{const used=coinsUsed(cat),left=10-used,pct=Math.min(100,(used/10)*100);return(
-            <div key={cat} style={{padding:"10px 12px",background:C.bg,borderRadius:10,border:`1px solid ${C.line}`}}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
-                <div style={{display:"flex",alignItems:"center",gap:5}}>
-                  <span style={{fontSize:15}}>{cc.emoji}</span>
-                  <span style={{...ty.sm,color:C.t1,fontWeight:600}}>{cc.label}</span>
-                </div>
-                <span style={{...ty.meta,color:left===0?cc.color:C.t3,fontWeight:700}}>{left}/10 left</span>
-              </div>
-              <div style={{height:5,background:C.line,borderRadius:3,overflow:"hidden"}}>
-                <div style={{height:"100%",width:`${pct}%`,background:cc.color,borderRadius:3,transition:"width .3s"}}/>
-              </div>
-            </div>
-          );})}
-        </div>
-      </div>
 
-      <div style={{flex:1,overflowY:"auto",padding:"18px 18px"}}>
-        <p style={{...ty.body,marginBottom:18,color:C.t2}}>Pick a category to start placing coins.</p>
-        <div style={{display:"flex",flexDirection:"column",gap:10}}>
-          {Object.entries(VOTE_CATS).map(([cat,cc])=>{const used=coinsUsed(cat),left=10-used;return(
-            <button key={cat} onClick={()=>{setSelCat(cat);setSelTopCat(null);setSugStep("idle");setQuery("");setSearch("");setStep("list");}}
-              style={{background:C.surface,border:`1px solid ${left===0?cc.color+"50":C.line}`,borderRadius:16,padding:"18px",cursor:"pointer",fontFamily:sans,textAlign:"left",display:"flex",alignItems:"center",gap:14,transition:"border-color .15s"}}
-              onMouseEnter={e=>e.currentTarget.style.borderColor=cc.color}
-              onMouseLeave={e=>e.currentTarget.style.borderColor=left===0?cc.color+"50":C.line}>
-              <div style={{width:52,height:52,borderRadius:14,background:cc.bg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:26,flexShrink:0}}>{cc.emoji}</div>
-              <div style={{flex:1}}>
-                <div style={{...ty.bodyMd,fontSize:15,marginBottom:3}}>{cc.label}</div>
-                <div style={{...ty.sm,color:C.t3,marginBottom:6}}>{(CATALOGUE[cat]||[]).length} items · {left}/10 coins remaining</div>
-                <div style={{height:3,background:C.line,borderRadius:2,overflow:"hidden",width:100}}>
-                  <div style={{height:"100%",width:`${(used/10)*100}%`,background:cc.color,borderRadius:2}}/>
+        {/* Coin explanation — only shown when 0 coins placed */}
+        {totalUsed===0&&(
+          <div style={{margin:"12px 16px 0",padding:"14px 16px",background:C.surface,border:"1px solid "+C.line,borderRadius:14}}>
+            <div style={{display:"flex",alignItems:"flex-start",gap:12}}>
+              <div style={{width:36,height:36,borderRadius:10,background:C.coral+"18",border:"1px solid "+C.coral+"30",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                <div style={{display:"flex",flexDirection:"column",gap:2,alignItems:"center"}}>
+                  {[10,8,6].map(function(w,i){return <div key={i} style={{width:w,height:4,borderRadius:2,background:C.coral,opacity:1-i*0.25}}/>;} )}
                 </div>
               </div>
-              <ArrowRight size={18} color={C.t3}/>
-            </button>
-          );})}
-        </div>
-      </div>
-    </div>
-  );
-
-  if(step==="list") return (
-    <div style={{background:C.bg,minHeight:"calc(100vh - 120px)",display:"flex",flexDirection:"column",fontFamily:sans,paddingBottom:80}}>
-      <div style={{padding:"12px 16px",borderBottom:`1px solid ${C.line}`}}>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
-          <button onClick={()=>setStep("cat")} style={{background:"transparent",border:"none",color:C.t3,cursor:"pointer",fontFamily:sans,fontSize:13,display:"flex",alignItems:"center",gap:4}}>← Back</button>
-          <button onClick={onClose} style={{background:C.surface,border:`1px solid ${C.line}`,borderRadius:10,width:32,height:32,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",color:C.t2}}><X size={15}/></button>
-        </div>
-        <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
-          <div style={{width:32,height:32,borderRadius:9,background:cfg.bg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:17,flexShrink:0}}>{cfg.emoji}</div>
-          <div style={{...ty.h2,fontSize:17}}>{cfg.label}</div>
-          <span style={{...ty.meta,marginLeft:"auto",color:coinsLeft(selCat)===0?cfg.color:C.t3,fontWeight:600}}>{coinsLeft(selCat)}/10 left</span>
-        </div>
-        <div style={{height:3,background:C.line,borderRadius:2,overflow:"hidden"}}>
-          <div style={{height:"100%",width:`${(coinsUsed(selCat)/10)*100}%`,background:cfg.color,borderRadius:2,transition:"width .3s"}}/>
-        </div>
-      </div>
-      {/* search / suggest panel */}
-      <div style={{padding:"10px 16px",borderBottom:`1px solid ${C.line}`}}>
-        {sugStep==="pending"?(
-          <div style={{display:"flex",gap:8,alignItems:"flex-start",padding:"8px 10px",background:`${C.amber}10`,border:`1px solid ${C.amber}22`,borderRadius:10}}>
-            <Clock size={14} color={C.amber} style={{flexShrink:0,marginTop:1}}/>
-            <div><div style={{...ty.sm,color:C.amber,fontWeight:600}}>"{query}" is under review</div><div style={{...ty.meta,marginTop:1}}>We'll notify you when approved — then you can allocate coins.</div></div>
-            <button onClick={()=>{setSugStep("idle");setQuery("");setReason("");}} style={{background:"none",border:"none",color:C.t3,cursor:"pointer",flexShrink:0}}><X size={12}/></button>
-          </div>
-        ):sugStep==="describe"?(
-          <div style={{padding:"10px 12px",background:`${C.coral}08`,border:`1px solid ${C.coral}20`,borderRadius:10}}>
-            <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:8}}>
-              <span style={{fontSize:16}}>🌱</span>
-              <div style={{...ty.sm,color:C.t1,fontWeight:600}}>"{query}" isn't on the list yet</div>
-            </div>
-            <div style={{...ty.meta,color:C.t2,marginBottom:10,lineHeight:1.6}}>Suggest it to the community. If approved by a moderator or community hero, you'll be notified and can vote on it.</div>
-            <div style={{display:"flex",gap:6}}> 
-              <button onClick={()=>setSugStep("idle")} style={{padding:"7px 12px",borderRadius:8,background:"transparent",border:`1px solid ${C.line}`,color:C.t2,cursor:"pointer",...ty.meta,fontWeight:600,fontFamily:sans}}>← Back</button>
-              <button onClick={()=>setShowSuggestFromVote(true)}
-                style={{flex:1,padding:"7px",borderRadius:8,background:C.coral,color:"#fff",border:"none",cursor:"pointer",...ty.meta,fontWeight:700,fontFamily:sans}}>
-                Suggest this →
-              </button>
-            </div>
-          </div>
-        ):
-        null
-        }
-      </div>
-
-      {/* search / suggest panel */}
-      <div style={{padding:"10px 16px",borderBottom:`1px solid ${C.line}`}}>
-        {sugStep==="pending"?(
-          <div style={{display:"flex",gap:8,alignItems:"flex-start",padding:"8px 10px",background:`${C.amber}10`,border:`1px solid ${C.amber}22`,borderRadius:10}}>
-            <Clock size={14} color={C.amber} style={{flexShrink:0,marginTop:1}}/>
-            <div><div style={{...ty.sm,color:C.amber,fontWeight:600}}>"{query}" is under review</div><div style={{...ty.meta,marginTop:1}}>We'll notify you when approved — then you can allocate coins.</div></div>
-            <button onClick={()=>{setSugStep("idle");setQuery("");setReason("");}} style={{background:"none",border:"none",color:C.t3,cursor:"pointer",flexShrink:0}}><X size={12}/></button>
-          </div>
-        ):sugStep==="describe"?(
-          <div>
-            <div style={{...ty.sm,color:C.t1,fontWeight:500,marginBottom:6}}>Why is "{query}" different?</div>
-            <textarea value={reason} onChange={e=>setReason(e.target.value)} rows={2}
-              placeholder="Explain what makes this distinct from existing items…"
-              style={{width:"100%",background:C.surface2,border:`1px solid ${C.line}`,borderRadius:9,padding:"9px",color:C.t1,fontSize:12,fontFamily:sans,outline:"none",resize:"none",lineHeight:1.5,marginBottom:7}}
-              onFocus={e=>e.target.style.borderColor=C.coral} onBlur={e=>e.target.style.borderColor=C.line}/>
-            <div style={{display:"flex",gap:6}}>
-              <button onClick={()=>setSugStep("idle")} style={{padding:"7px 12px",borderRadius:8,background:C.surface2,border:`1px solid ${C.line}`,color:C.t2,cursor:"pointer",...ty.meta,fontWeight:600}}>← Back</button>
-              <button disabled={reason.trim().length<15} onClick={()=>setSugStep("pending")}
-                style={{flex:1,padding:"7px",borderRadius:8,background:reason.trim().length>=15?C.coral:C.surface2,color:reason.trim().length>=15?"#fff":C.t3,border:"none",cursor:reason.trim().length>=15?"pointer":"default",...ty.meta,fontWeight:600,transition:"all .2s"}}>
-                Submit for review →
-              </button>
-            </div>
-          </div>
-        ):(
-          <div>
-            <div style={{display:"flex",gap:7}}>
-              <div style={{flex:1,display:"flex",alignItems:"center",gap:8,background:C.surface2,borderRadius:10,padding:"8px 12px"}}>
-                <Search size={13} color={C.t3}/>
-                <input value={isSuggestMode?query:search}
-                  onChange={e=>{if(isSuggestMode){setQuery(e.target.value);setSugStep("idle");setSimilar([]);}else{setSearch(e.target.value);setQuery(e.target.value);}}}
-                  onKeyDown={e=>e.key==="Enter"&&isSuggestMode&&doSearch()}
-                  placeholder={isSuggestMode?"Search or suggest something new…":`Search ${cfg.label.toLowerCase()}…`}
-                  style={{flex:1,background:"transparent",border:"none",color:C.t1,fontSize:12,fontFamily:sans,outline:"none"}}/>
-                {(isSuggestMode?query:search)&&<button onClick={()=>{isSuggestMode?(setQuery(""),setSugStep("idle"),setSimilar([])):setSearch("");}} style={{background:"none",border:"none",color:C.t3,cursor:"pointer",lineHeight:1}}><X size={11}/></button>}
+              <div>
+                <div style={{...ty.sm,color:C.t1,fontWeight:600,marginBottom:4}}>You have 10 coins to place this year</div>
+                <div style={{...ty.meta,color:C.t2,lineHeight:1.6}}>Spread them across the businesses and services you want most in your area. The more coins you put on something, the stronger the signal to operators deciding where to open.</div>
               </div>
-              {isSuggestMode&&<button onClick={doSearch} disabled={!query.trim()} style={{padding:"8px 12px",borderRadius:10,background:query.trim()?C.coral:C.surface2,color:query.trim()?"#fff":C.t3,border:"none",cursor:query.trim()?"pointer":"default",...ty.meta,fontWeight:700,transition:"all .2s"}}>Go</button>}
             </div>
-            {/* Live search suggestions — fires in both modes at 3+ chars */}
-            {(isSuggestMode?query:search).length>=3&&(()=>{
-              const q=(isSuggestMode?query:search).toLowerCase();
-              const allItems=Object.values(CATALOGUE).flat();
-              const suggestions=allItems.filter(function(i){
-                return i.label.toLowerCase().includes(q)
-                  || (i.subcat&&i.subcat.replace(/_/g," ").includes(q))
-                  || (i.cat&&i.cat.includes(q));
-              }).slice(0,6);
-              if(!suggestions.length) return null;
-              return(
-                <div style={{marginTop:6,background:C.surface,border:`1px solid ${C.line}`,borderRadius:12,overflow:"hidden",boxShadow:"0 8px 24px rgba(0,0,0,0.3)"}}>
-                  {suggestions.map(function(item,idx){
-                    const cc2=CAT_CFG[item.cat]||CAT_CFG.business;
-                    return(
-                      <button key={item.id}
-                        onClick={function(){
-                          setSelItem(item);
-                          setSearch("");
-                          setSpend("");setFreq("");setDist("");setAccess("");
-                          setSelCoins(1);setSelAttrs(new Set());
-                          setActAudience("");setActStyle("");setActAccess("");
-                          setStep("gate");
-                        }}
-                        style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"10px 14px",background:"transparent",border:"none",borderTop:idx>0?`1px solid ${C.line}`:"none",cursor:"pointer",fontFamily:sans,textAlign:"left"}}>
-                        <div style={{width:32,height:32,borderRadius:9,background:cc2.bg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:17,flexShrink:0}}>{item.emoji}</div>
-                        <div style={{flex:1,minWidth:0}}>
-                          <div style={{...ty.sm,color:C.t1,fontWeight:500,marginBottom:1}}>{item.label}</div>
-                          <span style={{...ty.meta,fontSize:10,color:cc2.color,background:`${cc2.color}15`,borderRadius:4,padding:"1px 5px"}}>{cc2.label}</span>
-                        </div>
-                        <ChevronDown size={13} color={C.t3} style={{transform:"rotate(-90deg)",flexShrink:0}}/>
-                      </button>
-                    );
-                  })}
-                </div>
-              );
-            })()}
-
-            {sugStep==="results"&&similar.length>0&&(
-              <div style={{marginTop:8}}>
-                <div style={{...ty.meta,color:C.amber,marginBottom:6,display:"flex",alignItems:"center",gap:4}}><AlertCircle size={11} color={C.amber}/> Similar items already exist:</div>
-                {similar.map(item=>(
-                  <button key={item.id} onClick={()=>{const c=Object.keys(CATALOGUE).find(cc=>CATALOGUE[cc].some(i=>i.id===item.id))||"business";setSelCat(c);setSelItem(item);setSpend("");setFreq("");setDist("");setAccess("");setStep("gate");}}
-                    style={{width:"100%",background:C.surface2,border:`1px solid ${C.line}`,borderRadius:9,padding:"8px 12px",cursor:"pointer",display:"flex",alignItems:"center",gap:9,fontFamily:sans,textAlign:"left",marginBottom:3}}>
-                    <span style={{fontSize:16}}>{item.emoji}</span><span style={{...ty.sm,flex:1,color:C.t1}}>{item.label}</span><span style={{...ty.meta,color:C.green}}>Vote →</span>
-                  </button>
-                ))}
-                <button onClick={()=>setSugStep("describe")} style={{width:"100%",marginTop:4,padding:"7px",borderRadius:8,background:"transparent",border:`1px dashed ${C.line}`,color:C.t3,cursor:"pointer",...ty.meta,fontWeight:600}}>
-                  None of these — it's something different →
-                </button>
-              </div>
-            )}
           </div>
         )}
-      </div>
-      {/* == Category tab bar */}
-      <div style={{display:"flex",gap:0,overflowX:"auto",borderBottom:`1px solid ${C.line}`,background:C.bg,flexShrink:0}}>
-        {topCatKeys.map(k=>{
-          const tc=catConfig[k];
-          const used=(CATALOGUE[selCat]||[]).filter(i=>i.cat===k).reduce((s,i)=>s+(coinAlloc[i.id]||0),0);
-          const isActive=k===activeTopCat;
-          return(
-            <button key={k} onClick={()=>{setSelTopCat(k);setSearch("");setSugStep("idle");}}
-              style={{padding:"10px 14px",background:"transparent",border:"none",borderBottom:isActive?`2px solid ${cfg.color}`:"2px solid transparent",
-                cursor:"pointer",fontFamily:sans,whiteSpace:"nowrap",display:"flex",flexDirection:"column",alignItems:"center",gap:2}}>
-              <span style={{fontSize:14}}>{tc.emoji}</span>
-              <span style={{...ty.meta,color:isActive?cfg.color:C.t3,fontWeight:isActive?700:400,fontSize:10}}>{tc.label}</span>
-              {used>0&&<span style={{width:5,height:5,borderRadius:"50%",background:cfg.color,display:"block"}}/>}
-            </button>
-          );
-        })}
-      </div>
 
-      <div style={{flex:1,overflowY:"auto",padding:"10px 16px 20px"}}>
-        {coinsLeft(selCat)===0&&<div style={{...ty.sm,color:cfg.color,background:`${cfg.color}10`,border:`1px solid ${cfg.color}20`,borderRadius:10,padding:"9px 12px",marginBottom:10}}>Budget full — remove coins from an item to reallocate</div>}
-        {(()=>{
-          // When searching, show flat filtered list
-          if(search.trim().length > 0){
-            return (
-              <div style={{display:"flex",flexDirection:"column",gap:4}}>
-                {displayItems.map(opt=><CatalogueItem key={opt.id} opt={opt} coins={coinAlloc[opt.id]||0} meta={itemMeta[opt.id]} cfg={cfg} selCat={selCat} coinsLeft={coinsLeft} setSelItem={setSelItem} setSpend={setSpend} setFreq={setFreq} setDist={setDist} setAccess={setAccess} setStep={setStep} setSelAttrs={setSelAttrs} setActAudience={setActAudience} setActStyle={setActStyle} setActAccess={setActAccess} setSelCoins={setSelCoins}/>)}
-                {displayItems.length===0&&(
-                  <div style={{marginTop:8,padding:"12px 14px",background:`${C.coral}08`,border:`1px solid ${C.coral}20`,borderRadius:12}}>
-                    <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:6}}><span style={{fontSize:15}}>🌱</span><span style={{...ty.sm,color:C.t1,fontWeight:600}}>"{search}" isn't on the list yet</span></div>
-                    <div style={{...ty.meta,color:C.t2,lineHeight:1.6,marginBottom:10}}>Suggest it to the community. If approved, you'll be notified and can vote on it.</div>
-                    <button onClick={()=>setShowSuggestFromVote(true)} style={{width:"100%",padding:"9px",borderRadius:10,background:C.coral,color:"#fff",border:"none",cursor:"pointer",...ty.sm,fontWeight:700,fontFamily:sans}}>Suggest this →</button>
-                  </div>
-                )}
-              </div>
-            );
-          }
-          // Grouped by subcat within active top-cat
-          const subGroups = activeTopCatCfg.groups || [];
-          const idMap = {};
-          (CATALOGUE[selCat]||[]).forEach(i=>{ idMap[i.id]=i; });
-          return (
-            <div style={{display:"flex",flexDirection:"column",gap:6}}>
-              {subGroups.map(grp=>{
-                const grpItems = grp.ids.map(id=>idMap[id]).filter(Boolean);
-                const allocatedInGroup = grpItems.filter(it=>(coinAlloc[it.id]||0)>0).length;
-                return <CollapsibleGroup key={grp.id} grp={grp} items={grpItems} allocated={allocatedInGroup} cfg={cfg} selCat={selCat} coinsLeft={coinsLeft} setSelItem={setSelItem} setSpend={setSpend} setFreq={setFreq} setDist={setDist} setAccess={setAccess} setStep={setStep} coinAlloc={coinAlloc} itemMeta={itemMeta} setSelAttrs={setSelAttrs} setActAudience={setActAudience} setActStyle={setActStyle} setActAccess={setActAccess} setSelCoins={setSelCoins}/>;
+        {/* Coin balance */}
+        <div style={{padding:"12px 18px",borderBottom:"1px solid "+C.line,background:C.surface,marginTop:totalUsed===0?8:0}}>
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:6}}>
+            <span style={{...ty.meta,color:C.t3}}>Your coins</span>
+            <span style={{...ty.meta,color:totalLeft>0?C.coral:C.green,fontWeight:700}}>{totalUsed} / {TOTAL_COINS} placed{totalLeft===0?" ✓":""}</span>
+          </div>
+          <div style={{height:4,background:C.line,borderRadius:2,overflow:"hidden"}}>
+            <div style={{height:"100%",width:(totalUsed/TOTAL_COINS*100)+"%",background:totalLeft>0?C.coral:C.green,borderRadius:2,transition:"width .3s"}}/>
+          </div>
+        </div>
+
+        {/* Search bar */}
+        <div style={{padding:"10px 16px",borderBottom:"1px solid "+C.line,position:"relative"}}>
+          <div style={{display:"flex",gap:7}}>
+            <div style={{flex:1,display:"flex",alignItems:"center",gap:8,background:C.surface2,borderRadius:10,padding:"8px 12px"}}>
+              <Search size={13} color={C.t3}/>
+              <input value={isSuggestMode?query:search}
+                onChange={function(e){isSuggestMode?(setQuery(e.target.value),setSugStep("idle"),setSimilar([])):setSearch(e.target.value);}}
+                onKeyDown={function(e){if(e.key==="Enter"&&isSuggestMode)doSearch();}}
+                placeholder={isSuggestMode?"Search or suggest something new...":"Search all services..."}
+                style={{flex:1,background:"transparent",border:"none",color:C.t1,fontSize:12,fontFamily:sans,outline:"none"}}/>
+              {(isSuggestMode?query:search)&&<button onClick={function(){isSuggestMode?(setQuery(""),setSugStep("idle"),setSimilar([])):setSearch("");}} style={{background:"none",border:"none",color:C.t3,cursor:"pointer",lineHeight:1}}><X size={11}/></button>}
+            </div>
+            {isSuggestMode&&<button onClick={doSearch} disabled={!query.trim()} style={{padding:"8px 12px",borderRadius:10,background:query.trim()?C.coral:C.surface2,color:query.trim()?"#fff":C.t3,border:"none",cursor:query.trim()?"pointer":"default",...ty.meta,fontWeight:700,transition:"all .2s"}}>Go</button>}
+          </div>
+          {/* Live suggestions */}
+          {suggestions.length>0&&(
+            <div style={{position:"absolute",top:"100%",left:16,right:16,zIndex:30,background:C.surface,border:"1px solid "+C.line,borderRadius:12,overflow:"hidden",boxShadow:"0 8px 24px rgba(0,0,0,0.4)",marginTop:2}}>
+              {suggestions.map(function(item,idx){
+                var icc=CAT_CFG[item.cat]||CAT_CFG.food;
+                return(
+                  <button key={item.id} onClick={function(){openGate(item);setSearch("");setQuery("");}}
+                    style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"10px 14px",background:"transparent",border:"none",borderTop:idx>0?"1px solid "+C.line:"none",cursor:"pointer",fontFamily:sans,textAlign:"left"}}>
+                    <div style={{width:30,height:30,borderRadius:8,background:icc.bg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,flexShrink:0}}>{item.emoji}</div>
+                    <div style={{flex:1}}>
+                      <div style={{...ty.sm,color:C.t1}}>{item.label}</div>
+                      <span style={{...ty.meta,fontSize:10,color:icc.color,background:icc.color+"15",borderRadius:4,padding:"1px 5px"}}>{CAT_CFG[item.cat]?CAT_CFG[item.cat].label:item.cat}</span>
+                    </div>
+                    <ChevronDown size={13} color={C.t3} style={{transform:"rotate(-90deg)",flexShrink:0}}/>
+                  </button>
+                );
               })}
             </div>
-          );
-        })()}
-      </div>
-      <div style={{padding:"12px 16px 28px",background:C.bg,borderTop:`1px solid ${C.line}`}}>
-        <button onClick={onClose} style={{width:"100%",padding:"14px",borderRadius:14,background:C.coral,color:"#fff",border:"none",cursor:"pointer",...ty.btn,fontSize:15}}>Save & done →</button>
-      </div>
-    </div>
-  );
+          )}
+          {/* Suggest mode results */}
+          {isSuggestMode&&sugStep==="results"&&similar.length>0&&(
+            <div style={{marginTop:8}}>
+              <div style={{...ty.meta,color:C.amber,marginBottom:6,display:"flex",alignItems:"center",gap:4}}><AlertCircle size={11} color={C.amber}/> Similar services already exist:</div>
+              {similar.map(function(item){
+                return(
+                  <button key={item.id} onClick={function(){openGate(item);}}
+                    style={{width:"100%",background:C.surface2,border:"1px solid "+C.line,borderRadius:9,padding:"8px 12px",cursor:"pointer",display:"flex",alignItems:"center",gap:9,fontFamily:sans,textAlign:"left",marginBottom:3}}>
+                    <span style={{fontSize:16}}>{item.emoji}</span>
+                    <span style={{...ty.sm,flex:1,color:C.t1}}>{item.label}</span>
+                    <span style={{...ty.meta,color:C.green}}>Vote →</span>
+                  </button>
+                );
+              })}
+              <button onClick={function(){setSugStep("describe");}} style={{width:"100%",marginTop:4,padding:"7px",borderRadius:8,background:"transparent",border:"1px dashed "+C.line,color:C.t3,cursor:"pointer",...ty.meta,fontWeight:600}}>
+                None of these — something different →
+              </button>
+            </div>
+          )}
+          {isSuggestMode&&sugStep==="describe"&&(
+            <div style={{marginTop:8,background:C.surface,border:"1px solid "+C.line,borderRadius:12,padding:"12px 14px"}}>
+              <div style={{...ty.sm,color:C.t1,fontWeight:600,marginBottom:8}}>"{query}" isn't on the list yet</div>
+              <textarea value={reason} onChange={function(e){setReason(e.target.value);}} rows={2}
+                placeholder="Describe it briefly — what makes it distinct?"
+                style={{width:"100%",background:C.bg,border:"1px solid "+C.line,borderRadius:8,padding:"8px 10px",color:C.t1,fontSize:12,fontFamily:sans,outline:"none",resize:"none",lineHeight:1.5,boxSizing:"border-box",marginBottom:8}}/>
+              <div style={{display:"flex",gap:8}}>
+                <button onClick={function(){setShowSuggestFromVote(true);}} disabled={reason.trim().length<5}
+                  style={{flex:1,padding:"8px",borderRadius:9,background:reason.trim().length>=5?C.coral:C.surface2,color:reason.trim().length>=5?"#fff":C.t3,border:"none",cursor:reason.trim().length>=5?"pointer":"default",...ty.meta,fontWeight:600,transition:"all .2s"}}>
+                  Submit suggestion →
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
 
-  if(step==="gate"){
-    const isActivity = selCat==="activity";
-    const itemSubcat = selItem?.subcat||"";
-    const tagOptions = (SUBCAT_TAGS[itemSubcat]||[]).map(id=>Object.assign({id:id},ALL_TAGS[id]||{})).filter(t=>t.label);
-    const showCompetitive = isActivity && COMPETITIVE_ACTIVITIES.has(selItem ? selItem.id : "");
-    const tagGroupNames = tagOptions.reduce(function(acc,t){if(acc.indexOf(t.group)<0)acc.push(t.group);return acc;},[]);
-    const actOk = isActivity ? (actAudience&&actStyle&&actAccess) : true;
-    const ok = spend&&freq&&dist&&access&&actOk;
-    return (
-      <div style={{position:"fixed",inset:0,background:"#000000CC",zIndex:400,display:"flex",alignItems:"flex-end",justifyContent:"center"}}>
-        <div style={{background:C.surface,borderTop:`1px solid ${C.line}`,borderRadius:"22px 22px 0 0",padding:"8px 20px 48px",width:"100%",maxWidth:480,boxShadow:"0 -24px 64px #00000090",overflowY:"auto",maxHeight:"92vh"}}>
-          <div style={{width:36,height:4,borderRadius:2,background:C.line,margin:"12px auto 22px"}}/>
-          <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:24,padding:"13px",background:C.surface2,borderRadius:14}}>
-            <div style={{width:44,height:44,borderRadius:12,background:cfg.bg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0}}>{selItem?.emoji}</div>
-            <div style={{flex:1}}><div style={{...ty.h3,marginBottom:2}}>{selItem?.label}</div><div style={{...ty.sm}}>{selCat==="activity"?"Answer a few questions to place your coins":"A few questions before your coins count"}</div></div>
-            <button onClick={()=>setStep("list")} style={{background:"transparent",border:"none",color:C.t3,cursor:"pointer"}}><X size={16}/></button>
+        {/* Category tab bar */}
+        <div style={{display:"flex",gap:0,overflowX:"auto",borderBottom:"1px solid "+C.line,background:C.bg,flexShrink:0,scrollbarWidth:"none"}}>
+          {Object.entries(VOTE_CATS).map(function(entry){
+            var cat=entry[0], catCc=entry[1];
+            var catUsed = SERVICES.filter(function(i){return i.cat===cat;}).reduce(function(s,i){return s+(coinAlloc[i.id]||0);},0);
+            var isActive = cat===selCat;
+            return(
+              <button key={cat} onClick={function(){setSelCat(cat);setSearch("");}}
+                style={{padding:"10px 14px",background:"transparent",border:"none",
+                  borderBottom:"2px solid "+(isActive?catCc.color:"transparent"),
+                  cursor:"pointer",fontFamily:sans,fontSize:11,fontWeight:isActive?600:400,
+                  color:isActive?catCc.color:C.t3,flexShrink:0,display:"flex",flexDirection:"column",alignItems:"center",gap:3}}>
+                <span style={{fontSize:16}}>{catCc.emoji}</span>
+                <span>{catCc.label.split(" ")[0]}</span>
+                {catUsed>0&&<div style={{width:5,height:5,borderRadius:"50%",background:catCc.color}}/>}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Service groups */}
+        <div style={{flex:1,overflowY:"auto",padding:"12px 14px"}}>
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
+            <span style={{...ty.bodyMd,fontSize:14,color:cc.color}}>{cc.emoji} {cc.label}</span>
+            <span style={{...ty.meta,color:totalLeft>0?C.t3:C.green,fontWeight:600}}>{totalLeft} coins left</span>
           </div>
-          {/* == COIN STEPPER */}
-          <div style={{marginBottom:20,padding:"14px 16px",background:`${cfg.color}0A`,border:`1px solid ${cfg.color}25`,borderRadius:12}}>
+          {displayGroups.map(function(group){
+            var groupAlloc = group.items.reduce(function(s,i){return s+(coinAlloc[i.id]||0);},0);
+            return(
+              <ServiceGroup key={group.subcat} group={group} items={group.items}
+                coinAlloc={coinAlloc} itemMeta={itemMeta} cc={cc}
+                totalCoinsLeft={totalLeft} onOpen={openGate}/>
+            );
+          })}
+          {totalLeft===0&&(
+            <div style={{padding:"14px",background:C.green+"10",border:"1px solid "+C.green+"25",borderRadius:12,textAlign:"center",marginTop:8}}>
+              <div style={{...ty.sm,color:C.green,fontWeight:600,marginBottom:2}}>All 10 coins placed!</div>
+              <div style={{...ty.meta,color:C.t3}}>You can reassign by tapping any item</div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  /* ── GATE ── */
+  if(step==="gate"&&selItem) {
+    var icc = CAT_CFG[selItem.cat] || CAT_CFG.food;
+    var qModel = getServiceQuestions(selItem.subcat);
+    var isClasses = isClassesLevel(selItem.subcat);
+    var isLevelA = qModel.level==="A";
+    var isLevelB = qModel.level==="B";
+    var existingCoins = coinAlloc[selItem.id]||0;
+    var availableCoins = totalLeft + existingCoins;
+    var maxCoins = Math.min(10, availableCoins);
+
+    var isReEdit = (coinAlloc[selItem.id]||0) > 0;
+    // Re-editing: only coins required (other fields already saved)
+    // New vote: require spend/freq/dist/access + tags
+    var ok = isReEdit
+      ? selCoins >= 0  // allow 0 to remove
+      : (spend && freq && dist && access
+          && (qModel.level==="C" || selTags.size>0 || selWho || isClasses&&selWho&&selStyle));
+
+    return (
+      <div style={{background:C.bg,minHeight:"calc(100vh - 120px)",fontFamily:sans,paddingBottom:80}}>
+        <div style={{padding:"12px 16px",borderBottom:"1px solid "+C.line,display:"flex",alignItems:"center",gap:10}}>
+          <button onClick={function(){setStep("cat");setSelItem(null);}} style={{background:"transparent",border:"none",color:C.t3,cursor:"pointer",fontFamily:sans,fontSize:13,display:"flex",alignItems:"center",gap:4}}>← Back</button>
+          <button onClick={onClose} style={{marginLeft:"auto",background:C.surface,border:"1px solid "+C.line,borderRadius:10,width:32,height:32,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",color:C.t2}}><X size={15}/></button>
+        </div>
+
+        <div style={{padding:"0 16px 20px",overflowY:"auto"}}>
+          {/* Item header */}
+          <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:20,padding:"13px",background:C.surface,borderRadius:14,marginTop:14,border:"1px solid "+icc.color+"25"}}>
+            <div style={{width:44,height:44,borderRadius:12,background:icc.bg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0}}>{selItem.emoji}</div>
+            <div style={{flex:1}}>
+              <div style={{...ty.h3,marginBottom:2}}>{selItem.label}</div>
+              <div style={{...ty.meta,color:C.t3}}>{CAT_CFG[selItem.cat]?CAT_CFG[selItem.cat].label:selItem.cat}</div>
+            </div>
+          </div>
+
+          {/* Coin stepper */}
+          <div style={{marginBottom:18,padding:"14px 16px",background:icc.color+"0A",border:"1px solid "+icc.color+"25",borderRadius:12}}>
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
               <div>
                 <div style={{...ty.bodyMd,fontSize:14,color:C.t1,marginBottom:2}}>How many coins?</div>
-                <div style={{...ty.meta,color:C.t3}}>{coinsLeft(selCat)+((selItem ? coinAlloc[selItem.id]||0 : 0))} remaining · max 10 per item</div>
+                <div style={{...ty.meta,color:C.t3}}>{isReEdit?"Currently "+coinAlloc[selItem.id]+" coin"+(coinAlloc[selItem.id]!==1?"s":"")+" · set to 0 to remove":availableCoins+" available · max 10 per service"}</div>
               </div>
               <div style={{display:"flex",alignItems:"center",gap:12}}>
-                <button onClick={()=>setSelCoins(c=>Math.max(1,c-1))}
-                  style={{width:32,height:32,borderRadius:9,background:C.surface2,border:`1px solid ${C.line}`,color:selCoins>1?C.t1:C.t3,cursor:selCoins>1?"pointer":"default",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                <button onClick={function(){setSelCoins(function(c){return Math.max(isReEdit?0:1,c-1);});}}
+                  style={{width:32,height:32,borderRadius:9,background:C.surface2,border:"1px solid "+C.line,color:selCoins>1?C.t1:C.t3,cursor:selCoins>1?"pointer":"default",display:"flex",alignItems:"center",justifyContent:"center"}}>
                   <Minus size={13}/>
                 </button>
-                <span style={{fontFamily:serif,fontSize:24,fontWeight:700,color:cfg.color,minWidth:24,textAlign:"center"}}>{selCoins}</span>
-                <button onClick={()=>setSelCoins(c=>Math.min(Math.min(10,coinsLeft(selCat)+((selItem ? coinAlloc[selItem.id]||0 : 0))),c+1))}
-                  disabled={selCoins>=Math.min(10,coinsLeft(selCat)+((selItem ? coinAlloc[selItem.id]||0 : 0)))}
-                  style={{width:32,height:32,borderRadius:9,background:selCoins<Math.min(10,coinsLeft(selCat)+((selItem ? coinAlloc[selItem.id]||0 : 0)))?`${cfg.color}15`:C.surface2,border:`1px solid ${selCoins<Math.min(10,coinsLeft(selCat)+((selItem ? coinAlloc[selItem.id]||0 : 0)))?cfg.color+"30":C.line}`,color:selCoins<Math.min(10,coinsLeft(selCat)+((selItem ? coinAlloc[selItem.id]||0 : 0)))?cfg.color:C.t3,cursor:selCoins<Math.min(10,coinsLeft(selCat)+((selItem ? coinAlloc[selItem.id]||0 : 0)))?"pointer":"default",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                <span style={{fontFamily:serif,fontSize:24,fontWeight:700,color:icc.color,minWidth:24,textAlign:"center"}}>{selCoins}</span>
+                <button onClick={function(){setSelCoins(function(c){return Math.min(maxCoins,c+1);});}}
+                  disabled={selCoins>=maxCoins}
+                  style={{width:32,height:32,borderRadius:9,background:selCoins<maxCoins?icc.color+"15":C.surface2,border:"1px solid "+(selCoins<maxCoins?icc.color+"30":C.line),color:selCoins<maxCoins?icc.color:C.t3,cursor:selCoins<maxCoins?"pointer":"default",display:"flex",alignItems:"center",justifyContent:"center"}}>
                   <Plus size={13}/>
                 </button>
               </div>
             </div>
           </div>
 
+          {/* Quant questions */}
           {[
-            {lbl:"How much would you spend per visit?",opts:SPEND_OPTS,val:spend,set:setSpend,color:cfg.color},
-            {lbl:"How often would you go?",            opts:FREQ_OPTS, val:freq, set:setFreq, color:cfg.color},
-            {lbl:"How far would you travel?",          opts:DIST_OPTS, val:dist, set:setDist, color:C.amber},
-          ].map(row=>(
-            <div key={row.lbl} style={{marginBottom:18}}>
-              <SLabel>{row.lbl}</SLabel>
+            {lbl:"How much would you spend per visit?", opts:SPEND_OPTS, val:spend, set:setSpend, color:icc.color},
+            {lbl:"How often would you go?",            opts:FREQ_OPTS,  val:freq,  set:setFreq,  color:icc.color},
+            {lbl:"How far would you travel?",          opts:DIST_OPTS,  val:dist,  set:setDist,  color:"#E8A830"},
+          ].map(function(q){return(
+            <div key={q.lbl} style={{marginBottom:16}}>
+              <div style={{...ty.label,marginBottom:8}}>{q.lbl}</div>
               <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
-                {row.opts.map(o=><Chip key={o} label={o} active={row.val===o} onClick={()=>row.set(o)} color={row.color} sm/>)}
+                {q.opts.map(function(o){return(
+                  <button key={o} onClick={function(){q.set(o);}}
+                    style={{padding:"7px 12px",borderRadius:20,border:"1px solid "+(q.val===o?q.color:C.line),
+                      background:q.val===o?q.color+"15":"transparent",color:q.val===o?q.color:C.t2,
+                      cursor:"pointer",fontFamily:sans,fontSize:12,fontWeight:q.val===o?600:400,transition:"all .12s"}}>
+                    {o}
+                  </button>
+                );})}
               </div>
             </div>
-          ))}
-          {/* Access question — how do you currently get this? */}
-          <div style={{marginBottom:18}}>
-            <SLabel>How do you currently get this?</SLabel>
+          );})}
+
+          {/* Access question */}
+          <div style={{marginBottom:16}}>
+            <div style={{...ty.label,marginBottom:8}}>How do you currently get this?</div>
             <div style={{display:"flex",flexDirection:"column",gap:6}}>
-              {ACCESS_OPTS.map(o=>(
-                <button key={o.v} onClick={()=>setAccess(o.v)}
-                  style={{padding:"10px 14px",borderRadius:10,border:`1px solid ${access===o.v?cfg.color:C.line}`,
-                    background:access===o.v?`${cfg.color}12`:"transparent",
-                    color:access===o.v?cfg.color:C.t2,cursor:"pointer",fontFamily:sans,fontSize:13,
-                    textAlign:"left",fontWeight:access===o.v?600:400,transition:"all .14s",display:"flex",alignItems:"center",gap:8}}>
-                  <div style={{width:16,height:16,borderRadius:"50%",border:`2px solid ${access===o.v?cfg.color:C.line}`,
-                    background:access===o.v?cfg.color:"transparent",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
-                    {access===o.v&&<div style={{width:6,height:6,borderRadius:"50%",background:"#fff"}}/>}
-                  </div>
+              {ACCESS_OPTS.map(function(o){return(
+                <button key={o.v} onClick={function(){setAccess(o.v);}}
+                  style={{padding:"10px 14px",borderRadius:11,border:"1px solid "+(access===o.v?icc.color:C.line),
+                    background:access===o.v?icc.color+"12":"transparent",color:access===o.v?icc.color:C.t2,
+                    cursor:"pointer",fontFamily:sans,fontSize:13,textAlign:"left",transition:"all .12s"}}>
                   {o.l}
                 </button>
-              ))}
+              );})}
             </div>
           </div>
-          {/* == ACTIVITY QUESTIONS (activities only) */}
-          {isActivity&&(
-            <div style={{marginBottom:18,padding:"14px",background:C.surface2,borderRadius:14,border:`1px solid ${C.line}`}}>
-              <SLabel>A few more details</SLabel>
-              {/* Audience */}
-              <div style={{marginBottom:14}}>
-                <div style={{...ty.sm,color:C.t2,marginBottom:7}}>Who is this for?</div>
-                <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
-                  {["Kids","Adults","Everyone"].map(o=>(
-                    <button key={o} onClick={()=>setActAudience(o)}
-                      style={{padding:"7px 14px",borderRadius:8,border:`1px solid ${actAudience===o?cfg.color:C.line}`,
-                        background:actAudience===o?`${cfg.color}15`:"transparent",
-                        color:actAudience===o?cfg.color:C.t2,cursor:"pointer",fontFamily:sans,...ty.sm,fontWeight:actAudience===o?700:400}}>
-                      {o}
+
+          {/* Level A — rich tags */}
+          {isLevelA&&(
+            <div style={{marginBottom:16}}>
+              <div style={{...ty.label,marginBottom:4}}>{qModel.q}</div>
+              <div style={{...ty.meta,color:C.t3,marginBottom:10}}>Pick up to {qModel.max}</div>
+              <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+                {qModel.opts.map(function(tag){
+                  var on = selTags.has(tag);
+                  var disabled = !on && selTags.size >= qModel.max;
+                  return(
+                    <button key={tag} disabled={disabled}
+                      onClick={function(){setSelTags(function(prev){var a=Array.from(prev);var idx=a.indexOf(tag);if(idx>=0){a.splice(idx,1);}else{a.push(tag);}return new Set(a);});}}
+                      style={{padding:"6px 12px",borderRadius:8,border:"1px solid "+(on?icc.color:C.line),
+                        background:on?icc.color+"15":"transparent",color:on?icc.color:(disabled?C.t3:C.t2),
+                        cursor:disabled?"default":"pointer",fontFamily:sans,...ty.meta,
+                        fontWeight:on?700:400,opacity:disabled?0.4:1,transition:"all .12s"}}>
+                      {tag}
                     </button>
-                  ))}
-                </div>
+                  );
+                })}
               </div>
-              {/* Participation style */}
+            </div>
+          )}
+
+          {/* Level B — light follow-up */}
+          {isLevelB&&(
+            <div style={{marginBottom:16}}>
+              <div style={{...ty.label,marginBottom:8}}>{qModel.q}</div>
+              <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+                {qModel.opts.map(function(opt){
+                  var on = selTags.has(opt);
+                  var disabled = !on && selTags.size >= (qModel.max||1);
+                  return(
+                    <button key={opt} disabled={disabled}
+                      onClick={function(){setSelTags(function(prev){var a=Array.from(prev);var idx=a.indexOf(opt);if(idx>=0){a.splice(idx,1);}else{a.push(opt);}return new Set(a);});}}
+                      style={{padding:"7px 14px",borderRadius:20,border:"1px solid "+(on?icc.color:C.line),
+                        background:on?icc.color+"15":"transparent",color:on?icc.color:C.t2,
+                        cursor:disabled?"default":"pointer",fontFamily:sans,fontSize:12,fontWeight:on?600:400,
+                        opacity:disabled?0.4:1,transition:"all .12s"}}>
+                      {opt}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Classes flow — 3 questions */}
+          {isClasses&&(
+            <div>
               <div style={{marginBottom:14}}>
-                <div style={{...ty.sm,color:C.t2,marginBottom:7}}>What style?</div>
-                <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
-                  {["Casual","Structured classes",...(showCompetitive?["Advanced / competitive"]:[])]
-                    .map(o=>(
-                      <button key={o} onClick={()=>setActStyle(o)}
-                        style={{padding:"7px 14px",borderRadius:8,border:`1px solid ${actStyle===o?cfg.color:C.line}`,
-                          background:actStyle===o?`${cfg.color}15`:"transparent",
-                          color:actStyle===o?cfg.color:C.t2,cursor:"pointer",fontFamily:sans,...ty.sm,fontWeight:actStyle===o?700:400}}>
-                        {o}
+                <div style={{...ty.label,marginBottom:8}}>Who is this for?</div>
+                <div style={{display:"flex",gap:8}}>
+                  {["Kids","Adults","Everyone"].map(function(opt){
+                    var on=selWho===opt;
+                    return(
+                      <button key={opt} onClick={function(){setSelWho(opt);}}
+                        style={{flex:1,padding:"9px",borderRadius:10,border:"1px solid "+(on?icc.color:C.line),
+                          background:on?icc.color+"15":"transparent",color:on?icc.color:C.t2,
+                          cursor:"pointer",fontFamily:sans,fontSize:13,fontWeight:on?600:400,transition:"all .12s"}}>
+                        {opt}
                       </button>
-                    ))}
+                    );
+                  })}
                 </div>
               </div>
-              {/* Access model */}
-              <div>
-                <div style={{...ty.sm,color:C.t2,marginBottom:7}}>How do you want to join?</div>
+              <div style={{marginBottom:14}}>
+                <div style={{...ty.label,marginBottom:8}}>What matters most?</div>
                 <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
-                  {["Drop-in","Membership / subscription"].map(o=>(
-                    <button key={o} onClick={()=>setActAccess(o)}
-                      style={{padding:"7px 14px",borderRadius:8,border:`1px solid ${actAccess===o?cfg.color:C.line}`,
-                        background:actAccess===o?`${cfg.color}15`:"transparent",
-                        color:actAccess===o?cfg.color:C.t2,cursor:"pointer",fontFamily:sans,...ty.sm,fontWeight:actAccess===o?700:400}}>
-                      {o}
-                    </button>
-                  ))}
+                  {["Casual","Structured classes","Small group","Drop-in","Membership"]
+                    .concat(showCompetitiveOption(selItem.subcat)?["Advanced / competitive"]:[])
+                    .map(function(opt){
+                      var on=selStyle===opt;
+                      return(
+                        <button key={opt} onClick={function(){setSelStyle(opt);}}
+                          style={{padding:"7px 13px",borderRadius:20,border:"1px solid "+(on?icc.color:C.line),
+                            background:on?icc.color+"15":"transparent",color:on?icc.color:C.t2,
+                            cursor:"pointer",fontFamily:sans,fontSize:12,fontWeight:on?600:400,transition:"all .12s"}}>
+                          {opt}
+                        </button>
+                      );
+                    })}
                 </div>
               </div>
             </div>
           )}
 
-          {/* == BUSINESS TAGS (businesses only) */}
-          {!isActivity&&tagOptions.length>0&&(
-            <div style={{marginBottom:18}}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:8}}>
-                <SLabel noMargin>What matters most to you?</SLabel>
-                <span style={{...ty.meta,color:selAttrs.size>=3?cfg.color:C.t3,fontWeight:600}}>
-                  {selAttrs.size}/3
-                </span>
-              </div>
-              <div style={{...ty.meta,color:C.t2,marginBottom:10}}>Pick up to 3 tags that best describe what you want from this place.</div>
-              {/* Group tags by group label */}
-              {tagGroupNames.map(function(grp){
-                const grpTags=tagOptions.filter(function(t){return t.group===grp;});
-                return(
-                  <div key={grp} style={{marginBottom:12}}>
-                    <div style={{...ty.meta,color:C.t3,fontSize:10,fontWeight:700,letterSpacing:"0.06em",marginBottom:6}}>{grp.toUpperCase()}</div>
-                    <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
-                      {grpTags.map(function(t){
-                        const on=selAttrs.has(t.id);
-                        const disabled=!on&&selAttrs.size>=3;
-                        return(
-                          <button key={t.id} disabled={disabled}
-                            onClick={function(){var arr=Array.from(selAttrs);var idx=arr.indexOf(t.id);if(idx>=0){arr.splice(idx,1);}else{arr.push(t.id);}setSelAttrs(new Set(arr));}}
-                            style={{padding:"6px 12px",borderRadius:8,border:"1px solid "+(on?cfg.color:C.line),
-                              background:on?(cfg.color+"15"):"transparent",
-                              color:on?cfg.color:(disabled?C.t3:C.t2),
-                              cursor:disabled?"default":"pointer",fontFamily:sans,...ty.meta,
-                              fontWeight:on?700:400,opacity:disabled?0.4:1,transition:"all .12s"}}>
-                            {t.label}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
+          {/* Privacy note */}
           <div style={{...ty.meta,color:C.t3,lineHeight:1.65,padding:"9px 12px",background:C.surface2,borderRadius:9,marginBottom:16}}>
-            🔒 Fully anonymised. Businesses only see aggregated signals — never your identity.
+            🔒 Fully anonymised. Operators only see aggregated signals — never your identity.
           </div>
-          <button disabled={!ok} onClick={()=>{
-              const metaBase={spend,freq,dist,access,attrs:Array.from(selAttrs)};
-              const meta=isActivity?{spend,freq,dist,access,attrs:Array.from(selAttrs),actAudience:actAudience,actStyle:actStyle,actAccess:actAccess}:metaBase;
-              setItemMeta(m=>({...m,[selItem.id]:meta}));
-              setCoin(selItem.id,selCat,selCoins);
-              setSelAttrs(new Set());setActAudience("");setActStyle("");setActAccess("");
+
+          {/* Confirm / Remove */}
+          {isReEdit&&selCoins===0 ? (
+            <button onClick={function(){
+              // Remove vote entirely — Firebase: delete votes/{uid}_{item.id}
+              setCoin(selItem.id, 0);
+              setItemMeta(function(m){
+                var n = Object.assign({},m);
+                delete n[selItem.id];
+                return n;
+              });
               setStep("done");
             }}
-            style={{width:"100%",padding:"15px",borderRadius:14,background:ok?cfg.color:C.surface2,color:ok?"#fff":C.t3,border:"none",cursor:ok?"pointer":"default",...ty.btn,fontSize:15,transition:"all .2s"}}>
-            Confirm & place coins →
-          </button>
+              style={{width:"100%",padding:"15px",borderRadius:14,background:C.coral,
+                color:"#fff",border:"none",cursor:"pointer",...ty.btn,fontSize:15}}>
+              Remove vote
+            </button>
+          ) : (
+            <button disabled={!ok} onClick={function(){
+              // Merge: keep existing meta, only overwrite fields that were changed
+              var existingMeta = itemMeta[selItem.id]||{};
+              var meta = {
+                spend:  spend  || existingMeta.spend  || "",
+                freq:   freq   || existingMeta.freq   || "",
+                dist:   dist   || existingMeta.dist   || "",
+                access: access || existingMeta.access || "",
+                tags:   selTags.size>0 ? Array.from(selTags) : (existingMeta.tags||[]),
+              };
+              if(isClasses) {
+                meta.who   = selWho   || existingMeta.who   || "";
+                meta.style = selStyle || existingMeta.style || "";
+              }
+              // Firebase: upsert votes/{uid}_{item.id}
+              setItemMeta(function(m){return Object.assign({},m,{[selItem.id]:meta});});
+              setCoin(selItem.id, selCoins);
+              setStep("done");
+            }}
+              style={{width:"100%",padding:"15px",borderRadius:14,
+                background:ok?icc.color:C.surface2,
+                color:ok?"#fff":C.t3,border:"none",
+                cursor:ok?"pointer":"default",...ty.btn,fontSize:15,transition:"all .2s"}}>
+              {isReEdit ? "Update vote" : "Confirm & place "+selCoins+" coin"+(selCoins!==1?"s":"")+" →"}
+            </button>
+          )}
         </div>
       </div>
     );
   }
 
+  /* ── DONE ── */
   if(step==="done") return (
     <div style={{background:C.bg,minHeight:"calc(100vh - 120px)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:32,fontFamily:sans,textAlign:"center",paddingBottom:100}}>
-      <div style={{width:64,height:64,borderRadius:20,background:`${C.green}15`,border:`1px solid ${C.green}25`,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:20}}><Check size={30} color={C.green}/></div>
+      <div style={{width:64,height:64,borderRadius:20,background:C.green+"15",border:"1px solid "+C.green+"25",display:"flex",alignItems:"center",justifyContent:"center",marginBottom:20}}><Check size={30} color={C.green}/></div>
       <div style={{...ty.h2,marginBottom:6}}>Coins placed!</div>
-      <div style={{padding:"10px 16px",background:C.purple+"14",border:"1px solid "+C.purple+"30",borderRadius:12,marginBottom:16,maxWidth:280,textAlign:"center"}}>
-        <div style={{...ty.sm,color:C.purple,fontWeight:600,marginBottom:2}}>Want to shape what it looks like?</div>
-        <div style={{...ty.meta,color:C.t3,lineHeight:1.5}}>Visit The Brief — add your ideas and see what other residents are asking for.</div>
+      {/* Item confirmed */}
+      {selItem&&<div style={{display:"flex",alignItems:"center",gap:10,marginBottom:20,padding:"12px 16px",background:C.surface,border:"1px solid "+C.line,borderRadius:14}}>
+        <div style={{width:38,height:38,borderRadius:10,background:(CAT_CFG[selItem.cat]||CAT_CFG.food).bg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0}}>{selItem.emoji}</div>
+        <div style={{flex:1,textAlign:"left"}}>
+          <div style={{...ty.bodyMd,fontSize:14}}>{selItem.label}</div>
+          <div style={{...ty.meta,color:C.t3}}>{totalUsed} / {TOTAL_COINS} coins placed</div>
+        </div>
+        <div style={{...ty.meta,color:C.green,fontWeight:700}}>✓</div>
+      </div>}
+
+      {/* Brief CTA — prominent */}
+      <div style={{width:"100%",maxWidth:320,marginBottom:24,background:"linear-gradient(135deg,"+C.purple+"20,"+C.purple+"08)",border:"1px solid "+C.purple+"40",borderRadius:18,padding:"20px 20px 16px",textAlign:"left"}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:12}}>
+          <div style={{width:38,height:38,borderRadius:11,background:C.purple+"25",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,flexShrink:0}}>✍️</div>
+          <div>
+            <div style={{...ty.bodyMd,fontSize:14,color:C.t1}}>Shape what it looks like</div>
+            <div style={{...ty.meta,color:C.t3}}>The Brief is open</div>
+          </div>
+        </div>
+        <div style={{...ty.sm,color:C.t2,lineHeight:1.65,marginBottom:14}}>
+          Add your ideas — preferred brands, location, what matters most. {selItem&&<span style={{color:C.t1,fontWeight:500}}>{selItem.voters||""} residents</span>} are already shaping this concept.
+        </div>
+        <button onClick={function(){if(onGoToBrief){onGoToBrief();}else{onClose();}}} style={{width:"100%",padding:"12px",borderRadius:12,background:C.purple,color:"#fff",border:"none",cursor:"pointer",...ty.btn,fontSize:14,fontWeight:700}}>
+          Go to The Brief →
+        </button>
       </div>
-      <div style={{fontSize:24,marginBottom:4}}>{selItem?.emoji}</div>
-      <div style={{...ty.bodyMd,marginBottom:4}}>{selItem?.label}</div>
-      <div style={{...ty.sm,color:C.t3,marginBottom:28}}>Your demand is now part of the signal for this area.</div>
-      <div style={{display:"flex",gap:8}}>
-        <button onClick={()=>{setStep("cat");setSelItem(null);setSpend("");setFreq("");setDist("");setAccess("");setQuery("");setSugStep("idle");setSelAttrs(new Set());setActAudience("");setActStyle("");setActAccess("");setSelCoins(1);}} style={{padding:"11px 18px",background:C.surface,border:`1px solid ${C.line}`,borderRadius:12,color:C.t2,cursor:"pointer",...ty.btn,fontSize:13}}>Vote on more</button>
-        <button onClick={onClose} style={{padding:"11px 18px",background:C.coral,color:"#fff",border:"none",borderRadius:12,cursor:"pointer",...ty.btn,fontSize:13}}>Done</button>
+
+      <div style={{display:"flex",gap:10,flexWrap:"wrap",justifyContent:"center"}}>
+        <button onClick={function(){setStep("cat");setSelItem(null);setSpend("");setFreq("");setDist("");setAccess("");setSelTags(new Set());setSelWho("");setSelStyle("");setSelCoins(1);}} style={{padding:"11px 18px",background:C.surface,border:"1px solid "+C.line,borderRadius:12,color:C.t2,cursor:"pointer",...ty.btn,fontSize:13}}>Vote on more</button>
+        <button onClick={onClose} style={{padding:"11px 18px",background:"transparent",color:C.t3,border:"1px solid "+C.line,borderRadius:12,cursor:"pointer",...ty.btn,fontSize:13}}>Skip for now</button>
       </div>
     </div>
   );
+
   return null;
 }
+
+
 
 /* ==================================================
    RESIDENT FEED
@@ -1704,11 +2263,11 @@ function PrelaunchModal({page, onClose, onSubmit}){
         </div>
         {!allAnswered?(
           <div>
-            <div style={{...ty.sm,color:C.t1,fontWeight:600,marginBottom:14}}>{step+1} of {qs.length} · {qs[step]?.q}</div>
+            <div style={{...ty.sm,color:C.t1,fontWeight:600,marginBottom:14}}>{step+1} of {qs.length} · {(qs[step]&&qs[step].q)}</div>
             <div style={{display:"flex",flexDirection:"column",gap:8,marginBottom:20}}>
-              {(qs[step]?.opts||[]).map(o=>(
+              {((qs[step]&&qs[step].opts)||[]).map(o=>(
                 <button key={o} onClick={()=>{setAnswers(a=>({...a,[qs[step].id]:o}));if(step<qs.length-1)setStep(s=>s+1);}}
-                  style={{padding:"13px 16px",borderRadius:12,border:`1px solid ${answers[qs[step]?.id]===o?C.purple:C.line}`,background:answers[qs[step]?.id]===o?`${C.purple}15`:C.surface2,color:answers[qs[step]?.id]===o?C.purple:C.t1,cursor:"pointer",fontFamily:sans,fontSize:14,textAlign:"left",fontWeight:answers[qs[step]?.id]===o?600:400,transition:"all .14s"}}>
+                  style={{padding:"13px 16px",borderRadius:12,border:`1px solid ${answers[(qs[step]&&qs[step].id)]===o?C.purple:C.line}`,background:answers[(qs[step]&&qs[step].id)]===o?`${C.purple}15`:C.surface2,color:answers[(qs[step]&&qs[step].id)]===o?C.purple:C.t1,cursor:"pointer",fontFamily:sans,fontSize:14,textAlign:"left",fontWeight:answers[(qs[step]&&qs[step].id)]===o?600:400,transition:"all .14s"}}>
                   {o}
                 </button>
               ))}
@@ -1847,7 +2406,7 @@ const IDENTITY_DATA = {
 
 
 function NeighbourhoodPulseBanner({postcode}){
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const area = postcode || "SW4";
   const pulse = PULSE_DATA[area] || PULSE_DATA["SW4"];
   const identity = IDENTITY_DATA[area] || IDENTITY_DATA["SW4"];
@@ -1924,7 +2483,7 @@ function ResFeed({user,coinAlloc,itemMeta,onAllocate,onShowNotifs,onGoInsights,m
   const [showPrelaunch,  setShowPrelaunch]  = useState(null);
   const [resAnsweredPages, setResAnsweredPages] = useState([]);
   const totalSpent = Object.values(coinAlloc).reduce((s,v)=>s+v,0);
-  const remaining  = 20 - totalSpent;
+  const remaining  = 10 - totalSpent;
   const rows = (filter==="all" ? FEED_WITH_METRICS : FEED_WITH_METRICS.filter(r=>r.cat===filter))
     .slice().sort((a,b)=>b.voters-a.voters).slice(0,20);
 
@@ -1955,13 +2514,20 @@ function ResFeed({user,coinAlloc,itemMeta,onAllocate,onShowNotifs,onGoInsights,m
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:6}}>
             <span style={{...ty.meta,color:C.t3}}>Your coins this year</span>
             <span style={{...ty.meta,color:remaining>0?C.coral:C.green,fontWeight:700}}>
-              {remaining>0?`${20-remaining} / 20 placed`:"All 20 placed ✓"}
+              {remaining>0?`${10-remaining} / 10 placed`:"All 10 placed ✓"}
             </span>
           </div>
           <div style={{height:5,background:C.line,borderRadius:3,overflow:"hidden"}}>
-            <div style={{height:"100%",width:`${Math.round(((20-remaining)/20)*100)}%`,background:remaining>0?C.coral:C.green,borderRadius:3}}/>
+            <div style={{height:"100%",width:`${Math.round((totalSpent/10)*100)}%`,background:remaining>0?C.coral:C.green,borderRadius:3}}/>
           </div>
         </div>
+
+        {/* Social proof — plain text under subtitle, only if >100 total voters */}
+        {FEED_WITH_METRICS.reduce(function(s,i){return s+i.voters;},0)>100&&(
+          <div style={{...ty.meta,color:C.t3,marginTop:8,marginBottom:6,lineHeight:1.5}}>
+            Joining <span style={{color:C.t2,fontWeight:500}}>{FEED_WITH_METRICS.reduce(function(s,i){return s+i.voters;},0).toLocaleString()} residents</span> already shaping their area
+          </div>
+        )}
 
         {/* Two main actions */}
         <div style={{display:"flex",flexDirection:"column",gap:9}}>
@@ -1969,7 +2535,7 @@ function ResFeed({user,coinAlloc,itemMeta,onAllocate,onShowNotifs,onGoInsights,m
             style={{display:"flex",alignItems:"center",gap:14,padding:"15px 16px",
               background:`${C.coral}14`,border:`1px solid ${C.coral}35`,borderRadius:16,
               cursor:"pointer",textAlign:"left",width:"100%",fontFamily:sans}}>
-            <div style={{width:44,height:44,borderRadius:12,background:C.coral,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:22}}>🪙</div>
+            <div style={{width:44,height:44,borderRadius:12,background:"#2A1A0E",border:"1px solid "+C.coral+"40",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:22}}>🪙</div>
             <div style={{flex:1}}>
               <div style={{...ty.bodyMd,fontSize:14,color:C.t1,marginBottom:3,fontWeight:600}}>Have your say</div>
               <div style={{...ty.meta,color:C.t3,lineHeight:1.45}}>
@@ -1993,13 +2559,7 @@ function ResFeed({user,coinAlloc,itemMeta,onAllocate,onShowNotifs,onGoInsights,m
           </button>
         </div>
 
-        {/* Social proof nudge */}
-        <div style={{display:"flex",alignItems:"center",gap:8,marginTop:16,padding:"10px 14px",background:C.surface2,borderRadius:12,border:`1px solid ${C.line}`}}>
-          <div style={{width:28,height:28,borderRadius:8,background:`${C.coral}20`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,flexShrink:0}}>🏘️</div>
-          <div style={{...ty.meta,color:C.t2,lineHeight:1.5}}>
-            Joining <span style={{color:C.t1,fontWeight:600}}>{FEED_WITH_METRICS.reduce(function(s,i){return s+i.voters;},0).toLocaleString()} residents</span> already shaping their area
-          </div>
-        </div>
+
       </div>
 
       {/* Live signal strip */}
@@ -2053,7 +2613,7 @@ function ResInsights({user,coinAlloc,itemMeta,onAllocate}){
 
       {/* Stats */}
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:20}}>
-        {[{l:"Coins placed",v:totalSpent,unit:"/20",c:C.coral},{l:"Items supported",v:allVotedCount,c:C.t1}].map(s=>(
+        {[{l:"Coins placed",v:totalSpent,unit:"/10",c:C.coral},{l:"Items supported",v:allVotedCount,c:C.t1}].map(s=>(
           <Card key={s.l} style={{textAlign:"center",padding:"20px 14px"}}><div style={{fontFamily:serif,fontSize:32,fontWeight:700,color:s.c,lineHeight:1,marginBottom:4}}>{s.v}<span style={{fontSize:13,color:C.t3}}>{s.unit}</span></div><div style={{...ty.meta}}>{s.l}</div></Card>
         ))}
       </div>
@@ -2062,7 +2622,7 @@ function ResInsights({user,coinAlloc,itemMeta,onAllocate}){
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10,flexWrap:"wrap",gap:8}}>
         <SLabel noMargin>Trending in {user.postcode}</SLabel>
         <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
-          {[{id:"all",l:"All"},{id:"business",l:"Businesses"},{id:"activity",l:"Activities"}].map(f=><Chip key={f.id} label={f.l} active={filter===f.id} onClick={()=>setFilter(f.id)} sm/>)}
+          {[{id:"all",l:"All"},{id:"food",l:"Food"},{id:"fitness",l:"Fitness"},{id:"kids",l:"Kids"},{id:"health",l:"Health"},{id:"retail",l:"Retail"},{id:"entertain",l:"Entertain"},{id:"services",l:"Services"}].map(function(f){return <Chip key={f.id} label={f.l} active={filter===f.id} onClick={function(){setFilter(f.id);}} sm/>;})}
         </div>
       </div>
 
@@ -2140,11 +2700,12 @@ function ResInsights({user,coinAlloc,itemMeta,onAllocate}){
    RESIDENT PROFILE -- fix #5: editable, no "never asked again"
 ================================================== */
 function ResProfile({user,setUser,onLogout}){
+  const [legalDoc, setLegalDoc] = useState(null);
   const [editing,setEditing]=useState(false);
   const [age,  setAge]  =useState(user.age||"");
   const [gndr, setGndr] =useState(user.gender||"");
   const [hh,   setHH]   =useState(user.household||"");
-  const [kids, setKids] =useState(user.kids??null);
+  const [kids, setKids] =useState(user.kids!=null?user.kids:null);
 
   function saveProfile(){
     setUser(u=>({...u,age,gender:gndr,household:hh,kids}));
@@ -2206,7 +2767,7 @@ function ResProfile({user,setUser,onLogout}){
             <div style={{width:20,height:20,borderRadius:"50%",background:"#E8A83020",border:"1px solid #E8A83030",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Check size={11} color={C.amber}/></div>
             <div style={{...ty.sm,color:C.amber,fontWeight:600}}>Shared with businesses — anonymously</div>
           </div>
-          <div style={{...ty.meta,color:C.t2,lineHeight:1.7,marginLeft:28}}>Age range · Gender · Household type · Whether children at home · Spend ranges · Visit frequency · Travel distance · District (e.g. SW4) — sector-level (e.g. SW4 9) visible to Pro+ businesses only</div>
+          <div style={{...ty.meta,color:C.t2,lineHeight:1.7,marginLeft:28}}>Age range · Gender · Household type · Whether children at home · Spend ranges · Visit frequency · Travel distance · District (e.g. SW4) — sector-level (e.g. SW4 9) visible to Investor tier only</div>
           <div style={{...ty.meta,color:C.t3,lineHeight:1.6,marginLeft:28,marginTop:6}}>Businesses see aggregated signals only — e.g. "42% of voters are families aged 25–34". They never see individual responses.</div>
         </div>
         <div style={{height:1,background:C.line}}/>
@@ -2223,13 +2784,30 @@ function ResProfile({user,setUser,onLogout}){
         <div style={{display:"flex",gap:10,alignItems:"flex-start"}}>
           <div style={{flexShrink:0,marginTop:1,fontSize:14}}>🔄</div>
           <div>
-            <div style={{...ty.sm,color:C.purple,fontWeight:600,marginBottom:3}}>Annual vote refresh</div>
-            <div style={{...ty.meta,color:C.t2,lineHeight:1.65}}>Your 30 coins reset once a year so the data stays current. We nudge you every 2 months in case anything has changed — but you can reallocate anytime.</div>
+            <div style={{...ty.sm,color:C.purple,fontWeight:600,marginBottom:3}}>How your votes work over time</div>
+            <div style={{...ty.meta,color:C.t2,lineHeight:1.65}}>Your 10 coins stay active for 12 months. After that, we will ask you to reconfirm your preferences — things change and the data should reflect where you are now. Votes that are not reconfirmed are removed after 18 months.</div>
           </div>
         </div>
       </Card>
 
-      <button onClick={onLogout} style={{width:"100%",padding:"13px",borderRadius:14,background:"transparent",border:`1px solid ${C.line}`,color:C.t2,cursor:"pointer",...ty.btn}}>Sign out</button>
+      {/* Legal links */}
+      <div style={{marginTop:24,marginBottom:16}}>
+        <div style={{...ty.label,color:C.t3,marginBottom:12}}>Legal</div>
+        {["Terms & Conditions","Privacy Policy","Data & Insights","Community Guidelines"].map(function(title){
+          var doc = LEGAL_DOCS.find(function(d){return d.title===title;});
+          return doc ? (
+            <button key={title} onClick={function(){setLegalDoc(doc);}}
+              style={{display:"flex",alignItems:"center",justifyContent:"space-between",width:"100%",padding:"12px 0",background:"transparent",border:"none",borderBottom:"1px solid "+C.line,cursor:"pointer",fontFamily:sans,textAlign:"left"}}>
+              <span style={{...ty.sm,color:C.t2}}>{title}</span>
+              <ChevronDown size={13} color={C.t3} style={{transform:"rotate(-90deg)"}}/>
+            </button>
+          ) : null;
+        })}
+      </div>
+
+      <button onClick={onLogout} style={{width:"100%",padding:"13px",borderRadius:14,background:"transparent",border:"1px solid "+C.line,color:C.t2,cursor:"pointer",...ty.btn}}>Sign out</button>
+
+      {legalDoc&&<div style={{position:"fixed",inset:0,zIndex:300,background:C.bg,overflowY:"auto"}}>{legalDoc==="screen"?<LegalScreen onBack={function(){setLegalDoc(null);}}/>:<LegalPage doc={legalDoc} onBack={function(){setLegalDoc(null);}}/>}</div>}
     </div>
   );
 }
@@ -2240,18 +2818,207 @@ function ResProfile({user,setUser,onLogout}){
 ================================================== */
 
 // Question bank by industry -- curated by Cravz
+// Full pre-launch question bank — 9 industries, 20 questions each
+// Firebase: prelaunch_questions/{id} with topic + industries[] fields
+// Topics: usage_frequency | spend | format | location | missing | trust | features | loyalty
 const PRELAUNCH_QUESTIONS = {
   restaurant: [
-    {id:"rq1", q:"What type of cuisine is most missing locally?", opts:["Japanese / Sushi","Middle Eastern","Modern European","Korean","South American"]},
-    {id:"rq2", q:"What price point suits you most?", opts:["Under £15 per head","£15–25 per head","£25–40 per head","£40+ per head"]},
-    {id:"rq3", q:"What matters most to you in a local restaurant?", opts:["Quality of food","Value for money","Atmosphere","Service","Convenience"]},
+    {id:"rq1",  topic:"usage_frequency", q:"How often do you eat or drink out locally?", opts:["Most days","3-4 times a week","Once or twice a week","A few times a month"]},
+    {id:"rq2",  topic:"missing",         q:"Which occasion is hardest to satisfy locally?", opts:["Weekend brunch","Weekday working lunch","Evening meal with friends","Late-night food after 10pm"]},
+    {id:"rq3",  topic:"missing",         q:"Why do you end up going further or ordering delivery?", opts:["Nothing that suits my taste","Quality is not there","Too expensive","Wrong hours or hard to book"]},
+    {id:"rq4",  topic:"format",          q:"Which format would you use most?", opts:["Sit-down, table service","Counter / casual","Takeaway or click-and-collect","All three options"]},
+    {id:"rq5",  topic:"spend",           q:"How much do you typically spend per head on an evening out?", opts:["Under £20","£20-35","£35-55","£55+"]},
+    {id:"rq6",  topic:"spend",           q:"How much would you pay for a weekday working lunch?", opts:["Under £10","£10-15","£15-20","I don't do working lunches locally"]},
+    {id:"rq7",  topic:"features",        q:"What one thing would guarantee you'd come back?", opts:["Exceptional coffee","Serious natural wine list","Strong plant-based menu","Seasonal ingredient-led cooking"]},
+    {id:"rq8",  topic:"features",        q:"How important is outdoor seating to you?", opts:["Dealbreaker in summer","Nice to have","I prefer inside","Irrelevant"]},
+    {id:"rq9",  topic:"missing",         q:"What is your biggest frustration with eating out locally?", opts:["Options are too samey","Quality is inconsistent","Hard to get a table","Nothing for dietary needs"]},
+    {id:"rq10", topic:"format",          q:"How do you prefer to book?", opts:["Always book ahead","Walk in","Prefer guaranteed walk-ins","App with live availability"]},
+    {id:"rq11", topic:"features",        q:"How important is locally or ethically sourced food?", opts:["Very — I actively seek it","Influences my choice","Nice to know","Not something I think about"]},
+    {id:"rq12", topic:"missing",         q:"What drink offering is most underserved locally?", opts:["Specialty coffee","Natural wine","Creative cocktails","Quality non-alcoholic"]},
+    {id:"rq13", topic:"usage_frequency", q:"How likely are you to bring a group of 4+ people?", opts:["Very — group dinners are regular","Occasionally for celebrations","Rarely","Need to know it's great first"]},
+    {id:"rq14", topic:"features",        q:"Does a children's menu affect your choice?", opts:["Yes — essential, I have kids","Yes — I want the option","No — I prefer adult spaces","It would put me off"]},
+    {id:"rq15", topic:"features",        q:"How important is a neighbourhood feel over chains?", opts:["Very — I avoid chains","Quite important","Somewhat","Not important"]},
+    {id:"rq16", topic:"spend",           q:"Most you'd pay for weekend brunch per person?", opts:["Under £12","£12-18","£18-25","£25+ if exceptional"]},
+    {id:"rq17", topic:"format",          q:"Would you attend a supper club or ticketed dining event?", opts:["Yes — I actively look for these","Occasionally","Probably not","No"]},
+    {id:"rq18", topic:"loyalty",         q:"What would turn a good visit into a story you tell friends?", opts:["A dish I've never had","Exceptional service","Stunning space","Serendipitous discovery"]},
+    {id:"rq19", topic:"loyalty",         q:"How quickly do you give up if the first visit is average?", opts:["Immediately","Give it one more try","Try but order differently","Very patient"]},
+    {id:"rq20", topic:"missing",         q:"What single change to your local food scene would matter most?", opts:["Proper indie coffee shop","Great casual dinner spot","Quality lunch under £15","Late-night food that is not fast food"]},
   ],
   fitness: [
-    {id:"fq1", q:"What type of fitness offering is most missing?", opts:["Strength & conditioning","Group classes","Mind-body (yoga/pilates)","Combat sports","Swimming"]},
-    {id:"fq2", q:"What membership model works best for you?", opts:["Monthly rolling","Class packs","Annual upfront","Pay per session"]},
+    {id:"fq1",  topic:"usage_frequency", q:"What is your current fitness setup?", opts:["Membership I use regularly","Have one but barely use it","Work out at home or outdoors","Nothing structured"]},
+    {id:"fq2",  topic:"missing",         q:"What is the biggest barrier to being more active?", opts:["Cost","Convenience — nothing close","Time — hours do not fit","Motivation — struggle alone"]},
+    {id:"fq3",  topic:"format",          q:"What activity would you commit to weekly if available locally?", opts:["Reformer pilates or yoga","Strength training","HIIT or group classes","Swimming or low-impact cardio"]},
+    {id:"fq4",  topic:"usage_frequency", q:"What time slot would you realistically use most weeks?", opts:["Early morning before 9am","Lunchtime 12-2pm","After work 5-8pm","Weekend mornings"]},
+    {id:"fq5",  topic:"usage_frequency", q:"How many sessions per week would you aim for?", opts:["5 or more","3-4","1-2","When I felt like it"]},
+    {id:"fq6",  topic:"spend",           q:"What is your maximum monthly budget for fitness?", opts:["Up to £30","£30-60","£60-100","£100-150","£150+"]},
+    {id:"fq7",  topic:"format",          q:"What membership structure would you commit to?", opts:["Monthly rolling","Class pack","Annual upfront","Pay per session"]},
+    {id:"fq8",  topic:"format",          q:"What class size is ideal?", opts:["Under 8","8-12","12-20","20+"]},
+    {id:"fq9",  topic:"features",        q:"How important is the quality of the instructor?", opts:["Most important — I follow coaches","Very important","Somewhat","Not a big factor"]},
+    {id:"fq10", topic:"loyalty",         q:"What would keep you coming back after the first month?", opts:["Measurable results","Knowing people in the class","Instructor knowing my progress","Routine fitting my schedule"]},
+    {id:"fq11", topic:"features",        q:"What add-on would make you choose one studio over another?", opts:["Sauna or recovery suite","Nutrition coaching","App that tracks automatically","On-site childcare"]},
+    {id:"fq12", topic:"features",        q:"How important are good changing rooms and showers?", opts:["Essential — I go straight to work","Important","Nice to have","Not important"]},
+    {id:"fq13", topic:"missing",         q:"What is your main fitness goal right now?", opts:["Fat loss and body composition","Building strength","Flexibility and recovery","Managing stress and mental health"]},
+    {id:"fq14", topic:"loyalty",         q:"Would you be more likely to start if a friend was joining?", opts:["Definitely — accountability is everything","It would help","Does not factor in","I prefer going solo"]},
+    {id:"fq15", topic:"features",        q:"How important is the space looking premium?", opts:["Very — I will not go somewhere cheap","Quite important","Somewhat","Just need clean equipment"]},
+    {id:"fq16", topic:"format",          q:"How do you prefer to discover and book classes?", opts:["Well-designed app","Instagram with booking link","Website or email","Walk in or WhatsApp"]},
+    {id:"fq17", topic:"format",          q:"How would you feel about a studio-only gym?", opts:["Prefer it","Fine with it","Want both options","Dealbreaker — need open floor"]},
+    {id:"fq18", topic:"location",        q:"How far would you realistically travel for the right gym?", opts:["5 min walk","10 min walk","15-20 min any means","Would travel if worth it"]},
+    {id:"fq19", topic:"loyalty",         q:"What would make you leave a gym you were happy with?", opts:["Price increase","Favourite instructor leaving","Overcrowding","Life change"]},
+    {id:"fq20", topic:"trust",           q:"What would make you sign up before a gym even opened?", opts:["Founding member rate","Free trial class","Recommendation","Seeing the space and team first"]},
+  ],
+  food_retail: [
+    {id:"frq1",  topic:"usage_frequency", q:"How much of your weekly food shopping goes through a supermarket?", opts:["Almost all","The majority — I top up locally","Roughly half","I avoid supermarkets"]},
+    {id:"frq2",  topic:"missing",         q:"What product would you most like to buy locally but cannot?", opts:["Quality meat — butcher-cut","Fresh fish and seafood","Artisan bread baked daily","Serious cheese or deli items"]},
+    {id:"frq3",  topic:"loyalty",         q:"What would make you stop at a local food shop several times a week?", opts:["Freshness I can see","A product I cannot get elsewhere","Speed — in and out in 5 minutes","Someone who knows what I like"]},
+    {id:"frq4",  topic:"spend",           q:"How much do you spend on food shopping per week?", opts:["Under £60","£60-100","£100-160","£160+"]},
+    {id:"frq5",  topic:"spend",           q:"What proportion would you shift to a good independent?", opts:["Less than 10%","10-25%","25-50%","More than half"]},
+    {id:"frq6",  topic:"usage_frequency", q:"What time of day are you most likely to shop?", opts:["Before 9am","Lunchtime","After work or school run","Weekend mornings"]},
+    {id:"frq7",  topic:"features",        q:"How important is speaking to someone knowledgeable?", opts:["Very — it is the whole reason","Useful but not essential","Nice sometimes","I prefer browsing alone"]},
+    {id:"frq8",  topic:"spend",           q:"Would you pay a premium over supermarket prices for quality?", opts:["Yes — 20-30% more is fair","Yes up to 10-15%","Depends on product","Need to be convinced"]},
+    {id:"frq9",  topic:"features",        q:"What additional service would shift where you shop?", opts:["Pre-order for guaranteed stock","Local delivery for weekly order","Recipe cards","Loyalty scheme"]},
+    {id:"frq10", topic:"features",        q:"How do you feel about environmental footprint?", opts:["Very important","Try to make better choices","Interested but not consistent","Not a consideration"]},
+    {id:"frq11", topic:"usage_frequency", q:"What would make you visit more during the week?", opts:["A hot grab-and-go option","Knowing daily delivery arrived","Evening hours past 7pm","A coffee worth stopping for"]},
+    {id:"frq12", topic:"features",        q:"How important is sourcing from named British producers?", opts:["Very — I want to know exactly","Quite important","Somewhat","I care about quality not provenance"]},
+    {id:"frq13", topic:"trust",           q:"What would stop you from using a local food shop?", opts:["Inconsistent stock","Higher prices not justified","Limited hours","Not knowing what they sell"]},
+    {id:"frq14", topic:"trust",           q:"What would get you through the door on day one?", opts:["Opening offer","Recommendation","Instagram","I would just walk past and pop in"]},
+    {id:"frq15", topic:"format",          q:"What is your attitude to pre-ordering or subscriptions for food?", opts:["Love it — already use boxes","Open for right product","Prefer flexibility","Not for me"]},
+    {id:"frq16", topic:"features",        q:"How important is buying loose or zero-waste?", opts:["Very — I seek this out","Quite important","Somewhat","Not important"]},
+    {id:"frq17", topic:"usage_frequency", q:"What is your relationship with cooking at home?", opts:["Cook from scratch most evenings","Cook regularly but want shortcuts","Cook occasionally","Barely cook"]},
+    {id:"frq18", topic:"loyalty",         q:"What kind of added value would make you a loyal regular?", opts:["Loyalty card","Weekly best-of email","Exclusive seasonal products","Evening tastings"]},
+    {id:"frq19", topic:"location",        q:"How far would you walk out of your way for a shop you loved?", opts:["Must be on my route","Up to 5 min off","Up to 15 min","Would plan a trip"]},
+    {id:"frq20", topic:"loyalty",         q:"What would make you recommend this shop to everyone?", opts:["A product I cannot stop thinking about","Service that remembered me","Consistent quality","Feeling of community"]},
   ],
   retail: [
-    {id:"roq1", q:"What type of independent retail is most missing?", opts:["Clothing & fashion","Books","Homewares","Specialist food","Health & beauty"]},
+    {id:"roq1",  topic:"usage_frequency", q:"What percentage of non-food shopping happens online vs in a shop?", opts:["Mostly online 70%+","Online majority, occasional shops","Roughly equal","I prefer shops"]},
+    {id:"roq2",  topic:"trust",           q:"What would make you choose local over Amazon?", opts:["Products I cannot find online","Advice from someone who knows","The experience feels good","Supporting the area"]},
+    {id:"roq3",  topic:"missing",         q:"What is most missing from your local high street?", opts:["Independent with a strong point of view","Good homeware or interiors","Independent clothing","Specialist shop for a hobby"]},
+    {id:"roq4",  topic:"spend",           q:"How much do you typically spend at a local independent?", opts:["Under £20","£20-50","£50-100","£100+"]},
+    {id:"roq5",  topic:"trust",           q:"How do you discover new local shops?", opts:["Walking past","Someone recommends it","Instagram","Google or best-local article"]},
+    {id:"roq6",  topic:"loyalty",         q:"What makes you return more than once?", opts:["Stock changes regularly","Staff who remember my taste","Things I cannot find elsewhere","Most convenient option"]},
+    {id:"roq7",  topic:"features",        q:"How important is the feeling of the shop itself?", opts:["Very — I decide before looking at products","Quite important","Somewhat","Not important"]},
+    {id:"roq8",  topic:"format",          q:"What kind of product curation do you prefer?", opts:["Small and highly considered","Wide range","Seasonal and rotating","Narrow but deep"]},
+    {id:"roq9",  topic:"usage_frequency", q:"When are you most likely to browse and buy?", opts:["Saturday morning","Sunday afternoon","Weekday lunchtime","After work on a weekday"]},
+    {id:"roq10", topic:"features",        q:"What would prompt you to buy a gift from a local independent?", opts:["Knowing it feels more personal","Gift wrapping service","Pick it up same day","Recommendation from the counter"]},
+    {id:"roq11", topic:"features",        q:"How much does sustainability affect your purchasing?", opts:["A lot — I research and it changes behaviour","Positive factor but not decisive","Curious but not consistent","I don't factor it in"]},
+    {id:"roq12", topic:"format",          q:"Would you attend an in-store event — a launch or workshop?", opts:["Yes — I enjoy these","Occasionally for something exciting","Probably not","No"]},
+    {id:"roq13", topic:"location",        q:"How far would you travel for a shop you loved?", opts:["Must be walkable","Up to 20 min any means","30-45 min for something special","Distance doesn't stop me"]},
+    {id:"roq14", topic:"trust",           q:"How important is deep product knowledge from staff?", opts:["Essential — why I choose independent","Very important","Helpful but not essential","I prefer browsing alone"]},
+    {id:"roq15", topic:"usage_frequency", q:"What opening hours matter most?", opts:["Early from 8am","Late past 7pm","All day weekend","Standard hours"]},
+    {id:"roq16", topic:"format",          q:"How do you feel about a shop that also has an online store?", opts:["Prefer it — I like ordering after discovering","Doesn't change how I feel","Slightly prefer in-person only","Only buy online if I cannot get there"]},
+    {id:"roq17", topic:"loyalty",         q:"What would make you tell five friends without being asked?", opts:["A product so unique I had to share","An experience that felt special","Discovering something I didn't know I needed","Exceptional service"]},
+    {id:"roq18", topic:"features",        q:"What services would add real value?", opts:["Repair or restoration","Custom orders","Click and collect","Loyalty scheme"]},
+    {id:"roq19", topic:"features",        q:"How do you feel about supporting local vs convenience?", opts:["Actively prioritise local","Do it when easy","Like the idea but habit wins","Decisions purely on convenience"]},
+    {id:"roq20", topic:"loyalty",         q:"What could earn your loyalty in the first 30 days?", opts:["Genuinely wow me","Founding customer discount","Remember me on second visit","Be consistently open as promised"]},
+  ],
+  experience: [
+    {id:"exq1",  topic:"usage_frequency", q:"How often do you go to a local event or experience?", opts:["Weekly","2-3 times a month","Once a month or less","Rarely — nothing worth going to"]},
+    {id:"exq2",  topic:"missing",         q:"What type of experience is hardest to access locally?", opts:["High-quality food and drink events","Live music in an intimate setting","Creative workshops","Social experiences — meet new people"]},
+    {id:"exq3",  topic:"usage_frequency", q:"What is your usual group size?", opts:["Solo","2 people","3-5 friends","6+ — I organise group events"]},
+    {id:"exq4",  topic:"spend",           q:"How much would you spend on a local experience including food and drink?", opts:["Under £20","£20-40","£40-70","£70-100","£100+"]},
+    {id:"exq5",  topic:"trust",           q:"What makes you actually buy a ticket?", opts:["A friend is already going","The format feels genuinely different","Time-limited offer","Fear of missing out"]},
+    {id:"exq6",  topic:"usage_frequency", q:"What day and time works best for you?", opts:["Friday evening","Saturday afternoon or early evening","Saturday late evening","Sunday daytime or early evening"]},
+    {id:"exq7",  topic:"missing",         q:"What is your biggest frustration with local events?", opts:["Quality is not there","Hard to find what is on","Tickets are overpriced","Nothing that suits my interests"]},
+    {id:"exq8",  topic:"trust",           q:"How do you find out about local events?", opts:["Instagram — local accounts","Word of mouth","Local email or newsletter","Eventbrite or events app"]},
+    {id:"exq9",  topic:"features",        q:"How important is the venue to your decision?", opts:["Very — space makes a huge difference","Quite important","Somewhat","Content matters more than setting"]},
+    {id:"exq10", topic:"format",          q:"Would you attend a recurring monthly event?", opts:["Yes — I love a regular thing","Occasionally if content changes","Only for something very niche","I prefer variety"]},
+    {id:"exq11", topic:"features",        q:"How important is food and drink being part of the experience?", opts:["Central — eating together is the point","Very important","Nice to have","I am there for the activity"]},
+    {id:"exq12", topic:"format",          q:"How do you prefer to book?", opts:["Instagram or WhatsApp link instantly","Eventbrite","Clean website","Show up without booking"]},
+    {id:"exq13", topic:"format",          q:"Would you pay for a membership or season pass?", opts:["Yes — love a local cultural membership","Possibly if clear value","Unlikely unless very specific","No — pay per event"]},
+    {id:"exq14", topic:"features",        q:"How important is family-friendly suitability?", opts:["Essential — would not go without","Important — I like the option","Not relevant","Important that it is NOT family-friendly"]},
+    {id:"exq15", topic:"format",          q:"What format are you most drawn to?", opts:["Workshop — learn a skill","Performance or showcase","Competitive or social game","Eat drink and talk — people are the point"]},
+    {id:"exq16", topic:"trust",           q:"How do you feel about attending something solo locally?", opts:["Completely comfortable","Would do it for something exciting","Would feel awkward","Would not go solo"]},
+    {id:"exq17", topic:"loyalty",         q:"What would make you tell everyone about a local event?", opts:["It surprised me — better than expected","Introduced me to people I connected with","Best version of a format I love","Production quality felt world-class"]},
+    {id:"exq18", topic:"location",        q:"How far would you travel for a great local experience?", opts:["10 min walk — or not happening","Up to 25 min any means","30-40 min for something exciting","Distance is not a barrier"]},
+    {id:"exq19", topic:"spend",           q:"Maximum you would spend on a genuinely high-quality evening event?", opts:["£15-25","£25-40","£40-60","£60-80","£80+ if truly exceptional"]},
+    {id:"exq20", topic:"loyalty",         q:"What would a brilliant venue need to earn your loyalty?", opts:["A programme I can plan around","Community feeling — same faces","Value — high quality without overcharging","Flexibility — different price points"]},
+  ],
+  childcare: [
+    {id:"cq1",  topic:"usage_frequency", q:"What are the ages of the children you would bring?", opts:["Under 2","2-4","5-8","9-12","Mixed ages"]},
+    {id:"cq2",  topic:"missing",         q:"What is most missing locally for families with children?", opts:["Stimulating weekday morning activities","Good after-school clubs","Quality weekend activities","Holiday camps I actually trust"]},
+    {id:"cq3",  topic:"usage_frequency", q:"When do you most urgently need something for your child?", opts:["Weekday mornings while I work","Weekday afternoons after school","Saturdays","School holidays — this is when I struggle"]},
+    {id:"cq4",  topic:"format",          q:"What does your child most need right now?", opts:["Physical — sport and movement","Creative — art and music","Social — being around other children","Educational — learning outcome"]},
+    {id:"cq5",  topic:"spend",           q:"How much would you spend per session for a quality activity?", opts:["Up to £8","£8-15","£15-25","£25+ if quality is clearly worth it"]},
+    {id:"cq6",  topic:"trust",           q:"What matters most when choosing a provider?", opts:["Qualifications and safeguarding","My child's face — if they love it","Convenience — if it is easy","Other parents' recommendations"]},
+    {id:"cq7",  topic:"format",          q:"Do you prefer to drop off and leave, or stay and watch?", opts:["Drop off always — I need that time","Stay and watch","Depends on age and activity","Try both and see"]},
+    {id:"cq8",  topic:"features",        q:"What do you most want available while your child is in an activity?", opts:["A genuinely good coffee","Somewhere I can work","Other parents to chat with","Nothing — I leave and come back"]},
+    {id:"cq9",  topic:"format",          q:"What term-time structure works best?", opts:["Fixed weekly slot","Flexible booking","Mix — regular slot plus swaps","Mainly need holiday provision"]},
+    {id:"cq10", topic:"features",        q:"How important is outdoor space or nature-based activity?", opts:["Very — I specifically look for this","Quite important","Somewhat","Less important — quality indoors"]},
+    {id:"cq11", topic:"missing",         q:"What is your biggest frustration with children's activities locally?", opts:["Too expensive for quality","Oversubscribed — can never get a space","Quality is inconsistent","Nothing matching what my child likes"]},
+    {id:"cq12", topic:"trust",           q:"What would build your trust in a new provider?", opts:["Trial session reduced or free","Credentials and safeguarding upfront","Recommendations from parents I know","Seeing space and meeting team first"]},
+    {id:"cq13", topic:"location",        q:"How far would you travel for a class you really trusted?", opts:["Must be walkable — 10 min max","Up to 10 min drive","Up to 20 min any means","Distance doesn't matter"]},
+    {id:"cq14", topic:"format",          q:"Would you use holiday camps if available locally?", opts:["Yes — holiday childcare is a real problem","Yes occasionally","Only if nothing else","No — we make other arrangements"]},
+    {id:"cq15", topic:"features",        q:"How important is sibling provision?", opts:["Very — I have multiple kids","Quite important","Would be a bonus","Not relevant — one child"]},
+    {id:"cq16", topic:"format",          q:"What is your attitude to paying upfront for a term?", opts:["Prefer it — committed and better value","Fine if provider is established","Wary — want to try first","Only ever pay session by session"]},
+    {id:"cq17", topic:"format",          q:"How do you prefer to book and manage sessions?", opts:["A proper app","WhatsApp with the organiser","Simple website","By phone or in person"]},
+    {id:"cq18", topic:"loyalty",         q:"What would make you recommend a provider to every parent you know?", opts:["My child asks to go every week","Instructor knows my child as individual","Admin is smooth — no faff","Price is fair with no surprise extras"]},
+    {id:"cq19", topic:"features",        q:"How important are the other children and families at the class?", opts:["Very — social mix matters","Quite important","Somewhat","Not important"]},
+    {id:"cq20", topic:"loyalty",         q:"What single thing would make you stick with a provider for years?", opts:["My child genuinely thriving","Team I personally trust","Consistency — same faces every week","Growing with my child as they get older"]},
+  ],
+  beauty: [
+    {id:"bq1",  topic:"spend",           q:"What beauty or wellness service do you spend most on per year?", opts:["Hair — cuts colour or treatments","Nails — manicure or gel","Skin — facials or advanced treatments","Body — massage or holistic therapies"]},
+    {id:"bq2",  topic:"missing",         q:"What service do you travel furthest for because there is no good quality locally?", opts:["A colourist I really trust","Advanced skincare or aesthetics","Brow and lash treatments","Massage or body treatment that works"]},
+    {id:"bq3",  topic:"loyalty",         q:"How loyal are you to your current beauty providers?", opts:["Very — been with people for years","Loyal but would move for better quality","I shop around regularly","No fixed providers"]},
+    {id:"bq4",  topic:"trust",           q:"What would make you switch to someone new and local?", opts:["Meaningfully better results","Significantly more convenient","Noticeably better experience","Strong personal recommendation"]},
+    {id:"bq5",  topic:"spend",           q:"How much do you spend per month on beauty and personal care?", opts:["Under £30","£30-60","£60-100","£100-150","£150+"]},
+    {id:"bq6",  topic:"usage_frequency", q:"When do you most prefer to book?", opts:["Early morning 8-10am","Lunchtime or early afternoon","After work 5-7pm","Weekends"]},
+    {id:"bq7",  topic:"missing",         q:"What treatment do you feel is most underserved locally?", opts:["Advanced skin — LED microneedling peels","Lash and brow done really well","Nails — a great nail bar with wide range","Men's grooming or treatment space"]},
+    {id:"bq8",  topic:"features",        q:"How do you like the experience to feel?", opts:["Efficient — in done out","Unhurried and luxurious","Warm and chatty","Calm and quiet — decompress"]},
+    {id:"bq9",  topic:"format",          q:"How do you find and book beauty services?", opts:["Treatwell or Fresha","Instagram — I find people and DM","Salon app or website","Word of mouth — ask friends and book direct"]},
+    {id:"bq10", topic:"missing",         q:"What is your biggest frustration with beauty services locally?", opts:["Cannot get appointments when I want","Quality is wildly inconsistent","Prices up but experience has not improved","No one I trust enough to be my regular"]},
+    {id:"bq11", topic:"usage_frequency", q:"How important is same-day or last-minute availability?", opts:["Very — I am spontaneous","Useful occasionally","I usually book 1-3 weeks ahead","Not important — very planned"]},
+    {id:"bq12", topic:"features",        q:"How important is the product range used during treatment?", opts:["Very — I research brands","Prefer clean or premium brands","Somewhat — notice if very cheap","Not important — skill over products"]},
+    {id:"bq13", topic:"format",          q:"Would you use a prepaid credit or membership model?", opts:["Yes — love to prepay and use credits","Maybe if clear discount and flexible","Probably not","No — don't want to be tied in"]},
+    {id:"bq14", topic:"trust",           q:"How important is a proper consultation before treatment?", opts:["Essential — won't go somewhere that skips","Very important","Nice to have","Not important — just get on with it"]},
+    {id:"bq15", topic:"loyalty",         q:"What would make you leave a 5-star review and recommend?", opts:["Results that genuinely surprised me","Therapist remembered my preferences","Space felt premium","Booking was seamless"]},
+    {id:"bq16", topic:"location",        q:"How far would you travel for someone who consistently delivered great results?", opts:["10 min max — needs to be local","Up to 20 min","30-40 min for someone truly excellent","Already travel 45+ min for current person"]},
+    {id:"bq17", topic:"trust",           q:"How do you feel about trying a new therapist for the first time?", opts:["Very open — enjoy discovering new people","Cautious — need strong recommendation","Anxious — worry about wasting money","Very reluctant — don't change once found someone"]},
+    {id:"bq18", topic:"features",        q:"What add-on would change your relationship with a salon?", opts:["Personalised product recommendations","Loyalty scheme for regular visits","Treatment alerts tailored to what I have had","Honest conversation about what would actually help"]},
+    {id:"bq19", topic:"loyalty",         q:"What would a new local salon need to do in 30 days to earn loyalty?", opts:["Deliver exceptional results first visit","New client promotion that feels low-risk","Make me feel remembered and valued","Give me a reason to rebook immediately"]},
+    {id:"bq20", topic:"missing",         q:"Which of these would make the biggest difference to your life?", opts:["Great colourist within 10 min of home","Skincare specialist like a trusted professional","Nail bar with decent wait times","Space that made me feel genuinely looked after"]},
+  ],
+  services: [
+    {id:"sq1",  topic:"missing",         q:"Which professional service is hardest to find a trustworthy local provider for?", opts:["Tax accounting and bookkeeping","Legal advice — wills conveyancing contracts","Mortgage or protection advice I can trust","Financial planning — ISAs pensions wealth"]},
+    {id:"sq2",  topic:"trust",           q:"How did you find your current professional service providers?", opts:["Personal recommendation","Google search with good reviews","Inherited — family or employer uses","Chose based on price or proximity"]},
+    {id:"sq3",  topic:"loyalty",         q:"How loyal are you to your current providers?", opts:["Very — been with them years","Loyal but would move for better service","Switched before and would again","Don't feel loyal — just haven't changed"]},
+    {id:"sq4",  topic:"trust",           q:"What would make you switch to a new local provider?", opts:["Genuine personal recommendation","Better availability and responsiveness","Clearer transparent pricing","Feeling they actually cared about my situation"]},
+    {id:"sq5",  topic:"missing",         q:"What is the most frustrating thing about professional services today?", opts:["Slow to respond","Jargon makes me feel stupid","I feel like a number","Cost is hard to predict"]},
+    {id:"sq6",  topic:"format",          q:"How important is your provider being local and accessible in person?", opts:["Very — being able to walk in or call","Quite important — prefer local","Somewhat — video call is fine","Not important — happy fully remote"]},
+    {id:"sq7",  topic:"format",          q:"How do you prefer to communicate with professional advisors?", opts:["In-person meetings for anything serious","Video call — efficient and personal enough","Email and occasional calls","Client portal or app"]},
+    {id:"sq8",  topic:"spend",           q:"How much do you spend per year on professional advice?", opts:["Under £500","£500-1500","£1500-3500","£3500+","Honestly don't know"]},
+    {id:"sq9",  topic:"missing",         q:"Are there areas where you know you should be getting professional help but aren't?", opts:["Yes — putting off finances or tax","Yes — need a will or legal structure","Yes — should review mortgage","No — fairly well covered"]},
+    {id:"sq10", topic:"features",        q:"How quickly do you expect a response?", opts:["Same day","Within 24 hours","Within 2-3 days is reasonable","Flexible as long as they come back before I chase"]},
+    {id:"sq11", topic:"loyalty",         q:"What would make you feel genuinely well-served?", opts:["They proactively reach out when things change","Explain things in plain language","Remember my situation without briefing","Honest even when it is not what I want to hear"]},
+    {id:"sq12", topic:"format",          q:"Would you pay for an ongoing advisory retainer?", opts:["Yes — love someone I can call whenever","Maybe — depends on cost and what is included","Probably not","Only pay when I have a specific problem"]},
+    {id:"sq13", topic:"trust",           q:"How important is price transparency before agreeing to work with someone?", opts:["Essential — won't engage without clear quote","Very important — need rough figure","Somewhat — understand it might vary","Comfortable with hourly billing if I trust person"]},
+    {id:"sq14", topic:"missing",         q:"What is your biggest barrier to getting proper professional advice?", opts:["Cost — assume it will be more than I can justify","Not knowing who to trust","Not knowing if I actually need it","Inertia — keep meaning to sort it"]},
+    {id:"sq15", topic:"format",          q:"Would you attend a free local workshop on tax, legal basics, or financial planning?", opts:["Yes — genuinely useful","Maybe if directly relevant","Probably not","No"]},
+    {id:"sq16", topic:"trust",           q:"How do you feel about a newer practice versus long-established firm?", opts:["Prefer established — track record matters","Open to either — judge on the person","Slightly prefer newer — more accessible","Strongly prefer newer — digital-first"]},
+    {id:"sq17", topic:"loyalty",         q:"What would make you refer a professional to a close friend?", opts:["Made a complex thing feel simple","Saved me real money or solved real problem","Responsive reliable never made me chase","Felt like someone on my side"]},
+    {id:"sq18", topic:"missing",         q:"What type of professional service is most underrepresented locally?", opts:["Accountant for individuals and freelancers","Solicitor for personal matters at fair price","Genuinely independent mortgage broker","Financial advisor who takes smaller clients seriously"]},
+    {id:"sq19", topic:"trust",           q:"If a new local practice opened, what would make you book?", opts:["Free 30-min consultation","Clear published fixed-fee menu","Strong reviews from people in my area","Recommendation from my network"]},
+    {id:"sq20", topic:"loyalty",         q:"What would make you stick with a professional advisor for 10+ years?", opts:["Advice I can act on that turns out right","Feel like a trusted part of my life","Proactive — spots things before I ask","Honest about what they don't know"]},
+  ],
+  coworking: [
+    {id:"cwq1",  topic:"usage_frequency", q:"What is your current working setup?", opts:["Fully remote — work from home","Hybrid — home and office","Freelance or self-employed","Travel for work — need flexible workspace"]},
+    {id:"cwq2",  topic:"missing",         q:"What is your biggest challenge with where you currently work?", opts:["Loneliness — affects mood and energy","Distractions at home","No professional space for client calls","Nothing separating work from rest of life"]},
+    {id:"cwq3",  topic:"usage_frequency", q:"How many days per week would you use a local coworking space?", opts:["1 day — break the week up","2-3 days — regular pattern","4-5 days — essentially full-time","Ad hoc — when I need a change"]},
+    {id:"cwq4",  topic:"format",          q:"What workspace setup do you most need?", opts:["Hot desk — just need somewhere to sit","Dedicated desk — same spot mine","Private office","Meeting room access — that is the main thing"]},
+    {id:"cwq5",  topic:"spend",           q:"What is your maximum monthly budget for workspace?", opts:["Up to £100","£100-200","£200-350","£350-500","£500+ for private office"]},
+    {id:"cwq6",  topic:"format",          q:"What membership structure works best?", opts:["Monthly rolling","Day pass — pay only when used","Annual at meaningful discount","Hybrid — rolling monthly with day pass top-ups"]},
+    {id:"cwq7",  topic:"features",        q:"What are your non-negotiables in a workspace?", opts:["Rock-solid fast WiFi","Good coffee I would actually drink","Quiet zones or phone booths","Professional environment for clients"]},
+    {id:"cwq8",  topic:"features",        q:"How important is the design and feel of the space?", opts:["Very — I work better in a thoughtful space","Quite important","Somewhat — prefer nice but pragmatic","Not important — clean functional WiFi"]},
+    {id:"cwq9",  topic:"usage_frequency", q:"What type of professional are you?", opts:["Freelancer or solo self-employed","Remote employee","Part of a small team 2-6 people","Starting or running a business"]},
+    {id:"cwq10", topic:"features",        q:"How important is the community — knowing who else uses the space?", opts:["Very — people are the point","Quite important","Somewhat — open to it but not why I would choose","Not important — come in focus and leave"]},
+    {id:"cwq11", topic:"format",          q:"Would you attend events at the space?", opts:["Yes — big part of why coworking appeals","Occasionally for something relevant","Rarely — maybe a social","No — want workspace not programming"]},
+    {id:"cwq12", topic:"features",        q:"How important is 24/7 or extended access?", opts:["Essential — I work early or late","Very useful — occasional after-hours","Nice to have","Not important — 9-6 is enough"]},
+    {id:"cwq13", topic:"usage_frequency", q:"Do you need the space to meet clients or have professional calls?", opts:["Yes regularly — primary use case","Occasionally — few times a month","Rarely — mainly go to focus","No — meet clients elsewhere or virtually"]},
+    {id:"cwq14", topic:"trust",           q:"What would make you choose one coworking space over another?", opts:["Feel and quality of space","The community — who else is there","Price and flexibility","Proximity — closer to home the better"]},
+    {id:"cwq15", topic:"features",        q:"How important is having a cafe or food and drink on site?", opts:["Very — want good coffee and lunch without leaving","Quite important","Somewhat — bring my own if not there","Not important — just need workspace"]},
+    {id:"cwq16", topic:"loyalty",         q:"What would make you recommend a coworking space to a friend?", opts:["It significantly improved my productivity","Met people who became useful contacts","Price-to-quality was clearly the best","Team made me feel like a person"]},
+    {id:"cwq17", topic:"missing",         q:"What is the single biggest thing missing from your working life that coworking could fix?", opts:["Professional context — feel like I am at work","Human contact — colleagues without politics","Infrastructure — meeting rooms proper desk","Separation between home and work"]},
+    {id:"cwq18", topic:"trust",           q:"How do you feel about signing up before a space has opened?", opts:["Happy to — founding rate compelling","Want to see space first then decide","Wary — want reviews from real members","Only commit once open and tried it"]},
+    {id:"cwq19", topic:"loyalty",         q:"What makes you leave a workspace you were happy with?", opts:["Price increase not justified","Vibe changed — too many people","Key contacts left","Life change — moved or changed jobs"]},
+    {id:"cwq20", topic:"loyalty",         q:"What would a great local coworking space do that big chains don't?", opts:["Feel built for and by local community","Know my name and treat me as individual","Programme events leading to real connections","Be honest and flexible — no hidden fees"]},
   ],
 };
 
@@ -2362,7 +3129,7 @@ function getSimResponses(qBank, totalResponses){
 // -- PLQuestionGroups -- proper component so useState is valid
 function PLQuestionGroups({segment, plSelected, setPlSelected, setPlStep}){
   const {groups, allQs:qAll} = getGroupsForSegment(segment);
-  const [openGroups, setOpenGroups] = React.useState(new Set());
+  const [openGroups, setOpenGroups] = useState(new Set());
   const toggleGroup = id => setOpenGroups(s=>{const n=new Set(s);n.has(id)?n.delete(id):n.add(id);return n;});
   return (
     <div>
@@ -2423,51 +3190,73 @@ function PLQuestionGroups({segment, plSelected, setPlSelected, setPlStep}){
   );
 }
 
-// -- ClosedSurveyCard -- proper component so useState is valid
+// -- ClosedSurveyCard: live responses for active, summary for expired --
 function ClosedSurveyCard({survey, allQs}){
-  const [expanded, setExpanded] = React.useState(false);
-  const totalResponses = 47 + (survey.id % 20);
-  const qBank2 = survey.questions || (survey.qIds ? allQs.filter(q=>survey.qIds.includes(q.id)) : allQs.slice(0,5));
-  const resultsData = getSimResponses(qBank2.length ? qBank2 : allQs.slice(0,5), totalResponses);
+  var isLive = survey.status === "active";
+  var total = survey.responseCount || 0;
+  var questions = (survey.questions && survey.questions.length)
+    ? survey.questions
+    : (allQs || []).slice(0, 5);
+  var resultsData = getSimResponses(questions, Math.max(total, 1));
+  var accent = isLive ? C.green : C.amber;
+
+  if(total === 0) {
+    return (
+      <div style={{padding:"32px 20px",textAlign:"center",background:C.surface,border:"1px dashed "+C.line,borderRadius:14}}>
+        <div style={{fontSize:28,marginBottom:8}}>⏳</div>
+        <div style={{...ty.bodyMd,marginBottom:4}}>Waiting for responses</div>
+        <div style={{...ty.sm,color:C.t3,lineHeight:1.6}}>Residents will see this page in their feed. Responses appear here as they come in.</div>
+      </div>
+    );
+  }
+
   return (
-    <Card style={{marginBottom:10,padding:0,overflow:"hidden"}}>
-      <button onClick={()=>setExpanded(e=>!e)}
-        style={{width:"100%",padding:"14px 16px",background:"transparent",border:"none",cursor:"pointer",
-          fontFamily:sans,display:"flex",alignItems:"center",gap:10,textAlign:"left"}}>
-        <div style={{width:8,height:8,borderRadius:"50%",background:C.amber,flexShrink:0}}/>
-        <div style={{flex:1}}>
-          <div style={{...ty.bodyMd,fontSize:13}}>{survey.label||survey.title}</div>
-          <div style={{...ty.meta,color:C.t3}}>{totalResponses} responses · {survey.status||"closed"} · {survey.createdAt||survey.opening||""}</div>
-        </div>
-        <ChevronDown size={14} color={C.t3} style={{transform:expanded?"rotate(180deg)":"none",transition:"transform .2s",flexShrink:0}}/>
-      </button>
-      {expanded&&(
-        <div style={{borderTop:`1px solid ${C.line}`,padding:"14px 16px"}}>
-          {resultsData.map(q=>{
-            const max=Math.max(...q.counts,1);
-            return (
-              <div key={q.id} style={{marginBottom:14}}>
-                <div style={{...ty.sm,color:C.t1,marginBottom:8,fontWeight:500}}>{q.q}</div>
-                {q.opts.map((o,i)=>(
-                  <div key={i} style={{marginBottom:5}}>
-                    <div style={{display:"flex",justifyContent:"space-between",marginBottom:2}}>
-                      <span style={{...ty.meta,color:C.t2,fontSize:11}}>{o}</span>
-                      <span style={{...ty.meta,color:C.amber,fontWeight:600,fontSize:11}}>{q.counts[i]||0}</span>
+    <div style={{display:"flex",flexDirection:"column",gap:12}}>
+      {resultsData.map(function(q, qi){
+        var counts = q.counts || [];
+        var maxCount = counts.length ? Math.max.apply(null, counts.concat([1])) : 1;
+        var topIdx = counts.indexOf(maxCount);
+        return (
+          <Card key={q.id||qi} style={{padding:"16px 18px"}}>
+            <div style={{...ty.sm,color:C.t1,fontWeight:600,marginBottom:12,lineHeight:1.5}}>
+              {qi+1}. {q.q}
+            </div>
+            <div style={{display:"flex",flexDirection:"column",gap:7}}>
+              {(q.opts||[]).map(function(opt, oi){
+                var count = counts[oi] || 0;
+                var pct = total > 0 ? Math.round((count / total) * 100) : 0;
+                var isTop = oi === topIdx && count > 0;
+                return (
+                  <div key={oi}>
+                    <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:4}}>
+                      <span style={{...ty.meta,color:isTop?C.t1:C.t2,fontWeight:isTop?600:400,fontSize:12,flex:1,paddingRight:8,lineHeight:1.4}}>
+                        {opt}
+                        {isTop&&<span style={{marginLeft:6,fontSize:9,color:accent,fontWeight:700}}>▲ top</span>}
+                      </span>
+                      <div style={{display:"flex",alignItems:"center",gap:5,flexShrink:0}}>
+                        <span style={{...ty.meta,color:isTop?accent:C.t3,fontWeight:isTop?700:400,fontSize:11}}>{pct}%</span>
+                        <span style={{...ty.meta,color:C.t3,fontSize:10}}>({count})</span>
+                      </div>
                     </div>
-                    <div style={{height:5,background:C.line,borderRadius:3,overflow:"hidden"}}>
-                      <div style={{height:"100%",width:`${((q.counts[i]||0)/max)*100}%`,background:C.amber,borderRadius:3}}/>
+                    <div style={{height:6,background:C.surface2,borderRadius:3,overflow:"hidden"}}>
+                      <div style={{
+                        height:"100%",
+                        width:pct+"%",
+                        background:isTop?accent:C.line,
+                        borderRadius:3,
+                        transition:"width .4s ease",
+                      }}/>
                     </div>
                   </div>
-                ))}
-              </div>
-            );
-          })}
-        </div>
-      )}
-    </Card>
+                );
+              })}
+            </div>
+          </Card>
+        );
+      })}
+    </div>
   );
 }
-
 const PRELAUNCH_PAGES = [
   {
     id:"pl1",
@@ -2570,17 +3359,286 @@ function DemoBar({items,color}){
 }
 
 // FAQ data for #7
-const FAQ_ITEMS = [
-  {q:"What is the Confidence score?",a:"Confidence reflects how many independent voices have voted for an item. Indicative (<50), Low (50–99), Medium (100–199), High (200–499), Very High (500+). More voices = more reliable as a business signal."},
-  {q:"What does Intensity (X/10) mean?",a:"Intensity is the average number of coins voters placed on this item, out of 10. High intensity means voters feel strongly — they didn't just add a token coin, they allocated serious budget. A score above 7 suggests this is a genuine priority, not casual interest."},
-  {q:"How is Avg Spend calculated?",a:"Voters answer 'how much would you spend per visit?' when placing coins. We take the weighted average across all responses. This is a stated preference, not observed spend — treat it as directional rather than precise."},
-  {q:"What is Catchment type?",a:"Catchment is derived from how far voters say they'd travel. Hyper-local means 50%+ would walk under 5 minutes — this item needs to be very close to where people live. Destination means demand comes from a wider area and footfall may be more distributed."},
-  {q:"How is Monthly Revenue estimated?",a:"Monthly Revenue = voters × avg spend × visits per month. This is an estimate based on stated preferences from the voters in your selected area. It represents potential revenue from those verified demand signals — not a forecast of total market revenue."},
-  {q:"What does Distance distribution show?",a:"The percentage of voters who'd travel each distance to use this business. A bar heavy on '<5 min' means you need to be hyper-local. A spread toward '20 min+' means people will travel — useful for site selection."},
-  {q:"What do Demographics show?",a:"Demographics show the age, gender, and household composition of voters for this specific item. These are aggregated and anonymised — no individual voter can be identified. Useful for understanding who your customer actually is, vs who you assumed it would be."},
-  {q:"Why do votes reset annually?",a:"Annual resets keep demand data current. A neighbourhood's needs change as new businesses open, populations shift, and people's lives evolve. Stale demand data is worse than no data — it can lead businesses to the wrong decision. Residents are notified and can reallocate any time."},
-  {q:"What is Momentum?",a:"Momentum tracks the percentage change in voter count over the past 30 days. +31% means 31% more people voted for this item this month vs last month. Useful for spotting items gaining traction quickly — these may be worth acting on before a competitor does."},
+/* ==================================================
+   LEGAL CONTENT
+================================================== */
+const LEGAL_DOCS = [
+  {
+    id: "terms",
+    title: "Terms & Conditions",
+    updated: "January 2025",
+    sections: [
+      {heading: null, body: "These Terms govern your use of Cravz (the Platform), operated by Tale Labs Ltd. By using Cravz, you agree to these Terms."},
+      {heading: "1. About Cravz", body: "Cravz is a platform that aggregates local user preferences to surface demand patterns, trends, and neighbourhood-level opportunities."},
+      {heading: "2. Eligibility", body: "You must be at least 16 years old to use the Platform."},
+      {heading: "3. User Accounts", body: "You are responsible for maintaining the confidentiality of your account and for all activity under it."},
+      {heading: "4. User Contributions", body: "Users can submit votes, preferences, and comments (User Content). By submitting content, you grant us a worldwide, non-exclusive, royalty-free license to use, display, and analyse it within the Platform."},
+      {heading: "5. Nature of the Data", body: "Cravz reflects aggregated user input and is designed to provide directional insights. It does not represent verified market data or guaranteed outcomes."},
+      {heading: "6. Responsible Use", body: "You agree not to: manipulate votes or demand signals; submit misleading or coordinated content; use the Platform for unlawful purposes."},
+      {heading: "7. Moderation", body: "We may review, remove, or restrict content or accounts to maintain data integrity and community quality."},
+      {heading: "8. Business Use", body: "Cravz is a decision-support tool. It should be used alongside other sources, judgement, and analysis."},
+      {heading: "9. Limitation of Liability", body: "To the maximum extent permitted by law, we are not liable for decisions, losses, or outcomes resulting from use of the Platform."},
+      {heading: "10. Changes", body: "We may update these Terms from time to time."},
+      {heading: "11. Contact", body: "Tale Labs Ltd\nhello@cravz.co"},
+    ],
+  },
+  {
+    id: "privacy",
+    title: "Privacy Policy",
+    updated: "January 2025",
+    sections: [
+      {heading: null, body: "This policy explains how Tale Labs Ltd collects, uses, and protects your data when you use Cravz."},
+      {heading: "1. Data We Collect", body: "We may collect: email or phone number; approximate location (e.g. postcode area); votes, preferences, and comments; usage and interaction data."},
+      {heading: "2. How We Use Data", body: "We use data to: generate aggregated insights; improve the Platform; enable community features."},
+      {heading: "3. Aggregated Data", body: "We may use anonymised, aggregated data for analytics and commercial insights."},
+      {heading: "4. Legal Basis", body: "We process data under: Consent; Legitimate interests."},
+      {heading: "5. Data Retention", body: "We retain data as long as necessary to provide value and maintain relevance. Older data may be weighted differently or removed over time."},
+      {heading: "6. Your Rights", body: "You may: access your data; request deletion; correct inaccuracies; withdraw consent. Contact: hello@cravz.co"},
+      {heading: "7. Security", body: "We implement appropriate measures to protect your data."},
+      {heading: "8. Updates", body: "We may update this policy periodically."},
+    ],
+  },
+  {
+    id: "data",
+    title: "Data & Insights",
+    updated: "January 2025",
+    sections: [
+      {heading: null, body: "Cravz aggregates real-time local preferences to highlight demand patterns, sentiment, and emerging opportunities."},
+      {heading: "What our insights are", body: "The insights provided are: based on user contributions; indicative and directional in nature; designed to complement, not replace, other sources of information."},
+      {heading: "Limitations", body: "While we aim to maintain high-quality and relevant data, Cravz does not guarantee completeness or full market representation. The Platform should be used as one of several inputs when making business or investment decisions."},
+      {heading: "Liability", body: "Tale Labs Ltd does not accept liability for decisions made based solely on Cravz data."},
+    ],
+  },
+  {
+    id: "acceptable-use",
+    title: "Acceptable Use",
+    updated: "January 2025",
+    sections: [
+      {heading: null, body: "To maintain the quality and usefulness of Cravz, you agree not to:"},
+      {heading: null, body: "Artificially influence demand or rankings. Coordinate or manipulate activity. Submit misleading or false information. Use the Platform for spam or commercial misuse."},
+      {heading: null, body: "We may take action where necessary to protect the integrity of the Platform."},
+    ],
+  },
+  {
+    id: "user-content",
+    title: "User Content",
+    updated: "January 2025",
+    sections: [
+      {heading: null, body: "You are responsible for the content you submit."},
+      {heading: "Standards", body: "Content should be: honest; relevant; constructive."},
+      {heading: "Moderation", body: "We may remove content that undermines trust, accuracy, or community value. Repeated misuse may result in account restrictions."},
+    ],
+  },
+  {
+    id: "community",
+    title: "Community Guidelines",
+    updated: "January 2025",
+    sections: [
+      {heading: null, body: "Cravz works best when the data reflects real local needs."},
+      {heading: "Do", body: "Share genuine preferences. Be specific and useful. Think about your neighbourhood."},
+      {heading: "Avoid", body: "Inflating demand. Posting with an agenda. Adding noise instead of insight."},
+      {heading: null, body: "Better data leads to better outcomes for everyone."},
+    ],
+  },
+  {
+    id: "cookies",
+    title: "Cookie Policy",
+    updated: "January 2025",
+    sections: [
+      {heading: null, body: "We use cookies to: ensure the Platform functions correctly; understand usage patterns; improve performance."},
+      {heading: null, body: "You can manage cookies through your browser settings."},
+    ],
+  },
+  {
+    id: "business-use",
+    title: "Business Use",
+    updated: "January 2025",
+    sections: [
+      {heading: null, body: "Cravz provides aggregated insights into local demand and preferences."},
+      {heading: "Acknowledgements", body: "Businesses using this data acknowledge that: it reflects user sentiment, not verified demand; it is directional and exploratory in nature; it should be combined with other analysis and judgement."},
+      {heading: "Redistribution", body: "Data may not be resold or redistributed without permission."},
+    ],
+  },
+  {
+    id: "moderation",
+    title: "Moderation & Takedown",
+    updated: "January 2025",
+    sections: [
+      {heading: null, body: "We aim to maintain a high-quality and trustworthy platform."},
+      {heading: "Content removal", body: "We may review and remove content that: is misleading; damages trust in the data; violates our policies."},
+      {heading: "Contact", body: "Users can report content via the Platform or contact: hello@cravz.co"},
+    ],
+  },
 ];
+
+
+const FAQ_SECTIONS = [
+  {
+    section: "Understanding demand",
+    items: [
+      {
+        q: "What is a Voice?",
+        a: "A Voice represents one real person who wants something in their area. Each person counts once per idea, no matter how strongly they feel about it.",
+        why: "It shows how many different people want something — not just how loud a few people are.",
+      },
+      {
+        q: "What is Intensity?",
+        a: "Intensity shows how strongly people want a concept. It reflects how much of their available voting power they chose to allocate to it.",
+        why: "Two ideas can have the same number of people behind them, but very different levels of urgency.",
+      },
+      {
+        q: "What is Signal Confidence?",
+        a: "Signal Confidence shows how reliable a result is, based on how many independent people have voted for it.",
+        why: "The more people agree, the more you can trust the signal as a real opportunity.",
+      },
+      {
+        q: "What is Momentum?",
+        a: "Momentum shows how demand is changing over time — whether interest is growing, stable, or slowing down.",
+        why: "It helps you spot what is emerging early, not just what is already popular.",
+      },
+    ],
+  },
+  {
+    section: "Understanding commercial potential",
+    items: [
+      {
+        q: "What is Expected Spend?",
+        a: "Expected Spend is what people say they would typically spend when visiting this type of place.",
+        why: "It helps position the opportunity as budget, mid-range, or premium.",
+      },
+      {
+        q: "What is Visit Frequency?",
+        a: "Visit Frequency shows how often people expect to use a concept — for example weekly, monthly, or occasionally.",
+        why: "A high-frequency concept can be more valuable than a high-spend but infrequent one.",
+      },
+      {
+        q: "How is Revenue Potential calculated?",
+        a: "Revenue Potential is a directional estimate of how demand could translate into spending. It combines how many people want something, how often they would go, how much they would spend, and how far they would travel. It reflects potential, not guaranteed revenue.",
+        why: "It helps compare which ideas could have the biggest commercial impact.",
+      },
+    ],
+  },
+  {
+    section: "Understanding geographic pull",
+    items: [
+      {
+        q: "What is Distance Distribution?",
+        a: "Distance Distribution shows how far people are willing to travel for a concept, broken down across different ranges.",
+        why: "It reveals whether demand is driven by convenience or willingness to travel.",
+      },
+      {
+        q: "What is Catchment Profile?",
+        a: "Catchment Profile is a simple summary of where demand is likely to come from based on travel patterns. Neighbourhood-led means mostly people who want it very close. Local area pull means local demand plus nearby areas. Destination-led means people are willing to travel further.",
+        why: "It helps you quickly understand whether this is a local convenience or a destination business.",
+      },
+      {
+        q: "Why are both Distance Distribution and Catchment Profile shown?",
+        a: "Distance Distribution gives the full detail. Catchment Profile turns that into a quick, easy-to-read summary.",
+        why: "You can either go deeper or understand the headline instantly.",
+      },
+    ],
+  },
+  {
+    section: "Understanding the audience",
+    items: [
+      {
+        q: "What does Audience Snapshot show?",
+        a: "Audience Snapshot gives a simple view of who is driving demand, such as age groups or household types.",
+        why: "It helps shape the concept so it fits the people who actually want it.",
+      },
+      {
+        q: "What are Concept Attributes?",
+        a: "Concept Attributes describe what people specifically want within a category — such as atmosphere, features, or positioning.",
+        why: "It turns a general idea into something precise and actionable.",
+      },
+    ],
+  },
+  {
+    section: "Understanding market opportunity",
+    items: [
+      {
+        q: "What does capture or penetration mean?",
+        a: "Capture (or penetration) is the share of demand that a business actually converts into real customers. Not everyone who wants something will become a customer.",
+        why: "It connects interest to real business performance.",
+      },
+      {
+        q: "Do all people who want something become customers?",
+        a: "No. Even strong demand does not mean everyone will visit. People may choose alternatives, visit occasionally, or not convert at all.",
+        why: "It helps set realistic expectations when evaluating an opportunity.",
+      },
+      {
+        q: "How should I think about capture rates?",
+        a: "A simple way to think about it: lower capture means a conservative scenario. Moderate capture means a realistic scenario. Higher capture means strong execution.",
+        why: "It helps you think in ranges rather than relying on one number.",
+      },
+      {
+        q: "Can two similar ideas have different outcomes?",
+        a: "Yes. Even with similar demand, outcomes can vary based on execution, pricing, experience, and competition.",
+        why: "Demand shows opportunity — success depends on how well it is delivered.",
+      },
+    ],
+  },
+  {
+    section: "Understanding areas and population",
+    items: [
+      {
+        q: "How does Cravz estimate population in each area?",
+        a: "Cravz works at postcode district level (like SW4 or N1), which represent neighbourhood-sized areas. Population is estimated using official UK data mapped to these areas. It is not an exact count, but accurate enough to understand scale and opportunity.",
+        why: null,
+      },
+      {
+        q: "Can I trust these numbers?",
+        a: "Yes. Population estimates are based on official sources such as the Office for National Statistics and standard geographic mapping methods. They are widely used in analytics and are more than sufficient for spotting demand, validating ideas, and making decisions.",
+        why: null,
+      },
+    ],
+  },
+  {
+    section: "How the system works",
+    items: [
+      {
+        q: "Why do preferences refresh over time?",
+        a: "People's habits and neighbourhoods change. Preferences are refreshed so the data reflects what people want now, not what they wanted in the past.",
+        why: "It keeps insights relevant and up to date.",
+      },
+      {
+        q: "Can users update their votes?",
+        a: "Yes. Users can revisit and update their preferences over time, while avoiding constant short-term changes.",
+        why: "It balances stability with real-life changes in behaviour.",
+      },
+      {
+        q: "Why are rankings not based on one metric?",
+        a: "Rankings combine multiple factors — how many people want something, how strongly they want it, how often they would use it, and how much they would spend.",
+        why: "It gives a more realistic picture than any single number.",
+      },
+      {
+        q: "Why can some concepts rank highly with fewer Voices?",
+        a: "Because demand is not just about how many people — it is also about how strong, frequent, and valuable that demand is.",
+        why: "A smaller but more committed audience can represent a stronger opportunity.",
+      },
+    ],
+  },
+];
+
+const GLOSSARY_ITEMS = [
+  {t:"Voice", d:"A real person expressing interest in a concept."},
+  {t:"Coins", d:"The limited voting power users use to show what matters most to them."},
+  {t:"Intensity", d:"How strongly people want something."},
+  {t:"Signal Confidence", d:"How reliable a result is based on how many people support it."},
+  {t:"Momentum", d:"How demand is changing over time."},
+  {t:"Expected Spend", d:"What people expect to spend per visit."},
+  {t:"Visit Frequency", d:"How often people expect to visit."},
+  {t:"Distance Distribution", d:"How far people are willing to travel, shown in detail."},
+  {t:"Catchment Profile", d:"A simple summary of where demand comes from."},
+  {t:"Audience Snapshot", d:"A view of who is driving demand."},
+  {t:"Concept Attributes", d:"The specific features or qualities people want."},
+  {t:"Revenue Potential", d:"An estimate of how demand could translate into spending."},
+  {t:"Capture Rate", d:"The percentage of demand that converts into actual customers."},
+  {t:"Postcode District", d:"A neighbourhood-sized area (e.g. SW4) used to group local demand."},
+  {t:"Population Estimate", d:"An approximate number of people in an area used to understand scale."},
+];
+
+
 
 
 /* ==================================================
@@ -2628,7 +3686,7 @@ function OppBottomCard({crossSell, adjacentOpps, tier, bump}){
                     </div>
                     <div style={{textAlign:"right",flexShrink:0}}>
                       <div style={{...ty.meta,color:item.momentum>20?C.green:C.amber,fontWeight:700}}>+{item.momentum}%</div>
-                      {canSee(tier,"pro")&&<div style={{...ty.meta,color:C.t3,marginTop:2}}>{fmtMoney(item.monthlyRev)}/mo</div>}
+                      {canSee(tier,"investor")&&<div style={{...ty.meta,color:C.t3,marginTop:2}}>{fmtMoney(item.monthlyRev)}/mo</div>}
                     </div>
                   </div>
                 ))}
@@ -2636,7 +3694,7 @@ function OppBottomCard({crossSell, adjacentOpps, tier, bump}){
             )}
 
             {/* Adjacent areas — top 3 */}
-            {hasAdj&&canSee(tier,"starter")&&(
+            {hasAdj&&canSee(tier,"builder")&&(
               <div>
                 <div style={{...ty.label,marginBottom:10}}>Nearby areas — growing fast</div>
                 {adjacentOpps.slice(0,3).map((item,i)=>(
@@ -2652,11 +3710,11 @@ function OppBottomCard({crossSell, adjacentOpps, tier, bump}){
               </div>
             )}
 
-            {!canSee(tier,"starter")&&(
+            {!canSee(tier,"builder")&&(
               <div style={{display:"flex",alignItems:"center",gap:10,padding:"10px 12px",borderRadius:10,background:C.surface2,border:`1px solid ${C.line}`}}>
                 <Lock size={13} color={C.t3}/>
-                <div style={{flex:1,...ty.sm,color:C.t2}}>Adjacent area signals — Starter+</div>
-                <button onClick={()=>bump("starter")} style={{padding:"5px 11px",borderRadius:8,background:C.amber,color:"#000",border:"none",cursor:"pointer",fontFamily:sans,fontWeight:700,fontSize:11}}>Unlock</button>
+                <div style={{flex:1,...ty.sm,color:C.t2}}>Adjacent area signals — Builder+</div>
+                <button onClick={()=>bump("builder")} style={{padding:"5px 11px",borderRadius:8,background:C.amber,color:"#000",border:"none",cursor:"pointer",fontFamily:sans,fontWeight:700,fontSize:11}}>Unlock</button>
               </div>
             )}
           </div>
@@ -2668,8 +3726,8 @@ function OppBottomCard({crossSell, adjacentOpps, tier, bump}){
 
 
 function OfferInput({itemId, onSave}){
-  const [text, setText] = React.useState("");
-  const [open, setOpen] = React.useState(false);
+  const [text, setText] = useState("");
+  const [open, setOpen] = useState(false);
   if(!open) return (
     <button onClick={e=>{e.stopPropagation();setOpen(true);}}
       style={{display:"flex",alignItems:"center",gap:6,padding:"7px 12px",borderRadius:10,background:"transparent",border:`1px solid ${C.line}`,cursor:"pointer",fontFamily:sans}}>
@@ -2694,14 +3752,324 @@ function OfferInput({itemId, onSave}){
   );
 }
 
+/* ==================================================
+   CREATE PRE-LAUNCH PAGE — Investor only
+   Steps: concept → questions → preview → published
+================================================== */
+function CreatePrelaunchPage({session, onBack, onPublish}) {
+  var [step, setStep] = useState("concept");
+  var [form, setForm] = useState({
+    label:"", emoji:"🏪", cat:"food",
+    area:(session&&session.areas&&session.areas[0])||"SW4",
+    areas:(session&&session.areas)||["SW4"],
+    opening:"", blurb:"", industryKey:"restaurant", selectedQs:[]
+  });
+
+  function setField(k, v) {
+    setForm(function(f){ return Object.assign({}, f, {[k]:v}); });
+  }
+
+  // Industry options mapped from question bank
+  var INDUSTRY_OPTS = [
+    {id:"restaurant",  label:"Restaurant / Café",         emoji:"🍽️", cat:"food"},
+    {id:"fitness",     label:"Gym / Fitness studio",      emoji:"🏋️", cat:"fitness"},
+    {id:"food_retail", label:"Food retail / Deli",        emoji:"🛒", cat:"retail"},
+    {id:"retail",      label:"Non-food retail",           emoji:"🏪", cat:"retail"},
+    {id:"experience",  label:"Events / Experiences",      emoji:"🎭", cat:"entertain"},
+    {id:"childcare",   label:"Childcare / Family",        emoji:"🧸", cat:"kids"},
+    {id:"beauty",      label:"Beauty / Wellness",         emoji:"💆", cat:"health"},
+    {id:"services",    label:"Professional services",     emoji:"💼", cat:"services"},
+    {id:"coworking",   label:"Coworking / Office",        emoji:"💻", cat:"services"},
+  ];
+
+  // Topics for grouped question display
+  var TOPIC_LABELS = {
+    usage_frequency: "Usage & frequency",
+    spend:           "Spend & pricing",
+    format:          "Format & structure",
+    location:        "Location & travel",
+    missing:         "What is missing",
+    trust:           "Trust & discovery",
+    features:        "Features & preferences",
+    loyalty:         "Loyalty & retention",
+  };
+
+  var allQs = PRELAUNCH_QUESTIONS[form.industryKey] || [];
+  var topics = [];
+  var byTopic = {};
+  allQs.forEach(function(q) {
+    if(!byTopic[q.topic]) { byTopic[q.topic] = []; topics.push(q.topic); }
+    byTopic[q.topic].push(q);
+  });
+
+  function toggleQ(id) {
+    var sel = form.selectedQs;
+    if(sel.indexOf(id) !== -1) {
+      setField("selectedQs", sel.filter(function(x){return x!==id;}));
+    } else if(sel.length < 8) {
+      setField("selectedQs", sel.concat([id]));
+    }
+  }
+
+  var sessionAreas = (session&&session.areas)||["SW4"];
+
+  // ── STEP: CONCEPT ─────────────────────────────────────────────
+  if(step === "concept") {
+    return(
+      <div style={{minHeight:"100vh",background:C.bg,fontFamily:sans,color:C.t1}}>
+        <div style={{position:"sticky",top:0,background:C.bg+"F5",backdropFilter:"blur(12px)",borderBottom:"1px solid "+C.line,padding:"14px 20px",display:"flex",alignItems:"center",gap:14,zIndex:50}}>
+          <button onClick={onBack} style={{background:"transparent",border:"none",color:C.t3,cursor:"pointer",fontFamily:sans,fontSize:13,padding:0}}>← Back</button>
+          <div style={{...ty.bodyMd,fontSize:14}}>New pre-launch page</div>
+          <div style={{...ty.meta,color:C.t3,marginLeft:"auto"}}>Step 1 of 3</div>
+        </div>
+        <div style={{padding:"24px 20px 60px",maxWidth:480,margin:"0 auto"}}>
+          <h2 style={{fontFamily:serif,fontSize:20,fontWeight:700,marginBottom:6}}>Your concept</h2>
+          <div style={{...ty.meta,color:C.t3,marginBottom:24,lineHeight:1.65}}>Tell residents what you are planning to open. Keep it honest — this shapes the questions they will answer.</div>
+
+          {/* Business type */}
+          <div style={{marginBottom:16}}>
+            <div style={{...ty.label,marginBottom:8}}>Type of business</div>
+            <div style={{display:"flex",flexDirection:"column",gap:7}}>
+              {INDUSTRY_OPTS.map(function(ind){
+                var on = form.industryKey===ind.id;
+                return(
+                  <button key={ind.id} onClick={function(){setField("industryKey",ind.id); setField("cat",ind.cat); setField("emoji",ind.emoji); setField("selectedQs",[]);}}
+                    style={{display:"flex",alignItems:"center",gap:12,padding:"10px 14px",borderRadius:12,
+                      background:on?C.coral+"12":C.surface, border:"1px solid "+(on?C.coral+"50":C.line),
+                      cursor:"pointer",fontFamily:sans,textAlign:"left",width:"100%"}}>
+                    <span style={{fontSize:18,flexShrink:0}}>{ind.emoji}</span>
+                    <span style={{...ty.sm,color:on?C.t1:C.t2,fontWeight:on?600:400}}>{ind.label}</span>
+                    {on&&<div style={{width:7,height:7,borderRadius:"50%",background:C.coral,marginLeft:"auto",flexShrink:0}}/>}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Concept name */}
+          <div style={{marginBottom:14}}>
+            <div style={{...ty.label,marginBottom:6}}>Concept name</div>
+            <input value={form.label} onChange={function(e){setField("label",e.target.value);}}
+              placeholder="e.g. Late-night ramen bar · Reformer pilates studio"
+              style={{width:"100%",background:C.surface,border:"1px solid "+C.line,borderRadius:12,padding:"12px 14px",color:C.t1,fontSize:14,fontFamily:sans,outline:"none",boxSizing:"border-box"}}/>
+          </div>
+
+          {/* Areas — multi-select from all session areas */}
+          <div style={{marginBottom:14}}>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:6}}>
+              <div style={{...ty.label}}>Areas</div>
+              <div style={{...ty.meta,color:C.t3,fontSize:10}}>{(form.areas||[form.area]).length} selected · Firebase: page pushed to residents in all selected areas</div>
+            </div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:7}}>
+              {sessionAreas.map(function(a){
+                var selAreas = form.areas||[form.area];
+                var on = selAreas.indexOf(a)!==-1;
+                return(
+                  <button key={a} onClick={function(){
+                    var cur = form.areas||[form.area];
+                    var next = on ? cur.filter(function(x){return x!==a;}) : cur.concat([a]);
+                    if(next.length===0) return;
+                    setField("areas", next);
+                    setField("area", next[0]);
+                  }}
+                    style={{padding:"8px 16px",borderRadius:20,cursor:"pointer",fontFamily:sans,fontSize:13,
+                      background:on?C.coral+"15":C.surface, border:"1px solid "+(on?C.coral+"60":C.line),
+                      color:on?C.t1:C.t3, fontWeight:on?600:400}}>
+                    {a}
+                  </button>
+                );
+              })}
+            </div>
+            {sessionAreas.length===1&&(
+              <div style={{...ty.meta,color:C.t3,fontSize:11,marginTop:6}}>Add more areas in your profile to target multiple neighbourhoods.</div>
+            )}
+          </div>
+
+          {/* Opening date */}
+          <div style={{marginBottom:14}}>
+            <div style={{...ty.label,marginBottom:6}}>Expected opening <span style={{color:C.t3,fontWeight:400,textTransform:"none",fontSize:10,letterSpacing:0}}>(optional)</span></div>
+            <input value={form.opening} onChange={function(e){setField("opening",e.target.value);}}
+              placeholder="e.g. Spring 2026 · Q3 2025"
+              style={{width:"100%",background:C.surface,border:"1px solid "+C.line,borderRadius:12,padding:"12px 14px",color:C.t1,fontSize:14,fontFamily:sans,outline:"none",boxSizing:"border-box"}}/>
+          </div>
+
+          {/* Blurb */}
+          <div style={{marginBottom:24}}>
+            <div style={{...ty.label,marginBottom:6}}>One-line description</div>
+            <textarea value={form.blurb} onChange={function(e){setField("blurb",e.target.value);}}
+              placeholder="e.g. A proper soft play café for SW4 families — good coffee, real food, safe space for under-8s."
+              rows={3}
+              style={{width:"100%",background:C.surface,border:"1px solid "+C.line,borderRadius:12,padding:"12px 14px",color:C.t1,fontSize:13,fontFamily:sans,outline:"none",resize:"none",lineHeight:1.5,boxSizing:"border-box"}}/>
+          </div>
+
+          <button onClick={function(){if(form.label.trim()&&form.blurb.trim()) setStep("questions");}}
+            disabled={!form.label.trim()||!form.blurb.trim()}
+            style={{width:"100%",padding:"14px",background:form.label.trim()&&form.blurb.trim()?C.coral:C.surface2,
+              color:form.label.trim()&&form.blurb.trim()?"#fff":C.t3,border:"none",borderRadius:14,
+              cursor:form.label.trim()&&form.blurb.trim()?"pointer":"default",fontFamily:sans,fontWeight:700,fontSize:15}}>
+            Choose questions →
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ── STEP: QUESTIONS ───────────────────────────────────────────
+  if(step === "questions") {
+    return(
+      <div style={{minHeight:"100vh",background:C.bg,fontFamily:sans,color:C.t1}}>
+        <div style={{position:"sticky",top:0,background:C.bg+"F5",backdropFilter:"blur(12px)",borderBottom:"1px solid "+C.line,padding:"14px 20px",display:"flex",alignItems:"center",gap:14,zIndex:50}}>
+          <button onClick={function(){setStep("concept");}} style={{background:"transparent",border:"none",color:C.t3,cursor:"pointer",fontFamily:sans,fontSize:13,padding:0}}>← Back</button>
+          <div style={{...ty.bodyMd,fontSize:14}}>Select questions</div>
+          <div style={{...ty.meta,color:form.selectedQs.length>0?C.coral:C.t3,marginLeft:"auto",fontWeight:700}}>
+            {form.selectedQs.length}/8 selected
+          </div>
+        </div>
+        <div style={{padding:"16px 20px 80px",maxWidth:480,margin:"0 auto"}}>
+          <div style={{...ty.meta,color:C.t3,marginBottom:20,lineHeight:1.65}}>Pick 3–8 questions for residents to answer. Organised by topic — choose across multiple topics for richer insight.</div>
+
+          {topics.map(function(topic){
+            var qs = byTopic[topic];
+            return(
+              <div key={topic} style={{marginBottom:20}}>
+                <div style={{...ty.label,color:C.t3,marginBottom:10}}>{(TOPIC_LABELS[topic]||topic).toUpperCase()}</div>
+                <div style={{display:"flex",flexDirection:"column",gap:7}}>
+                  {qs.map(function(q){
+                    var sel = form.selectedQs.indexOf(q.id)!==-1;
+                    var disabled = !sel && form.selectedQs.length >= 8;
+                    return(
+                      <button key={q.id} onClick={function(){if(!disabled) toggleQ(q.id);}}
+                        style={{display:"flex",alignItems:"flex-start",gap:12,padding:"12px 14px",borderRadius:12,
+                          background:sel?C.coral+"10":C.surface,
+                          border:"1px solid "+(sel?C.coral+"50":C.line),
+                          cursor:disabled?"default":"pointer",
+                          fontFamily:sans,textAlign:"left",width:"100%",opacity:disabled?0.4:1}}>
+                        <div style={{width:18,height:18,borderRadius:5,border:"1px solid "+(sel?C.coral:C.line),
+                          background:sel?C.coral:"transparent",display:"flex",alignItems:"center",justifyContent:"center",
+                          flexShrink:0,marginTop:1}}>
+                          {sel&&<span style={{color:"#fff",fontSize:11,lineHeight:1}}>✓</span>}
+                        </div>
+                        <div style={{flex:1}}>
+                          <div style={{...ty.sm,color:sel?C.t1:C.t2,fontWeight:sel?500:400,lineHeight:1.5,marginBottom:4}}>{q.q}</div>
+                          <div style={{display:"flex",flexWrap:"wrap",gap:4}}>
+                            {q.opts.slice(0,3).map(function(o){return(
+                              <span key={o} style={{...ty.meta,fontSize:9,padding:"1px 7px",borderRadius:20,background:C.surface2,border:"1px solid "+C.line,color:C.t3}}>{o}</span>
+                            );})}
+                            {q.opts.length>3&&<span style={{...ty.meta,fontSize:9,color:C.t3}}>+{q.opts.length-3} more</span>}
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+
+          <div style={{position:"sticky",bottom:20,left:0,right:0}}>
+            <button onClick={function(){if(form.selectedQs.length>=3) setStep("preview");}}
+              disabled={form.selectedQs.length<3}
+              style={{width:"100%",padding:"14px",background:form.selectedQs.length>=3?C.coral:C.surface2,
+                color:form.selectedQs.length>=3?"#fff":C.t3,border:"none",borderRadius:14,
+                cursor:form.selectedQs.length>=3?"pointer":"default",fontFamily:sans,fontWeight:700,fontSize:15,
+                boxShadow:"0 4px 24px rgba(0,0,0,0.4)"}}>
+              {form.selectedQs.length<3?"Select at least 3 questions":"Preview page →"}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ── STEP: PREVIEW ─────────────────────────────────────────────
+  if(step === "preview") {
+    var selQObjs = form.selectedQs.map(function(id){
+      return allQs.find(function(q){return q.id===id;});
+    }).filter(Boolean);
+    return(
+      <div style={{minHeight:"100vh",background:C.bg,fontFamily:sans,color:C.t1}}>
+        <div style={{position:"sticky",top:0,background:C.bg+"F5",backdropFilter:"blur(12px)",borderBottom:"1px solid "+C.line,padding:"14px 20px",display:"flex",alignItems:"center",gap:14,zIndex:50}}>
+          <button onClick={function(){setStep("questions");}} style={{background:"transparent",border:"none",color:C.t3,cursor:"pointer",fontFamily:sans,fontSize:13,padding:0}}>← Edit questions</button>
+          <div style={{...ty.bodyMd,fontSize:14}}>Preview</div>
+        </div>
+        <div style={{padding:"24px 20px 100px",maxWidth:480,margin:"0 auto"}}>
+          <div style={{...ty.label,color:C.t3,marginBottom:16}}>HOW RESIDENTS WILL SEE YOUR PAGE</div>
+
+          {/* Header card */}
+          <div style={{background:"linear-gradient(135deg,"+C.coral+"14,"+C.surface+")",border:"1px solid "+C.coral+"30",borderRadius:18,padding:"20px",marginBottom:16}}>
+            <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:12}}>
+              <div style={{width:52,height:52,borderRadius:14,background:C.coral+"22",display:"flex",alignItems:"center",justifyContent:"center",fontSize:28,flexShrink:0}}>{form.emoji}</div>
+              <div>
+                <div style={{...ty.label,color:C.coral,fontSize:10,marginBottom:3}}>Pre-launch · {form.area}{form.opening?" · "+form.opening:""}</div>
+                <div style={{fontFamily:serif,fontSize:17,fontWeight:700,color:C.t1}}>{form.label}</div>
+              </div>
+            </div>
+            <div style={{...ty.sm,color:C.t2,fontStyle:"italic",lineHeight:1.65,marginBottom:12}}>"{form.blurb}"</div>
+            <div style={{...ty.meta,color:C.t3}}>Help shape what opens — answer a few questions below</div>
+          </div>
+
+          {/* Questions preview */}
+          <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:24}}>
+            {selQObjs.map(function(q,i){return(
+              <div key={q.id} style={{background:C.surface,border:"1px solid "+C.line,borderRadius:14,padding:"14px 16px"}}>
+                <div style={{...ty.sm,color:C.t1,fontWeight:500,marginBottom:10,lineHeight:1.5}}>{i+1}. {q.q}</div>
+                <div style={{display:"flex",flexDirection:"column",gap:6}}>
+                  {q.opts.map(function(opt){return(
+                    <div key={opt} style={{padding:"8px 12px",borderRadius:10,background:C.surface2,border:"1px solid "+C.line}}>
+                      <span style={{...ty.meta,color:C.t2}}>{opt}</span>
+                    </div>
+                  );})}
+                </div>
+              </div>
+            );})}
+          </div>
+
+          <div style={{display:"flex",flexDirection:"column",gap:10}}>
+            <button onClick={function(){
+              onPublish(Object.assign({}, form, {
+                id:"pl_"+Date.now(),
+                questions: selQObjs,
+                responseCount:0,
+                status:"active",
+                operator:(session&&session.name)||"Operator",
+                operatorType:(session&&session.acctType)||"business",
+              }));
+            }}
+              style={{width:"100%",padding:"15px",background:C.coral,color:"#fff",border:"none",borderRadius:14,cursor:"pointer",fontFamily:sans,fontWeight:700,fontSize:15}}>
+              Publish pre-launch page →
+            </button>
+            <button onClick={function(){setStep("questions");}}
+              style={{width:"100%",padding:"11px",background:"transparent",border:"1px solid "+C.line,borderRadius:14,cursor:"pointer",fontFamily:sans,fontSize:13,color:C.t3}}>
+              Edit questions
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ── PUBLISHED ─────────────────────────────────────────────────
+  return(
+    <div style={{minHeight:"100vh",background:C.bg,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"40px 24px",fontFamily:sans,textAlign:"center"}}>
+      <div style={{width:72,height:72,borderRadius:20,background:C.green+"18",border:"1px solid "+C.green+"30",display:"flex",alignItems:"center",justifyContent:"center",fontSize:32,marginBottom:24}}>✓</div>
+      <h2 style={{...ty.h2,marginBottom:10}}>Page published</h2>
+      <div style={{...ty.body,color:C.t3,maxWidth:300,lineHeight:1.65,marginBottom:32}}>Residents in {form.area} will start seeing your page in their feed. Responses will appear here as they come in.</div>
+      <button onClick={onBack} style={{padding:"13px 28px",background:C.coral,color:"#fff",border:"none",borderRadius:14,cursor:"pointer",fontFamily:sans,fontWeight:700,fontSize:15}}>Back to pre-launch</button>
+    </div>
+  );
+}
+
+
 function BizDashboard({session,onLogout,onUpdateSession}){
-  const acctType = session?.acctType||"business";
+  const acctType = (session&&session.acctType)||"business";
   const acctCfg = ACCOUNT_TYPES.find(a=>a.id===acctType)||ACCOUNT_TYPES[0];
-  const [tier, setTier] = useState(session?.tier||"free");
+  const [tier, setTier] = useState((session&&session.tier)||"free");
   const [bizTab, setBizTab] = useState("demand");
   const [showUpgrade, setUpg] = useState(false);
-  const [upgradeTarget, setUT] = useState("starter");
-  const sessionAreas = session?.areas||["SW4"];
+  const [upgradeTarget, setUT] = useState("builder");
+  const [showUpgradeForm, setShowUpgradeForm] = useState(false);
+  const [upgradeForm, setUpgradeForm] = useState({reason:"", tier:"builder"});
+  const sessionAreas = (session&&session.areas)||["SW4"];
   const sessionAreas2 = sessionAreas.length>0 ? sessionAreas : ["SW4"];
   const homeArea = sessionAreas[0]||"SW4";
   const thisTier = TIERS.find(t=>t.id===tier)||TIERS[0];
@@ -2709,32 +4077,63 @@ function BizDashboard({session,onLogout,onUpdateSession}){
   function bump(targetTier){setUT(targetTier);setUpg(true);}
 
   // Report state
+  // Firebase: activeAreas drives all Firestore queries
+  // query area_concept_metrics where area_id in activeAreas, merge client-side
+  var maxAreas = canSee(tier,"investor") ? 5 : canSee(tier,"builder") ? 3 : 1;
   const [reportMode, setReportMode] = useState("business");
   const [reportConcept, setReportConcept] = useState(null);
   const [reportConceptOpen, setReportConceptOpen] = useState(false);
-  const [reportArea, setReportArea] = useState(null);
   const [reportSector, setReportSector] = useState(null);
-  const activeArea = reportArea || sessionAreas2[0];
-  const activeSectors = (SECTORS_MAP[activeArea]||[]);
+  const [activeAreas, setActiveAreas] = useState([sessionAreas2[0]]);
+  // Primary area for single-concept metrics
+  var activeArea = activeAreas.length > 0 ? activeAreas[0] : sessionAreas2[0];
+  // Sectors for all selected areas combined
+  var activeSectors = activeAreas.reduce(function(all, area) {
+    return all.concat(SECTORS_MAP[area]||[]);
+  }, []);
   const activeSector = reportSector && activeSectors.includes(reportSector) ? reportSector : null;
+  var toggleArea = function(area) {
+    setActiveAreas(function(prev) {
+      var i2 = prev.indexOf(area);
+      if(i2 !== -1) {
+        if(prev.length === 1) return prev;
+        return prev.filter(function(a){return a!==area;});
+      }
+      if(prev.length >= maxAreas) return prev;
+      return prev.concat([area]);
+    });
+  };
+  const [reportCatFilter, setReportCatFilter] = useState("all");
   const activeConcept = reportConcept || FEED_WITH_METRICS[0];
   const cc = CAT_CFG[activeConcept.cat] || CAT_CFG.business;
   const cf = conf(activeConcept.voters);
   const m = calcMetrics(activeConcept);
+  const specM = getItemMetrics(activeConcept.id);
   const avgSpendFmt = fmtAvgSpend(m.avgSpend);
+  // Spec-based metrics (shown when available)
+  const specConf = specM ? getConfidenceDisplay(specM.confidence) : null;
+  const specRevRange = specM ? fmtRevRange(specM.revLow, specM.revHigh) : null;
+  const specScaledRange = specM ? fmtRevRange(specM.scaledLow, specM.scaledHigh) : null;
+  const specAnnualRange = specM ? fmtRevRange(specM.annualLow, specM.annualHigh) : null;
   const localPct = Math.round((activeConcept.distrib[0]+activeConcept.distrib[1]));
-  const highSpend = activeConcept.spendDist.slice(4).reduce((s,v)=>s+v,0);
-  const lowSpend = activeConcept.spendDist.slice(0,2).reduce((s,v)=>s+v,0);
+  const highSpend = activeConcept.spendDist.slice(4).reduce(function(s,v){return s+v;},0);
+  const lowSpend = activeConcept.spendDist.slice(0,2).reduce(function(s,v){return s+v;},0);
   const freqLabels = ["A few times a year","Once a month","2–3× a month","Weekly","Multiple times a week"];
-  const oppScore = Math.round((activeConcept.voters/500)*4 + (activeConcept.momentum/50)*3 + (localPct/100)*3);
-  const momentumWord = activeConcept.momentum>20?"accelerating":activeConcept.momentum>10?"growing steadily":"building";
-  const catchmentWord = localPct>60?"hyper-local":"neighbourhood-level";
-  const spendWord = highSpend>40?"premium":"mid-range";
+  const intensity = specM ? specM.intensity : Math.round((activeConcept.avgCoins||5)*10/10);
+  const ewuDisplay = specM ? specM.ewu : "—";
+  const demandLbl = getDemandLabel(activeConcept.id);
+  const demandColor = demandLbl==="high"?C.green:demandLbl==="medium"?C.amber:C.coral;
   const trendForArea = TREND_DATA[activeArea]||TREND_DATA["SW4"];
   const trendVals = trendForArea[activeConcept.id]||[Math.round(activeConcept.voters*0.6),Math.round(activeConcept.voters*0.8),activeConcept.voters];
-  const heatData = (HEATMAP[activeConcept.id]||[]).sort((a,b)=>b.score-a.score);
-  const insightText = `${activeConcept.voters} verified residents in ${activeArea} have declared demand for ${activeConcept.label.toLowerCase()}, with signal ${momentumWord} at +${activeConcept.momentum}% month-on-month. Catchment analysis suggests this is a ${catchmentWord} opportunity — ${localPct}% of voters are within a 10-minute walk. Declared spend skews ${spendWord} at an average of ${avgSpendFmt} per visit. The demographic profile points to ${activeConcept.demo.hh.toLowerCase()} as the primary audience.`;
+  const heatData = (HEATMAP[activeConcept.id]||[]).sort(function(a,b){return b.score-a.score;});
+  const insightText = generateInsightText(activeConcept, activeArea);
   const [faqOpen, setFaqOpen] = useState(null);
+  const [whoOpen, setWhoOpen] = useState(false);
+  const [spendOpen, setSpendOpen] = useState(false);
+  const [freqOpen, setFreqOpen] = useState(false);
+  const [briefOpen, setBriefOpen] = useState(false);
+  const [bizLegalDoc, setBizLegalDoc] = useState(null);
+  const [tagsOpen, setTagsOpen] = useState(false);
 
   const TABS = [
     {id:"demand", l:"Demand"}, {id:"prelaunch", l:"Pre-launch"}, {id:"reports", l:"Reports"}, {id:"faq", l:"FAQ"}, {id:"profile", l:"Profile"}
@@ -2743,20 +4142,144 @@ function BizDashboard({session,onLogout,onUpdateSession}){
   const [plStep, setPlStep] = useState("list");
   const [plSelected, setPlSelected] = useState(new Set());
   const [activePL, setActivePL] = useState(null);
+  const [showCreate, setShowCreate] = useState(false);
+  // Firebase: prelaunch_pages where operator_uid === currentUser.uid
+  // status: active | expired | renewed
+  const [myPages, setMyPages] = useState(
+    (session && session.tier === "investor") ? [
+      {
+        id:"demo_pl1", label:"Late-night ramen bar", emoji:"🍜",
+        cat:"food", area:((session&&session.areas)||["SW4"])[0],
+        opening:"Summer 2026",
+        blurb:"Backed by local food investors who saw the demand. Authentic tonkotsu, open until 2am.",
+        questions: PRELAUNCH_QUESTIONS["restaurant"]||[],
+        responseCount:31, status:"active",
+        operator:(session&&session.name)||"Operator",
+        operatorType:(session&&session.acctType)||"business",
+        created_at:"2025-11-01", expires_at:"2026-02-01",
+      },
+      {
+        id:"demo_pl2", label:"Reformer pilates studio", emoji:"🧘",
+        cat:"fitness", area:((session&&session.areas)||["SW4"])[0],
+        opening:"Already open",
+        blurb:"SW4's first dedicated reformer studio. 12 machines, small classes, all levels.",
+        questions: PRELAUNCH_QUESTIONS["fitness"]||[],
+        responseCount:89, status:"expired",
+        operator:(session&&session.name)||"Operator",
+        operatorType:(session&&session.acctType)||"business",
+        created_at:"2025-06-01", expires_at:"2025-09-01",
+      },
+    ] : []
+  );
 
   return (
     <div style={{background:C.bg, minHeight:"100vh", fontFamily:sans, color:C.t1}}>
+      {bizLegalDoc&&<div style={{position:"fixed",inset:0,zIndex:300,background:C.bg}}>{bizLegalDoc==="screen"?<LegalScreen onBack={function(){setBizLegalDoc(null);}}/>:<LegalPage doc={bizLegalDoc} onBack={function(){setBizLegalDoc(null);}}/>}</div>}
       {/* Upgrade modal */}
       {showUpgrade&&(
-        <div style={{position:"fixed",inset:0,background:"#000000CC",zIndex:400,display:"flex",alignItems:"flex-end",justifyContent:"center"}}>
-          <div style={{background:C.surface,borderRadius:"22px 22px 0 0",padding:"24px 20px 40px",width:"100%",maxWidth:480}}>
-            <div style={{...ty.h3,marginBottom:8}}>Upgrade to {TIERS.find(t=>t.id===upgradeTarget)?.name}</div>
-            <div style={{...ty.body,color:C.t2,marginBottom:20}}>{TIERS.find(t=>t.id===upgradeTarget)?.features.join(" · ")}</div>
-            <button onClick={()=>{setTier(upgradeTarget);setUpg(false);onUpdateSession&&onUpdateSession({...session,tier:upgradeTarget});}}
-              style={{width:"100%",padding:"14px",borderRadius:14,background:C.coral,color:"#fff",border:"none",cursor:"pointer",...ty.btn,fontSize:15,marginBottom:10}}>
-              Upgrade now →
+        <div style={{position:"fixed",inset:0,background:"#000000CC",zIndex:400,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={function(){setUpg(false);}}>
+          <div style={{background:C.surface,borderRadius:"22px 22px 0 0",padding:"24px 20px 40px",width:"100%",maxWidth:480}} onClick={function(e){e.stopPropagation();}}>
+            <div style={{textAlign:"center",marginBottom:20}}>
+              <div style={{...ty.h3,marginBottom:6}}>Unlock deeper insights for {activeArea}</div>
+              <div style={{...ty.meta,color:C.t3,lineHeight:1.6}}>Go beyond surface demand and validate your decision with real data</div>
+            </div>
+            <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:20}}>
+              {[
+                {id:"builder",name:"Builder",period:"30 days access",areas:"3 areas",desc:"Spend, frequency, travel patterns and full rankings",color:C.purple,highlight:false},
+                {id:"investor",name:"Investor",period:"90 days access",areas:"5 areas",desc:"Everything in Builder plus revenue potential, demographics, demand gaps and The Brief",color:C.coral,highlight:true},
+              ].map(function(opt){return(
+                <div key={opt.id} style={{padding:"14px 16px",borderRadius:14,background:opt.highlight?C.coral+"0D":C.surface2,border:"1px solid "+(opt.highlight?C.coral+"40":C.line)}}>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:4}}>
+                    <div style={{fontFamily:serif,fontSize:16,fontWeight:700,color:opt.highlight?opt.color:C.t1}}>{opt.name}</div>
+                    {opt.highlight&&<span style={{...ty.meta,fontSize:9,background:opt.color,color:"#fff",padding:"2px 8px",borderRadius:20,fontWeight:700}}>POPULAR</span>}
+                  </div>
+                  <div style={{...ty.meta,color:C.t2,marginBottom:4}}>{opt.period} · {opt.areas}</div>
+                  <div style={{...ty.meta,color:C.t3,lineHeight:1.5}}>{opt.desc}</div>
+                </div>
+              );})}
+            </div>
+            <button onClick={function(){setUpg(false); setShowUpgradeForm(true);}}
+              style={{width:"100%",padding:"14px",background:C.coral,color:"#fff",border:"none",borderRadius:14,cursor:"pointer",fontFamily:sans,fontWeight:700,fontSize:15,marginBottom:10}}>
+              Request access →
             </button>
-            <button onClick={()=>setUpg(false)} style={{width:"100%",padding:"12px",borderRadius:14,background:"transparent",border:"1px solid "+C.line,color:C.t3,cursor:"pointer",fontFamily:sans,fontSize:14}}>Cancel</button>
+            <button onClick={function(){setUpg(false);}}
+              style={{width:"100%",padding:"10px",background:"transparent",border:"none",cursor:"pointer",fontFamily:sans,fontSize:13,color:C.t3}}>
+              Continue with free access
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Upgrade request form — pre-filled from session */}
+      {showUpgradeForm&&(
+        <div style={{position:"fixed",inset:0,background:"#000000CC",zIndex:500,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={function(){setShowUpgradeForm(false);}}>
+          <div style={{background:C.surface,borderRadius:"22px 22px 0 0",padding:"24px 20px 40px",width:"100%",maxWidth:480,maxHeight:"85vh",overflowY:"auto"}} onClick={function(e){e.stopPropagation();}}>
+            <div style={{marginBottom:20}}>
+              <div style={{...ty.h3,marginBottom:4}}>Request upgraded access</div>
+              <div style={{...ty.meta,color:C.t3,lineHeight:1.6}}>Your details are pre-filled. Just confirm your chosen tier and add any context.</div>
+            </div>
+            {/* Pre-filled read-only summary */}
+            <div style={{background:C.surface2,borderRadius:12,padding:"12px 14px",marginBottom:16}}>
+              <div style={{display:"flex",flexDirection:"column",gap:6}}>
+                {[
+                  {l:"Name", v:(session&&session.name)||"—"},
+                  {l:"Email", v:(session&&session.email)||"—"},
+                  {l:"Business", v:(session&&session.biz)||"—"},
+                  {l:"Type", v:(session&&session.acctType)||"—"},
+                  {l:"Stage", v:(session&&session.stage)||"—"},
+                  {l:"Areas", v:sessionAreas.join(", ")},
+                ].map(function(f){return(
+                  <div key={f.l} style={{display:"flex",gap:8}}>
+                    <span style={{...ty.meta,color:C.t3,minWidth:60}}>{f.l}</span>
+                    <span style={{...ty.meta,color:C.t1,fontWeight:500}}>{f.v}</span>
+                  </div>
+                );})}
+              </div>
+            </div>
+            {/* Tier choice */}
+            <div style={{marginBottom:14}}>
+              <div style={{...ty.label,marginBottom:8}}>Access level</div>
+              <div style={{display:"flex",flexDirection:"column",gap:7}}>
+                {[
+                  {id:"builder", label:"Builder", desc:"£149 — 30 days. 3 areas. Full validation data.", color:C.purple},
+                  {id:"investor", label:"Investor", desc:"£399 — 90 days. 5 areas. Revenue, demographics, The Brief.", color:C.coral},
+                ].map(function(opt){
+                  var on = upgradeForm.tier===opt.id;
+                  return(
+                    <button key={opt.id} onClick={function(){setUpgradeForm(function(f){return Object.assign({},f,{tier:opt.id});});}}
+                      style={{display:"flex",alignItems:"center",gap:12,padding:"12px 14px",borderRadius:12,
+                        background:on?opt.color+"12":C.bg,
+                        border:"1px solid "+(on?opt.color+"50":C.line),
+                        cursor:"pointer",fontFamily:sans,textAlign:"left",width:"100%"}}>
+                      <div style={{flex:1}}>
+                        <div style={{...ty.sm,color:on?opt.color:C.t1,fontWeight:on?700:400,marginBottom:2}}>{opt.label}</div>
+                        <div style={{...ty.meta,color:C.t3}}>{opt.desc}</div>
+                      </div>
+                      {on&&<div style={{width:8,height:8,borderRadius:"50%",background:opt.color,flexShrink:0}}/>}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            {/* Supplementary question */}
+            <div style={{marginBottom:20}}>
+              <div style={{...ty.label,marginBottom:6}}>Anything to add? <span style={{color:C.t3,fontWeight:400,textTransform:"none",fontSize:10,letterSpacing:0}}>(optional)</span></div>
+              <textarea value={upgradeForm.reason}
+                onChange={function(e){setUpgradeForm(function(f){return Object.assign({},f,{reason:e.target.value});});}}
+                placeholder="e.g. Now evaluating a second site in SW9 and need revenue data to compare both."
+                rows={3}
+                style={{width:"100%",background:C.bg,border:"1px solid "+C.line,borderRadius:12,
+                  padding:"11px 14px",color:C.t1,fontSize:13,fontFamily:sans,
+                  outline:"none",resize:"none",lineHeight:1.5,boxSizing:"border-box"}}/>
+            </div>
+            <button onClick={function(){setShowUpgradeForm(false); setUpg(false);}}
+              style={{width:"100%",padding:"14px",background:C.coral,color:"#fff",border:"none",borderRadius:14,cursor:"pointer",fontFamily:sans,fontWeight:700,fontSize:15,marginBottom:10}}>
+              Submit upgrade request →
+            </button>
+            <button onClick={function(){setShowUpgradeForm(false);}}
+              style={{width:"100%",padding:"10px",background:"transparent",border:"none",cursor:"pointer",fontFamily:sans,fontSize:13,color:C.t3}}>
+              Cancel
+            </button>
           </div>
         </div>
       )}
@@ -2768,7 +4291,7 @@ function BizDashboard({session,onLogout,onUpdateSession}){
           <div style={{padding:"3px 10px",borderRadius:20,background:thisTier.color+"20",border:"1px solid "+thisTier.color+"40"}}>
             <span style={{...ty.meta,color:thisTier.color,fontWeight:700}}>{thisTier.name}</span>
           </div>
-          <button onClick={()=>bump(tier==="free"?"starter":tier==="starter"?"pro":tier==="pro"?"enterprise":"enterprise")}
+          <button onClick={()=>bump(tier==="free"?"builder":tier==="builder"?"investor":"investor")}
             style={{padding:"5px 12px",borderRadius:8,background:C.surface,border:"1px solid "+C.line,color:C.t2,cursor:"pointer",fontFamily:sans,fontSize:11}}>
             Upgrade
           </button>
@@ -2800,7 +4323,7 @@ function BizDashboard({session,onLogout,onUpdateSession}){
               <div style={{background:C.purple+"10",border:"1px solid "+C.purple+"20",borderRadius:10,padding:"9px 12px"}}><div style={{fontFamily:serif,fontSize:18,fontWeight:700,color:C.purple}}>{sessionAreas.length}</div><div style={{...ty.meta,color:C.purple,marginTop:1}}>areas tracked</div></div>
             </div>
           </div>
-          {FEED_WITH_METRICS.slice(0,canSee(tier,"starter")?FEED_WITH_METRICS.length:5).map((item,i)=>{
+          {FEED_WITH_METRICS.slice(0,canSee(tier,"builder")?FEED_WITH_METRICS.length:5).map((item,i)=>{
             const icc=CAT_CFG[item.cat];
             const cf2=conf(item.voters);
             return(
@@ -2817,92 +4340,351 @@ function BizDashboard({session,onLogout,onUpdateSession}){
                   </div>
                   <div style={{textAlign:"right"}}>
                     <div style={{...ty.meta,color:C.green,fontWeight:700}}>+{item.momentum}%</div>
-                    {canSee(tier,"pro")&&<div style={{...ty.meta,color:C.t3,marginTop:2}}>{fmtMoney(item.monthlyRev)}/mo</div>}
+                    {canSee(tier,"investor")&&<div style={{...ty.meta,color:C.t3,marginTop:2}}>{fmtMoney(item.monthlyRev)}/mo</div>}
                   </div>
                 </div>
               </Card>
             );
           })}
-          {!canSee(tier,"starter")&&(
+          {!canSee(tier,"builder")&&(
             <div style={{padding:"14px",background:C.surface,border:"1px solid "+C.line,borderRadius:12,textAlign:"center"}}>
               <Lock size={14} color={C.t3} style={{marginBottom:6}}/>
-              <div style={{...ty.sm,color:C.t2,marginBottom:10}}>Starter+ unlocks all concepts and full data</div>
-              <button onClick={()=>bump("starter")} style={{padding:"9px 20px",borderRadius:10,background:C.amber,color:"#000",border:"none",cursor:"pointer",fontFamily:sans,fontWeight:700,fontSize:12}}>Upgrade to Starter</button>
+              <div style={{...ty.sm,color:C.t2,marginBottom:10}}>Builder+ unlocks all concepts and full data</div>
+              <button onClick={()=>bump("builder")} style={{padding:"9px 20px",borderRadius:10,background:C.amber,color:"#000",border:"none",cursor:"pointer",fontFamily:sans,fontWeight:700,fontSize:12}}>Upgrade to Builder</button>
             </div>
           )}
         </div>
       )}
 
+      {bizTab==="prelaunch"&&(
+        <div style={{padding:"20px 16px 80px"}}>
+          {/* CreatePrelaunchPage overlay */}
+          {showCreate&&<div style={{position:"fixed",inset:0,zIndex:300,background:C.bg,overflowY:"auto"}}>
+            <CreatePrelaunchPage session={session} onBack={function(){setShowCreate(false);}}
+              onPublish={function(page){setMyPages(function(p){return [page].concat(p);});setShowCreate(false);}}/>
+          </div>}
+
+          <h2 style={{...ty.h2,marginBottom:4}}>Pre-launch pages</h2>
+          <div style={{...ty.body,color:C.t3,marginBottom:20,lineHeight:1.6}}>Collect resident intent before you open. Only available on Investor.</div>
+
+          {/* Gate: Investor only */}
+          {!canSee(tier,"investor")&&(
+            <div style={{background:C.surface,border:"1px solid "+C.line,borderRadius:14,padding:"24px 20px",textAlign:"center"}}>
+              <Lock size={20} color={C.t3} style={{margin:"0 auto 12px"}}/>
+              <div style={{...ty.bodyMd,marginBottom:6}}>Investor access required</div>
+              <div style={{...ty.sm,color:C.t3,marginBottom:16,lineHeight:1.65}}>Create a pre-launch page to collect resident feedback before committing. One active page per access period.</div>
+              <button onClick={function(){bump("investor");}} style={{padding:"9px 20px",borderRadius:10,background:C.coral,color:"#fff",border:"none",cursor:"pointer",fontFamily:sans,fontWeight:700,fontSize:12}}>Unlock with Investor →</button>
+            </div>
+          )}
+
+          {/* Investor view */}
+          {canSee(tier,"investor")&&(
+            <div>
+              {/* Detail view */}
+              {activePL ? (
+                <div>
+                  <button onClick={function(){setActivePL(null);}} style={{background:"none",border:"none",color:C.t3,cursor:"pointer",fontFamily:sans,fontSize:13,marginBottom:16,display:"flex",alignItems:"center",gap:6,padding:0}}>← Back to pages</button>
+
+                  {/* Page header */}
+                  <div style={{background:"linear-gradient(135deg,"+C.coral+"14,"+C.surface+")",border:"1px solid "+C.coral+"30",borderRadius:16,padding:"18px 20px",marginBottom:20}}>
+                    <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",marginBottom:10}}>
+                      <div>
+                        <div style={{...ty.label,color:C.coral,marginBottom:4}}>Pre-launch · {activePL.area}</div>
+                        <div style={{...ty.h3,marginBottom:6}}>{activePL.emoji} {activePL.label}</div>
+                        <div style={{...ty.sm,color:C.t2,lineHeight:1.65,fontStyle:"italic"}}>"{activePL.blurb}"</div>
+                      </div>
+                    </div>
+                    <div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:12}}>
+                      <div style={{padding:"4px 10px",borderRadius:20,
+                        background:activePL.status==="active"?C.green+"18":activePL.status==="expired"?C.coral+"18":C.surface2,
+                        border:"1px solid "+(activePL.status==="active"?C.green+"40":activePL.status==="expired"?C.coral+"40":C.line)}}>
+                        <span style={{...ty.meta,color:activePL.status==="active"?C.green:activePL.status==="expired"?C.coral:C.t3,fontWeight:600,textTransform:"capitalize"}}>
+                          {activePL.status==="active"?"● Live":activePL.status==="expired"?"Expired":"Renewed"}
+                        </span>
+                      </div>
+                      <div style={{padding:"4px 10px",borderRadius:20,background:C.surface2,border:"1px solid "+C.line}}>
+                        <span style={{...ty.meta,color:C.t3,fontWeight:600}}>{activePL.responseCount} resident responses</span>
+                      </div>
+                      {activePL.opening&&<div style={{padding:"4px 10px",borderRadius:20,background:C.surface2,border:"1px solid "+C.line}}>
+                        <span style={{...ty.meta,color:C.t3}}>{activePL.opening}</span>
+                      </div>}
+                    </div>
+                  </div>
+
+                  {/* Expired CTA */}
+                  {activePL.status==="expired"&&(
+                    <div style={{background:C.surface,border:"1px solid "+C.amber+"40",borderRadius:14,padding:"16px 18px",marginBottom:16,display:"flex",alignItems:"center",gap:14}}>
+                      <div style={{flex:1}}>
+                        <div style={{...ty.sm,color:C.t1,fontWeight:600,marginBottom:3}}>This page has expired</div>
+                        <div style={{...ty.meta,color:C.t3,lineHeight:1.5}}>Renew your Investor access to reactivate it and continue collecting responses.</div>
+                      </div>
+                      <button onClick={function(){setShowUpgradeForm(true);}} style={{padding:"9px 16px",borderRadius:10,background:C.amber,color:"#000",border:"none",cursor:"pointer",fontFamily:sans,fontWeight:700,fontSize:12,flexShrink:0}}>Renew access</button>
+                    </div>
+                  )}
+
+                  {/* Live / historical responses */}
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
+                    <div style={{...ty.h3}}>{activePL.status==="active"?"Live responses":"Response summary"}</div>
+                    {activePL.status==="active"&&(
+                      <div style={{display:"flex",alignItems:"center",gap:5,padding:"4px 10px",borderRadius:20,background:C.green+"18",border:"1px solid "+C.green+"30"}}>
+                        <div style={{width:6,height:6,borderRadius:"50%",background:C.green}}/>
+                        <span style={{...ty.meta,color:C.green,fontWeight:700,fontSize:10}}>LIVE</span>
+                      </div>
+                    )}
+                  </div>
+                  <ClosedSurveyCard survey={activePL} allQs={Object.values(PRELAUNCH_QUESTIONS).flat()}/>
+                </div>
+
+              ) : (
+                <div>
+                  {/* Create button — only when no active page */}
+                  {(function(){
+                    var hasActive = myPages.some(function(p){return p.status==="active";});
+                    return hasActive ? (
+                      <div style={{...ty.meta,color:C.t3,marginBottom:16,padding:"10px 14px",background:C.surface,border:"1px solid "+C.line,borderRadius:10,lineHeight:1.5}}>
+                        You have one active pre-launch page. You can create a new one when it expires or you renew your access.
+                      </div>
+                    ) : (
+                      <button onClick={function(){setShowCreate(true);}}
+                        style={{width:"100%",padding:"13px",background:C.coral,color:"#fff",border:"none",borderRadius:12,cursor:"pointer",fontFamily:sans,fontWeight:600,fontSize:14,marginBottom:16}}>
+                        + Create pre-launch page
+                      </button>
+                    );
+                  })()}
+
+                  {/* Page list — own pages only */}
+                  {myPages.length===0&&(
+                    <div style={{padding:"32px 20px",textAlign:"center",background:C.surface,border:"1px dashed "+C.line,borderRadius:14}}>
+                      <div style={{fontSize:32,marginBottom:10}}>📋</div>
+                      <div style={{...ty.bodyMd,marginBottom:6}}>No pre-launch pages yet</div>
+                      <div style={{...ty.sm,color:C.t3,lineHeight:1.6}}>Create a page to start collecting resident intent before you open.</div>
+                    </div>
+                  )}
+                  {myPages.map(function(page){
+                    var isExpired = page.status==="expired";
+                    return(
+                      <button key={page.id} onClick={function(){setActivePL(page);}}
+                        style={{width:"100%",background:C.surface,border:"1px solid "+(isExpired?C.coral+"30":C.line),borderRadius:14,padding:"16px 18px",cursor:"pointer",fontFamily:sans,textAlign:"left",marginBottom:10,display:"flex",alignItems:"center",gap:14,opacity:isExpired?0.8:1}}>
+                        <div style={{width:44,height:44,borderRadius:12,background:isExpired?C.coral+"12":C.coral+"18",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0}}>{page.emoji}</div>
+                        <div style={{flex:1}}>
+                          <div style={{...ty.bodyMd,fontSize:14,marginBottom:3}}>{page.label}</div>
+                          <div style={{...ty.meta,color:C.t3}}>{page.area} · {page.responseCount} responses</div>
+                        </div>
+                        <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:4,flexShrink:0}}>
+                          <span style={{...ty.meta,fontSize:10,padding:"2px 8px",borderRadius:20,
+                            background:isExpired?C.coral+"18":C.green+"18",
+                            color:isExpired?C.coral:C.green,fontWeight:600}}>
+                            {isExpired?"Expired":"Live"}
+                          </span>
+                          <ChevronDown size={13} color={C.t3} style={{transform:"rotate(-90deg)"}}/>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* FAQ TAB */}
+
       {/* REPORTS TAB */}
-      {bizTab==="reports"&&(()=>{
-        return (
-          <div style={{padding:"16px 16px 80px"}}>
-            {/* Mode toggle */}
+      {bizTab==="reports"&&(
+        <div style={{padding:"16px 16px 80px"}}>
+
+            {/* ── AREA SELECTOR — shared between By Business and By Area ── */}
+            {/* Firebase: activeAreas[] is passed to all Firestore queries   */}
+            {/* query: area_concept_metrics where area_id in activeAreas      */}
+            <div style={{marginBottom:16,padding:"12px 14px",background:C.surface,border:"1px solid "+C.line,borderRadius:14}}>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+                <div style={{...ty.label,fontSize:9,color:C.t3}}>{activeAreas.length>1?"AREAS — AGGREGATED":"AREA"}</div>
+                {sessionAreas2.length>1&&<div style={{...ty.meta,color:C.t3,fontSize:9}}>{activeAreas.length}/{maxAreas} selected</div>}
+              </div>
+              <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:activeAreas.length>1?8:0}}>
+                {sessionAreas2.map(function(area){
+                  var on = activeAreas.indexOf(area)!==-1;
+                  var atLimit = !on && activeAreas.length>=maxAreas;
+                  return(
+                    <button key={area} onClick={function(){toggleArea(area);}}
+                      disabled={atLimit}
+                      style={{padding:"6px 14px",borderRadius:20,cursor:atLimit?"default":"pointer",fontFamily:sans,fontSize:13,fontWeight:on?700:400,
+                        background:on?C.coral+"18":"transparent",
+                        border:"1px solid "+(on?C.coral+"60":C.line),
+                        color:on?C.coral:C.t3,
+                        opacity:atLimit?0.4:1,transition:"all .15s"}}>
+                      {area}
+                    </button>
+                  );
+                })}
+                {sessionAreas2.length===1&&canSee(tier,"builder")&&(
+                  <div style={{...ty.meta,color:C.t3,fontSize:11,padding:"6px 4px"}}>Add more areas in profile</div>
+                )}
+                {!canSee(tier,"builder")&&(
+                  <button onClick={function(){bump("builder");}}
+                    style={{padding:"5px 12px",borderRadius:20,cursor:"pointer",fontFamily:sans,fontSize:11,
+                      background:"transparent",border:"1px dashed "+C.line,color:C.t3}}>
+                    + unlock more areas
+                  </button>
+                )}
+              </div>
+              {activeAreas.length>1&&(
+                <div style={{...ty.meta,color:C.t3,fontSize:10,lineHeight:1.5}}>
+                  Voices summed · momentum averaged across {activeAreas.join(", ")}
+                </div>
+              )}
+            </div>
+
+            {/* Sector / district selector — Investor only, shown when single area active */}
+            {canSee(tier,"investor")&&activeSectors.length>0&&(
+              <div style={{marginBottom:10,padding:"10px 14px",background:C.surface,border:"1px solid "+C.line,borderRadius:14}}>
+                <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+                  <div style={{...ty.label,fontSize:9,color:C.t3}}>SECTORS</div>
+                  <span style={{...ty.meta,fontSize:9,color:C.coral,background:C.coral+"15",padding:"1px 7px",borderRadius:20}}>Investor</span>
+                </div>
+                <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+                  <button onClick={function(){setReportSector(null);}}
+                    style={{padding:"5px 12px",borderRadius:20,cursor:"pointer",fontFamily:sans,fontSize:12,fontWeight:!activeSector?700:400,
+                      background:!activeSector?C.coral+"18":"transparent",
+                      border:"1px solid "+(!activeSector?C.coral+"60":C.line),
+                      color:!activeSector?C.coral:C.t3,transition:"all .15s"}}>
+                    {activeAreas.length>1?"All sectors":"All of "+activeArea}
+                  </button>
+                  {activeSectors.map(function(s){
+                    var on = activeSector===s;
+                    return(
+                      <button key={s} onClick={function(){setReportSector(s);}}
+                        style={{padding:"5px 12px",borderRadius:20,cursor:"pointer",fontFamily:sans,fontSize:12,fontWeight:on?700:400,
+                          background:on?C.coral+"18":"transparent",
+                          border:"1px solid "+(on?C.coral+"60":C.line),
+                          color:on?C.coral:C.t3,transition:"all .15s"}}>
+                        {s}
+                      </button>
+                    );
+                  })}
+                </div>
+                {!activeSector&&<div style={{...ty.meta,color:C.t3,fontSize:10,marginTop:7,lineHeight:1.5}}>Select a sector for granular demand signals</div>}
+              </div>
+            )}
+
+            {/* MODE TOGGLE */}
             <div style={{display:"flex",gap:0,marginBottom:20,background:C.surface2,borderRadius:10,padding:3,border:"1px solid "+C.line}}>
-              {[{id:"business",l:"By Business"},{id:"area",l:"By Area"}].map(m=>(
-                <button key={m.id} onClick={()=>setReportMode(m.id)}
+              {[{id:"business",l:"Detailed report"},{id:"area",l:"Ranking"}].map(function(m){return(
+                <button key={m.id} onClick={function(){setReportMode(m.id);}}
                   style={{flex:1,padding:"8px",borderRadius:8,background:reportMode===m.id?C.surface:"transparent",
                     border:"1px solid "+(reportMode===m.id?C.line:"transparent"),
                     color:reportMode===m.id?C.t1:C.t3,cursor:"pointer",fontFamily:sans,fontSize:13,fontWeight:reportMode===m.id?600:400}}>
                   {m.l}
                 </button>
-              ))}
+              );})}
             </div>
 
-            {reportMode==="area"&&(()=>{
-              const allBiz = FEED_WITH_METRICS.filter(i=>i.cat==="business").sort((a,b)=>b.voters-a.voters);
-              const allActs = FEED_WITH_METRICS.filter(i=>i.cat==="activity").sort((a,b)=>b.voters-a.voters);
-              const totalVoters = FEED_WITH_METRICS.reduce((s,i)=>s+i.voters,0);
-              const totalMonthlyRev = allBiz.reduce((s,i)=>s+i.monthlyRev,0);
+            {reportMode==="area"&&(function(){
+              // Firebase: query area_concept_metrics for each area in activeAreas
+              // sum voices, average momentum/ewu across areas client-side
+              var selectedAreas = activeAreas;
+              var areaLabel = selectedAreas.length===1 ? selectedAreas[0] : selectedAreas.join(" + ");
+              var allItems = FEED_WITH_METRICS.slice()
+                .filter(function(it){
+                  return reportCatFilter==="all" || it.cat===reportCatFilter;
+                })
+                .map(function(it){
+                  return getAggregatedMetrics(it, selectedAreas, activeSector);
+                }).sort(function(a,b){return b.voters-a.voters;});
+              var totalVoters = allItems.reduce(function(s,i){return s+i.voters;},0);
+              var totalMonthlyRev = FEED_WITH_METRICS.reduce(function(s,i){return s+(i.monthlyRev||0);},0)*selectedAreas.length;
               return (
                 <div>
-                  <div style={{marginBottom:16}}>
-                    <select value={activeArea} onChange={e=>setReportArea(e.target.value)}
-                      style={{width:"100%",background:C.surface,border:"1px solid "+C.line,borderRadius:10,padding:"10px 12px",fontFamily:sans,fontSize:13,color:C.t1,appearance:"none"}}>
-                      {sessionAreas2.map((a,ai)=><option key={a} value={a}>{ai===0?"★ ":""}{a}</option>)}
-                    </select>
+                  {/* Category filter */}
+                  <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:14}}>
+                    {[{id:"all",l:"All"},{id:"food",l:"Food"},{id:"fitness",l:"Fitness"},{id:"kids",l:"Kids"},{id:"health",l:"Health"},{id:"retail",l:"Retail"},{id:"entertain",l:"Entertain"},{id:"services",l:"Services"}].map(function(f){
+                      return <Chip key={f.id} label={f.l} active={reportCatFilter===f.id} onClick={function(){setReportCatFilter(f.id);}} sm/>;
+                    })}
                   </div>
+
+                  {/* Summary stats */}
                   <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,marginBottom:16}}>
                     {[
-                      {l:"Verified voices",v:totalVoters.toLocaleString(),c:C.green},
-                      {l:"Concepts tracked",v:FEED_WITH_METRICS.length,c:C.t1},
-                      {l:"Est. monthly rev",v:canSee(tier,"pro")?fmtMoney(totalMonthlyRev):"Pro+",c:canSee(tier,"pro")?C.green:C.t3},
-                    ].map(s=>(
+                      {l:"Total voices",v:totalVoters.toLocaleString(),c:C.green},
+                      {l:"Areas",v:selectedAreas.length,c:C.t1},
+                      {l:"Est. monthly rev",v:canSee(tier,"investor")?fmtMoney(totalMonthlyRev):"Investor",c:canSee(tier,"investor")?C.green:C.t3},
+                    ].map(function(s){return(
                       <div key={s.l} style={{textAlign:"center",padding:"10px 8px",background:C.surface2,borderRadius:12}}>
                         <div style={{fontFamily:serif,fontSize:16,fontWeight:700,color:s.c}}>{s.v}</div>
                         <div style={{...ty.meta,color:C.t3,fontSize:9,marginTop:3}}>{s.l.toUpperCase()}</div>
                       </div>
-                    ))}
+                    );})}
                   </div>
+
+                  {/* Ranked list */}
                   <Card style={{marginBottom:16,padding:0,overflow:"hidden"}}>
-                    <div style={{padding:"14px 16px 10px",borderBottom:"1px solid "+C.line}}><SLabel noMargin>Business demand — {activeArea}</SLabel></div>
-                    {allBiz.map((it,i)=>{
-                      const cf2=conf(it.voters);
+                    <div style={{padding:"14px 16px 10px",borderBottom:"1px solid "+C.line,display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:6}}>
+                      <SLabel noMargin>{"Demand ranking — "+areaLabel+(activeSector?" · "+activeSector:"")+(reportCatFilter!=="all"?" · "+reportCatFilter:"")}</SLabel>
+                      <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+                        {selectedAreas.length>1&&<span style={{...ty.meta,fontSize:10,color:C.coral,background:C.coral+"15",padding:"2px 8px",borderRadius:20}}>Aggregated</span>}
+                        {(activeSector||reportCatFilter!=="all")&&<button onClick={function(){setReportSector(null);setReportCatFilter("all");}} style={{...ty.meta,fontSize:10,color:C.t3,background:"transparent",border:"1px solid "+C.line,padding:"1px 8px",borderRadius:20,cursor:"pointer",fontFamily:sans}}>Clear filters</button>}
+                      </div>
+                    </div>
+                    {allItems.map(function(it,i){
+                      var cc2 = CAT_CFG[it.cat]||{color:C.coral,bg:C.surface2};
+                      var dl = getDemandLabel(it.id);
+                      var dlColor = dl==="high"?C.green:dl==="medium"?C.amber:C.coral;
+                      var specM2 = getItemMetrics(it.id);
                       return(
                         <div key={it.id} style={{display:"flex",alignItems:"center",gap:10,padding:"11px 16px",borderTop:i>0?"1px solid "+C.line:"none"}}>
                           <span style={{...ty.meta,color:i<3?C.amber:C.t3,fontWeight:700,width:16,textAlign:"center",flexShrink:0}}>{i+1}</span>
-                          <div style={{width:34,height:34,borderRadius:10,background:CAT_CFG[it.cat].bg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,flexShrink:0}}>{it.emoji}</div>
+                          <div style={{width:34,height:34,borderRadius:10,background:cc2.bg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,flexShrink:0}}>{it.emoji}</div>
                           <div style={{flex:1}}>
                             <div style={{...ty.sm,fontWeight:600,marginBottom:2}}>{it.label}</div>
-                            <span style={{...ty.meta,color:cf2.color,fontWeight:600,fontSize:10}}>{cf2.label} · {it.voters} voices</span>
+                            <span style={{...ty.meta,color:dlColor,fontWeight:600,fontSize:10,textTransform:"capitalize"}}>{dl+" · "+it.voters.toLocaleString()+" voices"}</span>
                           </div>
                           <div style={{textAlign:"right",flexShrink:0}}>
-                            <div style={{...ty.meta,color:C.green,fontWeight:700}}>+{it.momentum}%</div>
-                            {canSee(tier,"pro")&&<div style={{...ty.meta,color:C.t3,fontSize:10}}>{fmtMoney(it.monthlyRev)}/mo</div>}
+                            <div style={{...ty.meta,color:it.momentum>=0?C.green:C.coral,fontWeight:700}}>{(it.momentum>=0?"+":"")+it.momentum+"%"}</div>
+                            {canSee(tier,"investor")&&specM2&&<div style={{...ty.meta,color:C.t3,fontSize:10}}>{fmtMoney(specM2.revLow||0)+"/mo"}</div>}
                           </div>
                         </div>
                       );
                     })}
                   </Card>
+
+                  {/* Per-area top concept breakdown */}
+                  {selectedAreas.length>1&&(
+                    <div style={{marginBottom:16}}>
+                      <div style={{...ty.label,marginBottom:10}}>Top concept per area</div>
+                      {selectedAreas.map(function(area){
+                        var topForArea = FEED_WITH_METRICS.slice().map(function(it){
+                          return Object.assign({},it,getAreaMetrics(it,area));
+                        }).sort(function(a,b){return b.voters-a.voters;})[0];
+                        if(!topForArea) return null;
+                        var cc3 = CAT_CFG[topForArea.cat]||{color:C.coral,bg:C.surface2};
+                        return(
+                          <div key={area} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 14px",background:C.surface,border:"1px solid "+C.line,borderRadius:12,marginBottom:7}}>
+                            <div style={{...ty.meta,color:C.t3,fontWeight:700,minWidth:36,flexShrink:0}}>{area}</div>
+                            <div style={{width:30,height:30,borderRadius:8,background:cc3.bg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,flexShrink:0}}>{topForArea.emoji}</div>
+                            <div style={{flex:1}}>
+                              <div style={{...ty.sm,fontWeight:600}}>{topForArea.label}</div>
+                              <div style={{...ty.meta,color:C.t3}}>{topForArea.voters+" voices"}</div>
+                            </div>
+                            <div style={{...ty.meta,color:topForArea.momentum>=0?C.green:C.coral,fontWeight:700}}>{(topForArea.momentum>=0?"+":"")+topForArea.momentum+"%"}</div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               );
             })()}
 
-            {reportMode==="business"&&(<>
-            <div style={{display:"flex",gap:8,marginBottom:20,alignItems:"stretch"}}>
-              <div style={{flex:2,position:"relative"}}>
+            {reportMode==="business"&&(function(){
+              // Firebase: query area_concept_metrics for activeAreas[0] for detail view
+              // aggConcept aggregates headline metrics across all activeAreas
+              var aggConcept = getAggregatedMetrics(activeConcept, activeAreas, activeSector);
+              var aggLabel = activeAreas.length>1 ? activeAreas.join(" + ") : activeArea;
+              return (<>
+            <div style={{marginBottom:16}}>
                 <div style={{...ty.label,marginBottom:5}}>Concept</div>
-                <button onClick={()=>setReportConceptOpen(o=>!o)}
+                <button onClick={function(){setReportConceptOpen(function(o){return !o;});}}
                   style={{width:"100%",background:C.surface,border:"1px solid "+(reportConceptOpen?C.coral:C.line),borderRadius:10,padding:"9px 12px",cursor:"pointer",fontFamily:sans,display:"flex",alignItems:"center",gap:8,textAlign:"left"}}>
                   <span style={{fontSize:16}}>{activeConcept.emoji}</span>
                   <span style={{...ty.bodyMd,fontSize:13,flex:1,color:C.t1}}>{activeConcept.label}</span>
@@ -2910,185 +4692,377 @@ function BizDashboard({session,onLogout,onUpdateSession}){
                 </button>
                 {reportConceptOpen&&(
                   <div style={{position:"absolute",top:"100%",left:0,right:0,zIndex:30,background:C.surface,border:"1px solid "+C.line,borderRadius:10,marginTop:4,overflow:"hidden",boxShadow:"0 8px 32px rgba(0,0,0,0.4)"}}>
-                    {FEED_WITH_METRICS.map(item=>(
-                      <button key={item.id} onClick={()=>{setReportConcept(item);setReportConceptOpen(false);}}
+                    {FEED_WITH_METRICS.map(function(item){return(
+                      <button key={item.id} onClick={function(){setReportConcept(item);setReportConceptOpen(false);}}
                         style={{width:"100%",padding:"9px 12px",background:activeConcept.id===item.id?cc.color+"18":"transparent",border:"none",cursor:"pointer",fontFamily:sans,display:"flex",alignItems:"center",gap:8,textAlign:"left",borderBottom:"1px solid "+C.line}}>
                         <span style={{fontSize:15}}>{item.emoji}</span>
                         <span style={{...ty.bodyMd,fontSize:12,flex:1,color:activeConcept.id===item.id?cc.color:C.t2}}>{item.label}</span>
                         <span style={{...ty.meta,color:C.t3,fontSize:10}}>{item.voters} voices</span>
                       </button>
-                    ))}
+                    );})}
                   </div>
                 )}
               </div>
-              <div style={{flex:1}}>
-                <div style={{...ty.label,marginBottom:5}}>Area</div>
-                <select value={activeArea} onChange={e=>{setReportArea(e.target.value);setReportSector(null);}}
-                  style={{width:"100%",background:C.surface,border:"1px solid "+C.line,borderRadius:10,padding:"9px 10px",cursor:"pointer",fontFamily:sans,fontSize:13,color:C.t1,appearance:"none",height:40}}>
-                  {sessionAreas2.map((a,ai)=><option key={a} value={a}>{ai===0?"★ ":""}{a}</option>)}
-                </select>
-              </div>
-            </div>
-
-            {/* Sector selector — Pro+ only */}
-            {activeSectors.length>0&&(
-              <div style={{marginBottom:16}}>
-                {canSee(tier,"pro") ? (
-                  <div style={{display:"flex",gap:6,alignItems:"center",flexWrap:"wrap"}}>
-                    <span style={{...ty.label,marginBottom:0}}>Sector:</span>
-                    <button onClick={()=>setReportSector(null)}
-                      style={{padding:"4px 12px",borderRadius:20,background:!activeSector?C.coral:"transparent",border:"1px solid "+(!activeSector?C.coral:C.line),color:!activeSector?"#fff":C.t3,cursor:"pointer",fontFamily:sans,fontSize:11,fontWeight:!activeSector?700:400}}>
-                      All of {activeArea}
-                    </button>
-                    {activeSectors.map(function(s){
-                      const on = activeSector===s;
-                      return(
-                        <button key={s} onClick={()=>setReportSector(s)}
-                          style={{padding:"4px 12px",borderRadius:20,background:on?C.coral:"transparent",border:"1px solid "+(on?C.coral:C.line),color:on?"#fff":C.t2,cursor:"pointer",fontFamily:sans,fontSize:11,fontWeight:on?700:400}}>
-                          {s}
-                        </button>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <div style={{display:"flex",alignItems:"center",gap:8,padding:"8px 12px",background:C.surface2,border:"1px solid "+C.line,borderRadius:10}}>
-                    <Lock size={11} color={C.t3}/>
-                    <span style={{...ty.meta,color:C.t3}}>Sector-level filtering ({activeArea} 0–9) — </span>
-                    <button onClick={()=>bump("pro")} style={{background:"none",border:"none",color:C.amber,cursor:"pointer",fontFamily:sans,fontSize:11,fontWeight:700,padding:0}}>Pro+ only</button>
-                  </div>
-                )}
-              </div>
-            )}
 
             {/* Opportunity Score */}
             <div style={{background:"radial-gradient(ellipse 80% 60% at 20% 30%, "+cc.color+"18 0%, "+C.bg+" 70%)",border:"1px solid "+cc.color+"30",borderRadius:18,padding:"20px",marginBottom:16}}>
               <div style={{...ty.label,color:cc.color,marginBottom:10}}>{activeConcept.emoji} {activeConcept.label} — {activeArea}</div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:16}}>
-                {[{l:"Demand",v:cf.label,c:cf.color},{l:"Verified voters",v:activeConcept.voters,c:C.t1},{l:"Monthly growth",v:"+"+activeConcept.momentum+"%",c:C.green}].map(s=>(
+                {[{l:"Demand",v:demandLbl.charAt(0).toUpperCase()+demandLbl.slice(1),c:demandColor},{l:"Verified voters",v:aggConcept.voters,c:C.t1},{l:"MoM growth",v:(activeConcept.momentum>=0?"+":"")+activeConcept.momentum+"%",c:activeConcept.momentum>=0?C.green:C.coral}].map(function(s){return(
                   <div key={s.l} style={{textAlign:"center",padding:"10px 8px",background:C.surface2+"CC",borderRadius:10}}>
                     <div style={{...ty.meta,color:C.t3,fontSize:9,marginBottom:4}}>{s.l.toUpperCase()}</div>
                     <div style={{fontFamily:serif,fontSize:16,fontWeight:700,color:s.c}}>{s.v}</div>
                   </div>
-                ))}
+                );})}
               </div>
-              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",paddingTop:12,borderTop:"1px solid "+cc.color+"20"}}>
-                <div>
-                  <div style={{...ty.label,color:C.t3,marginBottom:2}}>Opportunity score</div>
-                  <div style={{fontFamily:serif,fontSize:38,fontWeight:700,color:cc.color,lineHeight:1}}>{oppScore}<span style={{fontSize:18,color:C.t3}}> / 10</span></div>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,paddingTop:12,borderTop:"1px solid "+cc.color+"20"}}>
+                <div style={{textAlign:"center"}}>
+                  <div style={{...ty.meta,color:C.t3,fontSize:9,marginBottom:4}}>INTENSITY</div>
+                  <div style={{fontFamily:serif,fontSize:26,fontWeight:700,color:cc.color,lineHeight:1}}>{intensity}<span style={{fontSize:13,color:C.t3}}>/10</span></div>
+                  <div style={{...ty.meta,color:C.t3,fontSize:9,marginTop:2}}>coin share × 10</div>
                 </div>
-                <ConfBar voters={activeConcept.voters}/>
+                <div style={{textAlign:"center"}}>
+                  <div style={{...ty.meta,color:C.t3,fontSize:9,marginBottom:4}}>EWU</div>
+                  <div style={{fontFamily:serif,fontSize:26,fontWeight:700,color:C.purple,lineHeight:1}}>{ewuDisplay}</div>
+                  <div style={{...ty.meta,color:C.t3,fontSize:9,marginTop:2}}>eff. weekly users</div>
+                </div>
+                <div style={{textAlign:"center"}}>
+                  <div style={{...ty.meta,color:C.t3,fontSize:9,marginBottom:4}}>CONFIDENCE</div>
+                  <div style={{fontFamily:serif,fontSize:14,fontWeight:700,color:specConf?specConf.color:C.t3,lineHeight:1,marginTop:3}}>{specConf?specConf.label:cf.label}</div>
+                  <div style={{...ty.meta,color:C.t3,fontSize:9,marginTop:2}}>sample size</div>
+                </div>
               </div>
             </div>
 
-            {/* Who wants it — Starter+ */}
-            {(()=>{
-              const dd=DEMO_DIST[activeConcept.id];
+            {/* WHO WANTS IT — Builder+ */}
+            {(function(){
+              var FEED_TO_DEMO = {
+                "s75":"b1","s1":"b2","s81":"b3","s94":"a2",
+                "s29":"b4","s66":"p1","s89":"a1","s23":"p2",
+              };
+              var dd = DEMO_DIST[FEED_TO_DEMO[activeConcept.id]] || DEMO_DIST[activeConcept.id];
+              var primaryAge = dd ? dd.age.slice().sort(function(a,b){return b.p-a.p;})[0] : {l:activeConcept.demo.age, p:null};
+              var primaryHH  = dd ? dd.hh.slice().sort(function(a,b){return b.p-a.p;})[0] : {l:activeConcept.demo.hh, p:null};
               return(
-                <Card style={{marginBottom:16,overflow:"hidden",position:"relative"}}>
-                  {!canSee(tier,"starter")&&(
-                    <div style={{position:"absolute",inset:0,zIndex:10,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",background:"rgba(17,17,16,0.85)",borderRadius:12}}>
+                <Card style={{marginBottom:12,overflow:"hidden",position:"relative"}}>
+                  {!canSee(tier,"builder")&&(
+                    <div style={{position:"absolute",inset:0,zIndex:10,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",background:"rgba(17,17,16,0.88)",borderRadius:12}}>
                       <Lock size={18} color={C.t3} style={{marginBottom:8}}/>
-                      <div style={{...ty.sm,color:C.t2,marginBottom:12,textAlign:"center"}}>Demographic breakdown — Starter+</div>
-                      <button onClick={()=>bump("starter")} style={{padding:"8px 18px",borderRadius:10,background:C.amber,color:"#000",border:"none",cursor:"pointer",fontFamily:sans,fontWeight:700,fontSize:12}}>Upgrade →</button>
+                      <div style={{...ty.sm,color:C.t2,marginBottom:12,textAlign:"center"}}>Demographic breakdown — Builder+</div>
+                      <button onClick={function(){bump("builder");}} style={{padding:"8px 18px",borderRadius:10,background:C.amber,color:"#000",border:"none",cursor:"pointer",fontFamily:sans,fontWeight:700,fontSize:12}}>Upgrade →</button>
                     </div>
                   )}
-                  <div style={{filter:canSee(tier,"starter")?"none":"blur(4px)",pointerEvents:canSee(tier,"starter")?"auto":"none"}}>
-                  <SLabel>Who wants it</SLabel>
-                  {dd?(
-                    <div style={{display:"flex",flexDirection:"column",gap:14}}>
-                      <div><div style={{...ty.meta,color:C.t3,fontSize:10,marginBottom:6}}>AGE BREAKDOWN</div><DemoBar items={dd.age} color={cc.color}/></div>
-                      <div style={{paddingTop:12,borderTop:"1px solid "+C.line}}><div style={{...ty.meta,color:C.t3,fontSize:10,marginBottom:6}}>HOUSEHOLD TYPE</div><DemoBar items={dd.hh} color={C.purple}/></div>
-                      <div style={{paddingTop:12,borderTop:"1px solid "+C.line}}><div style={{...ty.meta,color:C.t3,fontSize:10,marginBottom:6}}>GENDER SPLIT</div><DemoBar items={dd.gender} color={C.amber}/></div>
-                    </div>
-                  ):(
-                    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
-                      <div><div style={{...ty.meta,color:C.t3,fontSize:10,marginBottom:6}}>PRIMARY AGE</div><div style={{...ty.bodyMd,fontSize:13}}>{activeConcept.demo.age}</div></div>
-                      <div><div style={{...ty.meta,color:C.t3,fontSize:10,marginBottom:6}}>HOUSEHOLD</div><div style={{...ty.bodyMd,fontSize:13}}>{activeConcept.demo.hh}</div></div>
-                      <div style={{gridColumn:"1/-1"}}><div style={{...ty.meta,color:C.t3,fontSize:10,marginBottom:6}}>GENDER</div><div style={{...ty.bodyMd,fontSize:13}}>{activeConcept.demo.gender}</div></div>
-                    </div>
-                  )}
+                  <div style={{filter:canSee(tier,"builder")?"none":"blur(4px)",pointerEvents:canSee(tier,"builder")?"auto":"none"}}>
+                    <button onClick={function(){setWhoOpen(function(o){return !o;});}}
+                      style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",background:"transparent",border:"none",cursor:"pointer",padding:0,fontFamily:sans}}>
+                      <SLabel noMargin>Who wants it</SLabel>
+                      <div style={{display:"flex",alignItems:"center",gap:8}}>
+                        <span style={{...ty.sm,color:C.t1,fontWeight:600}}>{primaryAge.l}{primaryHH?" · "+primaryHH.l:""}</span>
+                        <ChevronDown size={13} color={C.t3} style={{transform:whoOpen?"rotate(180deg)":"none",transition:"transform .2s"}}/>
+                      </div>
+                    </button>
+                    {whoOpen&&dd&&(
+                      <div style={{marginTop:14,display:"flex",flexDirection:"column",gap:14}}>
+                        <div>
+                          <div style={{...ty.meta,color:C.t3,fontSize:10,marginBottom:8}}>AGE</div>
+                          {dd.age.map(function(item){return(
+                            <div key={item.l} style={{marginBottom:6}}>
+                              <div style={{display:"flex",justifyContent:"space-between",marginBottom:2}}>
+                                <span style={{...ty.meta,color:C.t2,fontSize:11}}>{item.l}</span>
+                                <span style={{...ty.meta,color:cc.color,fontWeight:700,fontSize:11}}>{item.p}%</span>
+                              </div>
+                              <div style={{height:4,background:C.line,borderRadius:2,overflow:"hidden"}}>
+                                <div style={{height:"100%",width:item.p+"%",background:cc.color,borderRadius:2}}/>
+                              </div>
+                            </div>
+                          );})}
+                        </div>
+                        <div style={{paddingTop:10,borderTop:"1px solid "+C.line}}>
+                          <div style={{...ty.meta,color:C.t3,fontSize:10,marginBottom:8}}>HOUSEHOLD</div>
+                          {dd.hh.map(function(item){return(
+                            <div key={item.l} style={{marginBottom:6}}>
+                              <div style={{display:"flex",justifyContent:"space-between",marginBottom:2}}>
+                                <span style={{...ty.meta,color:C.t2,fontSize:11}}>{item.l}</span>
+                                <span style={{...ty.meta,color:C.purple,fontWeight:700,fontSize:11}}>{item.p}%</span>
+                              </div>
+                              <div style={{height:4,background:C.line,borderRadius:2,overflow:"hidden"}}>
+                                <div style={{height:"100%",width:item.p+"%",background:C.purple,borderRadius:2}}/>
+                              </div>
+                            </div>
+                          );})}
+                        </div>
+                        <div style={{paddingTop:10,borderTop:"1px solid "+C.line}}>
+                          <div style={{...ty.meta,color:C.t3,fontSize:10,marginBottom:8}}>GENDER</div>
+                          {dd.gender.map(function(item){return(
+                            <div key={item.l} style={{marginBottom:6}}>
+                              <div style={{display:"flex",justifyContent:"space-between",marginBottom:2}}>
+                                <span style={{...ty.meta,color:C.t2,fontSize:11}}>{item.l}</span>
+                                <span style={{...ty.meta,color:C.amber,fontWeight:700,fontSize:11}}>{item.p}%</span>
+                              </div>
+                              <div style={{height:4,background:C.line,borderRadius:2,overflow:"hidden"}}>
+                                <div style={{height:"100%",width:item.p+"%",background:C.amber,borderRadius:2}}/>
+                              </div>
+                            </div>
+                          );})}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </Card>
               );
             })()}
 
-            {/* Spend — Starter+ */}
-            <Card style={{marginBottom:16,overflow:"hidden",position:"relative"}}>
-              {!canSee(tier,"starter")&&(
-                <div style={{position:"absolute",inset:0,zIndex:10,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",background:"rgba(17,17,16,0.85)",borderRadius:12}}>
-                  <Lock size={18} color={C.t3} style={{marginBottom:8}}/>
-                  <div style={{...ty.sm,color:C.t2,marginBottom:12,textAlign:"center"}}>Spend & frequency data — Starter+</div>
-                  <button onClick={()=>bump("starter")} style={{padding:"8px 18px",borderRadius:10,background:C.amber,color:"#000",border:"none",cursor:"pointer",fontFamily:sans,fontWeight:700,fontSize:12}}>Upgrade →</button>
-                </div>
-              )}
-              <div style={{filter:canSee(tier,"starter")?"none":"blur(4px)",pointerEvents:canSee(tier,"starter")?"auto":"none"}}>
-              <SLabel>Spending signal</SLabel>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,marginBottom:14}}>
-                {[{l:"Avg declared spend",v:avgSpendFmt,c:C.t1},{l:"Higher spend voters",v:highSpend+"%",c:highSpend>30?C.coral:C.t2},{l:"Lower spend voters",v:lowSpend+"%",c:C.t2}].map(s=>(
-                  <div key={s.l} style={{padding:"10px 8px",background:C.surface2,borderRadius:10,textAlign:"center"}}>
-                    <div style={{...ty.meta,color:C.t3,fontSize:9,marginBottom:4}}>{s.l.toUpperCase()}</div>
-                    <div style={{fontFamily:serif,fontSize:16,fontWeight:700,color:s.c}}>{s.v}</div>
+            {/* SPENDING — Builder+ */}
+            {(function(){
+              var topSpendIdx = activeConcept.spendDist.indexOf(Math.max.apply(null, activeConcept.spendDist));
+              var spendBands = ["£0–5","£5–10","£10–20","£20–35","£35–50","£50–100","£100–150","£150+"];
+              var topSpendBand = spendBands[topSpendIdx] || "£10–20";
+              return(
+                <Card style={{marginBottom:12,overflow:"hidden",position:"relative"}}>
+                  {!canSee(tier,"builder")&&(
+                    <div style={{position:"absolute",inset:0,zIndex:10,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",background:"rgba(17,17,16,0.88)",borderRadius:12}}>
+                      <Lock size={18} color={C.t3} style={{marginBottom:8}}/>
+                      <div style={{...ty.sm,color:C.t2,marginBottom:12,textAlign:"center"}}>Spend data — Builder+</div>
+                      <button onClick={function(){bump("builder");}} style={{padding:"8px 18px",borderRadius:10,background:C.amber,color:"#000",border:"none",cursor:"pointer",fontFamily:sans,fontWeight:700,fontSize:12}}>Upgrade →</button>
+                    </div>
+                  )}
+                  <div style={{filter:canSee(tier,"builder")?"none":"blur(4px)",pointerEvents:canSee(tier,"builder")?"auto":"none"}}>
+                    <button onClick={function(){setSpendOpen(function(o){return !o;});}}
+                      style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",background:"transparent",border:"none",cursor:"pointer",padding:0,fontFamily:sans}}>
+                      <SLabel noMargin>Spending signal</SLabel>
+                      <div style={{display:"flex",alignItems:"center",gap:8}}>
+                        <span style={{...ty.sm,color:C.t1,fontWeight:600}}>{avgSpendFmt} avg · {topSpendBand} most common</span>
+                        <ChevronDown size={13} color={C.t3} style={{transform:spendOpen?"rotate(180deg)":"none",transition:"transform .2s"}}/>
+                      </div>
+                    </button>
+                    {spendOpen&&(
+                      <div style={{marginTop:14}}>
+                        {spendBands.map(function(band,i){
+                          var pct = activeConcept.spendDist[i]||0;
+                          if(pct===0) return null;
+                          return(
+                            <div key={band} style={{marginBottom:6}}>
+                              <div style={{display:"flex",justifyContent:"space-between",marginBottom:2}}>
+                                <span style={{...ty.meta,color:C.t2,fontSize:11}}>{band}</span>
+                                <span style={{...ty.meta,color:C.green,fontWeight:700,fontSize:11}}>{pct}%</span>
+                              </div>
+                              <div style={{height:4,background:C.line,borderRadius:2,overflow:"hidden"}}>
+                                <div style={{height:"100%",width:pct+"%",background:C.green,borderRadius:2}}/>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
-                ))}
-              </div>
-              <div style={{paddingTop:12,borderTop:"1px solid "+C.line}}>
-                <div style={{...ty.meta,color:C.t3,fontSize:10,marginBottom:8}}>VISIT FREQUENCY</div>
-                <DemoBar items={freqLabels.map((l,i)=>({l,p:activeConcept.freqDist[i]||0}))} color={C.amber}/>
-              </div>
-              </div>
-            </Card>
+                </Card>
+              );
+            })()}
+
+            {/* FREQUENCY — Builder+ */}
+            {(function(){
+              var freqBands = ["A few times a year","Once a month","2–3× a month","Weekly","Multiple times a week"];
+              var topFreqIdx = activeConcept.freqDist.indexOf(Math.max.apply(null, activeConcept.freqDist));
+              var topFreqBand = freqBands[topFreqIdx] || "Monthly";
+              return(
+                <Card style={{marginBottom:16,overflow:"hidden",position:"relative"}}>
+                  {!canSee(tier,"builder")&&(
+                    <div style={{position:"absolute",inset:0,zIndex:10,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",background:"rgba(17,17,16,0.88)",borderRadius:12}}>
+                      <Lock size={18} color={C.t3} style={{marginBottom:8}}/>
+                      <div style={{...ty.sm,color:C.t2,marginBottom:12,textAlign:"center"}}>Frequency data — Builder+</div>
+                      <button onClick={function(){bump("builder");}} style={{padding:"8px 18px",borderRadius:10,background:C.amber,color:"#000",border:"none",cursor:"pointer",fontFamily:sans,fontWeight:700,fontSize:12}}>Upgrade →</button>
+                    </div>
+                  )}
+                  <div style={{filter:canSee(tier,"builder")?"none":"blur(4px)",pointerEvents:canSee(tier,"builder")?"auto":"none"}}>
+                    <button onClick={function(){setFreqOpen(function(o){return !o;});}}
+                      style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",background:"transparent",border:"none",cursor:"pointer",padding:0,fontFamily:sans}}>
+                      <SLabel noMargin>Visit frequency</SLabel>
+                      <div style={{display:"flex",alignItems:"center",gap:8}}>
+                        <span style={{...ty.sm,color:C.t1,fontWeight:600}}>{topFreqBand}</span>
+                        <ChevronDown size={13} color={C.t3} style={{transform:freqOpen?"rotate(180deg)":"none",transition:"transform .2s"}}/>
+                      </div>
+                    </button>
+                    {freqOpen&&(
+                      <div style={{marginTop:14}}>
+                        {freqBands.map(function(band,i){
+                          var pct = activeConcept.freqDist[i]||0;
+                          if(pct===0) return null;
+                          return(
+                            <div key={band} style={{marginBottom:6}}>
+                              <div style={{display:"flex",justifyContent:"space-between",marginBottom:2}}>
+                                <span style={{...ty.meta,color:C.t2,fontSize:11}}>{band}</span>
+                                <span style={{...ty.meta,color:C.amber,fontWeight:700,fontSize:11}}>{pct}%</span>
+                              </div>
+                              <div style={{height:4,background:C.line,borderRadius:2,overflow:"hidden"}}>
+                                <div style={{height:"100%",width:pct+"%",background:C.amber,borderRadius:2}}/>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                </Card>
+              );
+            })()}
 
             {/* Revenue - pro+ */}
-            {canSee(tier,"pro")&&(
+            {canSee(tier,"investor")&&(
               <Card style={{marginBottom:16}}>
                 <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
                   <SLabel noMargin>Revenue estimate</SLabel>
                   <span style={{...ty.meta,fontSize:9,padding:"2px 7px",borderRadius:20,background:C.amber+"22",color:C.amber,fontWeight:700}}>PRO+</span>
                 </div>
-                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:12}}>
-                  {[{l:"Monthly (est.)",v:fmtMoney(activeConcept.monthlyRev),sub:"from verified demand",c:C.green},{l:"Annual (est.)",v:fmtMoney(activeConcept.annualRev),sub:"per 100 residents",c:C.green}].map(s=>(
-                    <div key={s.l} style={{padding:"12px 10px",background:C.green+"0A",border:"1px solid "+C.green+"20",borderRadius:12,textAlign:"center"}}>
-                      <div style={{...ty.meta,color:C.t3,fontSize:9,marginBottom:4}}>{s.l.toUpperCase()}</div>
-                      <div style={{fontFamily:serif,fontSize:22,fontWeight:700,color:s.c,lineHeight:1,marginBottom:3}}>{s.v}</div>
-                      <div style={{...ty.meta,color:C.t3,fontSize:10}}>{s.sub}</div>
+                {specM&&specM.voices>=50 ? (
+                  <div>
+                    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:10}}>
+                      {[
+                        {l:"Monthly range",    v:specRevRange,    sub:"adjusted for confidence"},
+                        {l:"Annual range",     v:specAnnualRange, sub:"from verified demand"},
+                      ].map(function(s){return(
+                        <div key={s.l} style={{padding:"12px 10px",background:C.green+"0A",border:"1px solid "+C.green+"20",borderRadius:12,textAlign:"center"}}>
+                          <div style={{...ty.meta,color:C.t3,fontSize:9,marginBottom:4}}>{s.l.toUpperCase()}</div>
+                          <div style={{fontFamily:serif,fontSize:16,fontWeight:700,color:C.green,lineHeight:1,marginBottom:3}}>{s.v||"—"}</div>
+                          <div style={{...ty.meta,color:C.t3,fontSize:10}}>{s.sub}</div>
+                        </div>
+                      );})}
                     </div>
-                  ))}
-                </div>
+                    {specScaledRange&&(
+                      <div style={{padding:"10px 12px",background:C.purple+"0A",border:"1px solid "+C.purple+"20",borderRadius:10,marginBottom:10}}>
+                        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+                          <div>
+                            <div style={{...ty.meta,color:C.t3,fontSize:9,marginBottom:2}}>SCALED TO AREA DEMAND</div>
+                            <div style={{fontFamily:serif,fontSize:18,fontWeight:700,color:C.purple}}>{specScaledRange}</div>
+                          </div>
+                          <div style={{textAlign:"right"}}>
+                            <div style={{...ty.meta,color:C.t3,fontSize:9,marginBottom:2}}>CONFIDENCE</div>
+                            <div style={{...ty.meta,color:specConf.color,fontWeight:700}}>{specConf.label}</div>
+                          </div>
+                        </div>
+                        <div style={{...ty.meta,color:C.t3,fontSize:10,marginTop:6,lineHeight:1.5}}>Scaled using area population and category capture rates. Shown at Medium+ confidence only.</div>
+                      </div>
+                    )}
+                    <div style={{...ty.meta,color:C.t3,fontSize:10,lineHeight:1.5}}>EWU: {specM.ewu} · Avg spend: £{specM.avgSpend} · {specM.voices} voices</div>
+                  </div>
+                ) : (
+                  <div style={{...ty.meta,color:C.t3,textAlign:"center",padding:"12px 0"}}>Revenue estimates shown at 50+ voices</div>
+                )}
               </Card>
             )}
 
-            {/* Brief signals - pro+ */}
-            {activeConcept.cat==="business"&&canSee(tier,"pro")&&(()=>{
-              const briefComments = getBriefComments(activeConcept.id);
-              const sigs = extractSignals(briefComments);
-              if(!sigs.brands.length&&!sigs.locations.length) return null;
+            {/* Concept attributes — Investor only */}
+            {canSee(tier,"investor")&&(function(){
+              var tags = getConceptTags(activeConcept, 10);
+              if(tags.length === 0) return null;
+              var sq = SQ[activeConcept.subcat];
+              var sqLabel = sq ? sq.q : "What matters most?";
               return(
-                <Card style={{marginBottom:16}}>
-                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
-                    <SLabel noMargin>The Brief — resident intent</SLabel>
-                    <span style={{...ty.meta,fontSize:9,padding:"2px 7px",borderRadius:20,background:C.amber+"22",color:C.amber,fontWeight:700}}>PRO+</span>
-                  </div>
-                  {sigs.brands.length>0&&(
-                    <div style={{marginBottom:12}}>
-                      <div style={{...ty.meta,color:C.t3,fontSize:10,fontWeight:700,marginBottom:8,textTransform:"uppercase",letterSpacing:"0.06em"}}>Brands mentioned</div>
-                      {sigs.brands.map(b=>(
-                        <div key={b[0]} style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
-                          <span style={{...ty.sm,color:C.t1,flex:1}}>{b[0]}</span>
-                          <span style={{...ty.meta,color:C.purple,fontWeight:700}}>{b[1]} mention{b[1]!==1?"s":""}</span>
+                <Card style={{marginBottom:12,overflow:"hidden"}}>
+                  <button onClick={function(){setTagsOpen(function(o){return !o;});}}
+                    style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",background:"transparent",border:"none",cursor:"pointer",padding:0,fontFamily:sans}}>
+                    <div>
+                      <SLabel noMargin>Concept attributes</SLabel>
+                      <div style={{...ty.meta,color:C.t3,marginTop:3}}>{sqLabel}</div>
+                    </div>
+                    <div style={{display:"flex",alignItems:"center",gap:6}}>
+                      <span style={{...ty.meta,fontSize:9,padding:"2px 7px",borderRadius:20,background:C.coral+"22",color:C.coral,fontWeight:700}}>INVESTOR</span>
+                      <ChevronDown size={13} color={C.t3} style={{transform:tagsOpen?"rotate(180deg)":"none",transition:"transform .2s"}}/>
+                    </div>
+                  </button>
+                  {tagsOpen&&(
+                    <div style={{marginTop:14}}>
+                      <div style={{...ty.meta,color:C.t3,fontSize:10,marginBottom:10}}>% of voters who selected this attribute</div>
+                      {tags.map(function(item){return(
+                        <div key={item.tag} style={{marginBottom:8}}>
+                          <div style={{display:"flex",justifyContent:"space-between",marginBottom:3}}>
+                            <span style={{...ty.meta,color:C.t2,fontSize:11}}>{item.tag}</span>
+                            <span style={{...ty.meta,color:cc.color,fontWeight:700,fontSize:11}}>{item.pct}%</span>
+                          </div>
+                          <div style={{height:4,background:C.line,borderRadius:2,overflow:"hidden"}}>
+                            <div style={{height:"100%",width:item.pct+"%",background:cc.color,borderRadius:2}}/>
+                          </div>
                         </div>
-                      ))}
+                      );})}
+                      <div style={{...ty.meta,color:C.t3,fontSize:10,marginTop:10,lineHeight:1.5}}>Based on attribute selections made when voters placed their coins. Indicative — updated as more voices are added.</div>
                     </div>
                   )}
-                  {sigs.locations.length>0&&(
+                </Card>
+              );
+            })()}
+
+            {/* The Brief — pro+ */}
+            {canSee(tier,"investor")&&(function(){
+              var briefComments = getBriefComments(activeConcept.id);
+              var brandCounts = {};
+              var locCounts = {};
+              var catBrandsForCard = BRIEF_BRANDS_BY_CAT[activeConcept.cat] || BRIEF_BRANDS;
+              briefComments.forEach(function(c){
+                var txt = c.text.toLowerCase();
+                catBrandsForCard.forEach(function(b){
+                  if(txt.indexOf(b.toLowerCase())!==-1){
+                    brandCounts[b]=(brandCounts[b]||0)+1;
+                  }
+                });
+                BRIEF_LOCATIONS.forEach(function(l){
+                  if(txt.indexOf(l.toLowerCase())!==-1){
+                    locCounts[l]=(locCounts[l]||0)+1;
+                  }
+                });
+              });
+              var topBrands=Object.keys(brandCounts).map(function(k){return [k,brandCounts[k]];}).sort(function(a,b){return b[1]-a[1];}).slice(0,5);
+              var topLocs=Object.keys(locCounts).map(function(k){return [k,locCounts[k]];}).sort(function(a,b){return b[1]-a[1];}).slice(0,4);
+              var topVoices=briefComments.slice().sort(function(a,b){return b.upvotes-a.upvotes;}).slice(0,5);
+              if(!topBrands.length&&!topLocs.length&&!topVoices.length) return null;
+              return(
+                <Card style={{marginBottom:16}}>
+                  <button onClick={function(){setBriefOpen(function(o){return !o;});}}
+                    style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",background:"transparent",border:"none",cursor:"pointer",padding:0,fontFamily:sans,marginBottom:briefOpen?12:0}}>
+                    <div style={{display:"flex",alignItems:"center",gap:8}}>
+                      <SLabel noMargin>The Brief — resident intent</SLabel>
+                      <span style={{...ty.meta,fontSize:9,padding:"2px 7px",borderRadius:20,background:C.amber+"22",color:C.amber,fontWeight:700}}>PRO+</span>
+                    </div>
+                    <ChevronDown size={13} color={C.t3} style={{transform:briefOpen?"rotate(180deg)":"none",transition:"transform .2s",flexShrink:0}}/>
+                  </button>
+                  {briefOpen&&(
                     <div>
-                      <div style={{...ty.meta,color:C.t3,fontSize:10,fontWeight:700,marginBottom:8,textTransform:"uppercase",letterSpacing:"0.06em"}}>Preferred locations</div>
-                      {sigs.locations.map(l=>(
-                        <div key={l[0]} style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
-                          <MapPin size={11} color={C.amber}/>
-                          <span style={{...ty.sm,color:C.t1,flex:1}}>{l[0]}</span>
-                          <span style={{...ty.meta,color:C.amber,fontWeight:700}}>{l[1]} mention{l[1]!==1?"s":""}</span>
+                      <div style={{...ty.meta,color:C.t3,marginBottom:12,lineHeight:1.5,fontSize:10}}>Signals from resident free-text. Reviewed by Cravz before publishing.</div>
+                      {topBrands.length>0&&(
+                        <div style={{marginBottom:14}}>
+                          <div style={{...ty.meta,color:C.t3,fontSize:10,fontWeight:700,marginBottom:8,textTransform:"uppercase",letterSpacing:"0.06em"}}>Brands mentioned</div>
+                          {topBrands.map(function(b){return(
+                            <div key={b[0]} style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
+                              <span style={{...ty.sm,color:C.t1,flex:1}}>{b[0]}</span>
+                              <span style={{...ty.meta,color:C.purple,fontWeight:700}}>{b[1]} mention{b[1]!==1?"s":""}</span>
+                            </div>
+                          );})}
                         </div>
-                      ))}
+                      )}
+                      {topLocs.length>0&&(
+                        <div style={{marginBottom:14}}>
+                          <div style={{...ty.meta,color:C.t3,fontSize:10,fontWeight:700,marginBottom:8,textTransform:"uppercase",letterSpacing:"0.06em"}}>Preferred locations</div>
+                          {topLocs.map(function(l){return(
+                            <div key={l[0]} style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
+                              <MapPin size={11} color={C.amber}/>
+                              <span style={{...ty.sm,color:C.t1,flex:1}}>{l[0]}</span>
+                              <span style={{...ty.meta,color:C.amber,fontWeight:700}}>{l[1]} mention{l[1]!==1?"s":""}</span>
+                            </div>
+                          );})}
+                        </div>
+                      )}
+                      {topVoices.length>0&&(
+                        <div>
+                          <div style={{...ty.meta,color:C.t3,fontSize:10,fontWeight:700,marginBottom:8,textTransform:"uppercase",letterSpacing:"0.06em"}}>Top resident voices</div>
+                          {topVoices.map(function(c){return(
+                            <div key={c.id} style={{padding:"10px 12px",background:C.surface2,borderRadius:10,marginBottom:6}}>
+                              <div style={{...ty.sm,color:C.t1,lineHeight:1.55,marginBottom:4,fontStyle:"italic"}}>"{c.text}"</div>
+                              <div style={{display:"flex",alignItems:"center",gap:8}}>
+                                <span style={{...ty.meta,color:C.t3,fontSize:10}}>{c.ts}</span>
+                                <span style={{...ty.meta,color:C.green,fontWeight:600,fontSize:10}}>👍 {c.upvotes}</span>
+                              </div>
+                            </div>
+                          );})}
+                        </div>
+                      )}
                     </div>
                   )}
                 </Card>
@@ -3096,6 +5070,9 @@ function BizDashboard({session,onLogout,onUpdateSession}){
             })()}
 
             {/* Insight */}
+            <div style={{display:"flex",alignItems:"center",justifyContent:"flex-end",marginBottom:8}}>
+              <span style={{...ty.meta,color:C.t3,fontSize:10}}>Based on aggregated user preferences. Directional insights.</span>
+            </div>
             <div style={{background:cc.color+"0A",border:"1px solid "+cc.color+"25",borderRadius:16,padding:"18px",marginBottom:16}}>
               <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
                 <div style={{width:28,height:28,borderRadius:8,background:cc.color+"20",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14}}>✦</div>
@@ -3103,76 +5080,68 @@ function BizDashboard({session,onLogout,onUpdateSession}){
               </div>
               <div style={{...ty.body,color:C.t1,lineHeight:1.7,fontSize:13}}>{insightText}</div>
             </div>
-            </>)}
+            </>);})()}
+
           </div>
-        );
-      })()}
-
-      {/* PRE-LAUNCH TAB */}
-      {bizTab==="prelaunch"&&(
-        <div style={{padding:"20px 16px 80px"}}>
-          <h2 style={{...ty.h2,marginBottom:4}}>Pre-launch pages</h2>
-          <div style={{...ty.body,color:C.t3,marginBottom:20}}>Businesses planning to open have published pages to collect resident input before committing.</div>
-          {!canSee(tier,"starter")&&(
-            <div style={{background:C.surface,border:"1px solid "+C.line,borderRadius:14,padding:"20px",textAlign:"center",marginBottom:16}}>
-              <Lock size={20} color={C.t3} style={{margin:"0 auto 10px"}}/>
-              <div style={{...ty.bodyMd,marginBottom:6}}>Pre-launch data — Starter+</div>
-              <div style={{...ty.sm,color:C.t3,marginBottom:14}}>See what businesses are planning to open in your area and respond to their surveys</div>
-              <button onClick={()=>bump("starter")} style={{padding:"9px 20px",borderRadius:10,background:C.amber,color:"#000",border:"none",cursor:"pointer",fontFamily:sans,fontWeight:700,fontSize:12}}>Upgrade to Starter →</button>
-            </div>
-          )}
-          {canSee(tier,"starter")&&(
-            activePL ? (
-              <div>
-                <button onClick={()=>setActivePL(null)} style={{background:"none",border:"none",color:C.t3,cursor:"pointer",fontFamily:sans,fontSize:13,marginBottom:16,display:"flex",alignItems:"center",gap:6}}>← Back to all pages</button>
-                <div style={{background:"linear-gradient(135deg, "+C.coral+"14, "+C.surface+")",border:"1px solid "+C.coral+"30",borderRadius:16,padding:"18px 20px",marginBottom:20}}>
-                  <div style={{...ty.label,color:C.coral,marginBottom:4}}>Pre-launch · {activePL.area}</div>
-                  <div style={{...ty.h3,marginBottom:6}}>{activePL.emoji} {activePL.label}</div>
-                  <div style={{...ty.sm,color:C.t2,lineHeight:1.65,marginBottom:10,fontStyle:"italic"}}>"{activePL.blurb}"</div>
-                  <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-                    <div style={{padding:"4px 10px",borderRadius:20,background:C.coral+"18",border:"1px solid "+C.coral+"30"}}><span style={{...ty.meta,color:C.coral,fontWeight:600}}>{activePL.responseCount||activePL.voices} resident responses</span></div>
-                    <div style={{padding:"4px 10px",borderRadius:20,background:C.surface2,border:"1px solid "+C.line}}><span style={{...ty.meta,color:C.t3}}>{activePL.status}</span></div>
-                  </div>
-                </div>
-                <ClosedSurveyCard survey={activePL} allQs={Object.values(PRELAUNCH_QUESTIONS).flat()}/>
-              </div>
-            ) : (
-              <div>
-                {PRELAUNCH_PAGES.map(function(page){
-                  return(
-                    <button key={page.id} onClick={()=>setActivePL(page)}
-                      style={{width:"100%",background:C.surface,border:"1px solid "+C.line,borderRadius:14,padding:"16px 18px",cursor:"pointer",fontFamily:sans,textAlign:"left",marginBottom:10,display:"flex",alignItems:"center",gap:14}}>
-                      <div style={{width:44,height:44,borderRadius:12,background:C.coral+"18",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0}}>{page.emoji}</div>
-                      <div style={{flex:1}}>
-                        <div style={{...ty.bodyMd,fontSize:14,marginBottom:3}}>{page.label}</div>
-                        <div style={{...ty.meta,color:C.t3}}>{page.area} · {page.responseCount||page.voices} responses · {page.status}</div>
-                      </div>
-                      <ChevronDown size={14} color={C.t3} style={{transform:"rotate(-90deg)",flexShrink:0}}/>
-                    </button>
-                  );
-                })}
-              </div>
-            )
-          )}
-        </div>
       )}
-
       {/* FAQ TAB */}
       {bizTab==="faq"&&(
-        <div style={{padding:"20px 16px 60px"}}>
+        <div style={{padding:"20px 16px 80px"}}>
           <h2 style={{...ty.h2,marginBottom:4}}>Understanding the data</h2>
-          <Card style={{padding:0,overflow:"hidden"}}>
-            {FAQ_ITEMS.map((f,i)=>(
-              <div key={i}>{i>0&&<HR/>}
-                <button onClick={()=>setFaqOpen(faqOpen===i?null:i)}
-                  style={{width:"100%",padding:"14px 18px",background:"transparent",border:"none",cursor:"pointer",fontFamily:sans,textAlign:"left",display:"flex",alignItems:"center",gap:10}}>
-                  <div style={{flex:1,...ty.bodyMd,fontSize:13,color:faqOpen===i?C.coral:C.t1}}>{f.q}</div>
-                  <ChevronDown size={14} color={faqOpen===i?C.coral:C.t3} style={{flexShrink:0,transform:faqOpen===i?"rotate(180deg)":"none",transition:"transform .2s"}}/>
-                </button>
-                {faqOpen===i&&<div style={{padding:"0 18px 14px",...ty.sm,color:C.t2,lineHeight:1.7}}>{f.a}</div>}
+          <div style={{...ty.body,color:C.t3,marginBottom:24}}>How to read and use what Cravz shows you.</div>
+
+          {FAQ_SECTIONS.map(function(section, si){
+            return(
+              <div key={si} style={{marginBottom:28}}>
+                <div style={{...ty.label,color:C.t3,marginBottom:12}}>{section.section.toUpperCase()}</div>
+                <Card style={{padding:0,overflow:"hidden"}}>
+                  {section.items.map(function(item, ii){
+                    var key = si+"-"+ii;
+                    var isOpen = faqOpen===key;
+                    return(
+                      <div key={key}>
+                        {ii>0&&<HR/>}
+                        <button onClick={function(){setFaqOpen(isOpen?null:key);}}
+                          style={{width:"100%",padding:"16px 18px",background:"transparent",border:"none",cursor:"pointer",fontFamily:sans,textAlign:"left",display:"flex",alignItems:"flex-start",gap:12}}>
+                          <div style={{flex:1}}>
+                            <div style={{...ty.bodyMd,fontSize:14,color:isOpen?C.coral:C.t1,lineHeight:1.4}}>{item.q}</div>
+                          </div>
+                          <ChevronDown size={14} color={isOpen?C.coral:C.t3} style={{flexShrink:0,marginTop:3,transform:isOpen?"rotate(180deg)":"none",transition:"transform .2s"}}/>
+                        </button>
+                        {isOpen&&(
+                          <div style={{padding:"0 18px 18px"}}>
+                            <div style={{...ty.sm,color:C.t2,lineHeight:1.75,marginBottom:item.why?14:0}}>{item.a}</div>
+                            {item.why&&(
+                              <div style={{paddingTop:12,borderTop:"1px solid "+C.line}}>
+                                <span style={{...ty.meta,color:C.t3,fontWeight:600}}>Why it matters: </span>
+                                <span style={{...ty.meta,color:C.t3,lineHeight:1.7}}>{item.why}</span>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </Card>
               </div>
-            ))}
-          </Card>
+            );
+          })}
+
+          {/* Glossary */}
+          <div style={{marginBottom:28}}>
+            <div style={{...ty.label,color:C.t3,marginBottom:12}}>GLOSSARY</div>
+            <Card style={{padding:0,overflow:"hidden"}}>
+              {GLOSSARY_ITEMS.map(function(item,i){return(
+                <div key={i}>
+                  {i>0&&<HR/>}
+                  <div style={{padding:"13px 18px",display:"flex",alignItems:"flex-start",gap:12}}>
+                    <div style={{...ty.meta,color:C.t1,fontWeight:700,minWidth:120,flexShrink:0,paddingTop:1}}>{item.t}</div>
+                    <div style={{...ty.meta,color:C.t3,lineHeight:1.65}}>{item.d}</div>
+                  </div>
+                </div>
+              );})}
+            </Card>
+          </div>
         </div>
       )}
 
@@ -3184,18 +5153,48 @@ function BizDashboard({session,onLogout,onUpdateSession}){
               <div style={{width:52,height:52,borderRadius:16,background:acctCfg.color+"22",display:"flex",alignItems:"center",justifyContent:"center",fontSize:26,flexShrink:0}}>{acctCfg.emoji}</div>
               <div>
                 <div style={{...ty.h3,marginBottom:2}}>{acctCfg.label}</div>
-                <div style={{...ty.meta,color:C.t3}}>{session?.email||"account@cravz.co"}</div>
+                <div style={{...ty.meta,color:C.t3}}>{(session&&session.email)||"account@cravz.co"}</div>
               </div>
             </div>
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
-              {[{l:"Plan",v:thisTier.name},{l:"Areas",v:sessionAreas.join(", ")},{l:"Account type",v:acctCfg.label}].map(s=>(
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:12}}>
+              {[
+                {l:"Access",v:thisTier.name,c:thisTier.color},
+                {l:"Account type",v:acctCfg.label,c:null},
+                {l:"Areas",v:sessionAreas.join(", "),c:null},
+                {l:"Stage",v:(session&&session.stage)||"—",c:null},
+              ].map(function(s){return(
                 <div key={s.l} style={{padding:"10px 12px",background:C.surface2,borderRadius:10}}>
                   <div style={{...ty.meta,color:C.t3,fontSize:9,marginBottom:4}}>{s.l.toUpperCase()}</div>
-                  <div style={{...ty.sm,color:C.t1,fontWeight:600}}>{s.v}</div>
+                  <div style={{...ty.sm,color:s.c||C.t1,fontWeight:600}}>{s.v}</div>
                 </div>
-              ))}
+              );})}
             </div>
-            <button onClick={onLogout} style={{width:"100%",marginTop:16,padding:"12px",borderRadius:12,background:"transparent",border:"1px solid "+C.line,color:C.t3,cursor:"pointer",fontFamily:sans,fontSize:13}}>Sign out</button>
+            {/* Area slots */}
+            <div style={{padding:"10px 12px",background:C.surface2,borderRadius:10,marginBottom:12}}>
+              <div style={{...ty.meta,color:C.t3,fontSize:9,marginBottom:6}}>YOUR AREAS — {thisTier.areas||1} SLOT{(thisTier.areas||1)!==1?"S":""} INCLUDED</div>
+              <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:6}}>
+                {sessionAreas.map(function(a){return(
+                  <span key={a} style={{padding:"4px 10px",borderRadius:20,background:C.coral+"15",border:"1px solid "+C.coral+"30",fontFamily:sans,fontSize:12,color:C.t1,fontWeight:500}}>{a}</span>
+                );})}
+              </div>
+              <div style={{...ty.meta,color:C.t3,lineHeight:1.5,fontSize:10}}>Areas can be changed once every 30 days. Contact hello@cravz.co to request a change.</div>
+            </div>
+            {/* Status */}
+            <div style={{display:"flex",alignItems:"center",gap:8,padding:"10px 12px",background:C.green+"0A",border:"1px solid "+C.green+"20",borderRadius:10,marginBottom:12}}>
+              <div style={{width:7,height:7,borderRadius:"50%",background:C.green,flexShrink:0}}/>
+              <span style={{...ty.meta,color:C.green,fontWeight:500}}>{thisTier.name} access active</span>
+              {thisTier.period&&<span style={{...ty.meta,color:C.t3}}>· {thisTier.period}</span>}
+            </div>
+            <button onClick={onLogout} style={{width:"100%",padding:"12px",borderRadius:12,background:"transparent",border:"1px solid "+C.line,color:C.t3,cursor:"pointer",fontFamily:sans,fontSize:13}}>Sign out</button>
+
+            {/* Legal */}
+            <div style={{marginTop:20}}>
+              <button onClick={function(){setBizLegalDoc("screen");}}
+                style={{display:"flex",alignItems:"center",justifyContent:"space-between",width:"100%",padding:"13px 0",background:"transparent",border:"none",borderBottom:"1px solid "+C.line,cursor:"pointer",fontFamily:sans,textAlign:"left"}}>
+                <span style={{...ty.sm,color:C.t2}}>Legal documents</span>
+                <ChevronDown size={13} color={C.t3} style={{transform:"rotate(-90deg)",flexShrink:0}}/>
+              </button>
+            </div>
           </Card>
         </div>
       )}
@@ -3328,6 +5327,7 @@ function Landing({onResident,onBusiness,onBizRequest}){
             <div><div style={{fontSize:15,fontWeight:600}}>Business / investor / agent</div><div style={{fontSize:12,color:C.t2,marginTop:2}}>View demand intelligence plans & request access</div></div>
             <ArrowRight size={18} color={C.t3}/>
           </button>
+
         </div>
       </div>
       <div style={{padding:"18px 28px",borderTop:`1px solid ${C.line}`,textAlign:"center"}}>
@@ -3424,6 +5424,8 @@ function WaitlistConfirmed({postcode, onBack}){
 }
 
 function AuthFlow({userType,onBack,onDone}){
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [legalPage, setLegalPage] = useState(null);
   const [step,   setStep]  = useState("email");
   const [email,  setEmail] = useState("");
   const [code,   setCode]  = useState("");
@@ -3473,9 +5475,28 @@ function AuthFlow({userType,onBack,onDone}){
       <div style={{marginBottom:24}}><CravzLogo size={28}/></div>
       <h2 style={{...ty.h2,marginBottom:6}}>Join Cravz</h2>
       <div style={{...ty.body,marginBottom:24}}>{userType==="resident"?"One account per person keeps demand real.":"Access verified local demand intelligence."}</div>
+      {/* T&C agreement */}
+      {legalPage&&<div style={{position:"fixed",inset:0,zIndex:200,background:C.bg}}><LegalPage doc={legalPage} onBack={function(){setLegalPage(null);}}/></div>}
+      <div style={{display:"flex",alignItems:"flex-start",gap:10,padding:"12px 14px",background:C.surface,border:"1px solid "+(agreedToTerms?C.green+"40":C.line),borderRadius:12,marginBottom:10,cursor:"pointer"}}
+        onClick={function(){setAgreedToTerms(function(v){return !v;});}}>
+        <div style={{width:18,height:18,borderRadius:5,border:"1px solid "+(agreedToTerms?C.green:C.line),background:agreedToTerms?C.green:"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,marginTop:1}}>
+          {agreedToTerms&&<span style={{color:"#fff",fontSize:11,lineHeight:1}}>✓</span>}
+        </div>
+        <div style={{...ty.meta,color:C.t2,lineHeight:1.65}}>
+          {"I agree to the "}
+          <span onClick={function(e){e.stopPropagation();setLegalPage(LEGAL_DOCS.find(function(d){return d.id==="terms";}));}} style={{color:C.coral,cursor:"pointer"}}>Terms & Conditions</span>
+          {" and "}
+          <span onClick={function(e){e.stopPropagation();setLegalPage(LEGAL_DOCS.find(function(d){return d.id==="privacy";}));}} style={{color:C.coral,cursor:"pointer"}}>Privacy Policy</span>
+        </div>
+      </div>
+      <div style={{...ty.meta,color:C.t3,marginBottom:14,lineHeight:1.65}}>
+        {"By continuing, you acknowledge "}
+        <span onClick={function(){setLegalPage(LEGAL_DOCS.find(function(d){return d.id==="data";}));}} style={{color:C.t2,cursor:"pointer",textDecoration:"underline"}}>how Cravz data works</span>
+      </div>
       {["Continue with Apple","Continue with Google"].map(l=>(
-        <button key={l} onClick={()=>setStep(userType==="resident"?"profile":"acct_type")}
-          style={{width:"100%",padding:"13px",background:"#EDE8E0",border:"none",borderRadius:12,cursor:"pointer",fontFamily:sans,color:"#111",fontWeight:600,fontSize:13,marginBottom:8,textAlign:"center"}}>{l}</button>
+        <button key={l} onClick={function(){if(agreedToTerms) setStep(userType==="resident"?"profile":"acct_type");}}
+          disabled={!agreedToTerms}
+          style={{width:"100%",padding:"13px",background:agreedToTerms?"#EDE8E0":C.surface2,border:"none",borderRadius:12,cursor:agreedToTerms?"pointer":"default",fontFamily:sans,color:agreedToTerms?"#111":C.t3,fontWeight:600,fontSize:13,marginBottom:8,textAlign:"center",opacity:agreedToTerms?1:0.5}}>{l}</button>
       ))}
       <div style={{display:"flex",alignItems:"center",gap:10,margin:"14px 0"}}>
         <div style={{flex:1,height:1,background:C.line}}/><span style={{...ty.meta}}>or email</span><div style={{flex:1,height:1,background:C.line}}/>
@@ -3535,7 +5556,7 @@ function AuthFlow({userType,onBack,onDone}){
           {!waitlist&&<>
           <h2 style={{...ty.h2,marginBottom:6}}>Your neighbourhood</h2>
           <div style={{...ty.body,marginBottom:20}}>Locked to your account. Keeps demand local and trustworthy.</div>
-          {(()=>{
+          {(function(){
             const pcValid = /^[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}$/.test(pc.trim());
             const pcFilled = pc.trim().length >= 5;
             const showError = pcFilled && !pcValid;
@@ -3596,7 +5617,7 @@ function AuthFlow({userType,onBack,onDone}){
             </div>
           </div>
           <div style={{...ty.meta,color:C.t3,lineHeight:1.7,marginBottom:20,padding:"10px 12px",background:C.surface,borderRadius:10,border:`1px solid ${C.line}`}}>
-            🔒 We store your full postcode to derive your district (e.g. SW4) and sector (e.g. SW4 9). Businesses on Pro+ can see sector-level signals — never your full postcode, name, or email. All demographic data is aggregated and anonymised.
+            🔒 We store your full postcode to derive your district (e.g. SW4) and sector (e.g. SW4 9). Businesses on Investor tier can see sector-level signals — never your full postcode, name, or email. All demographic data is aggregated and anonymised.
           </div>
           <button disabled={!resOk} onClick={()=>{
                     const full = pc.trim().toUpperCase();
@@ -3762,16 +5783,141 @@ function AuthFlow({userType,onBack,onDone}){
    SHELL
 ================================================== */
 function TopBar({user}){
-  return <div style={{position:"sticky",top:0,zIndex:50,background:`${C.bg}F2`,backdropFilter:"blur(14px)",borderBottom:`1px solid ${C.line}`,padding:"0 18px"}}><div style={{display:"flex",alignItems:"center",justifyContent:"space-between",height:54}}><CravzLogo size={23}/><span style={{...ty.meta,color:C.t3}}>{user?.postcode}</span><button style={{background:C.surface,border:`1px solid ${C.line}`,borderRadius:10,width:36,height:36,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",color:C.t2}}><MoreHorizontal size={17}/></button></div></div>;
+  return <div style={{position:"sticky",top:0,zIndex:50,background:`${C.bg}F2`,backdropFilter:"blur(14px)",borderBottom:`1px solid ${C.line}`,padding:"0 18px"}}><div style={{display:"flex",alignItems:"center",justifyContent:"space-between",height:54}}><CravzLogo size={23}/><span style={{...ty.meta,color:C.t3}}>{(user&&user.postcode)}</span><button style={{background:C.surface,border:`1px solid ${C.line}`,borderRadius:10,width:36,height:36,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",color:C.t2}}><MoreHorizontal size={17}/></button></div></div>;
 }
 
 /* ==================================================
    RESIDENT NOTIFICATIONS
 ================================================== */
-function ResNotifications({user, onAllocate, onShowPrelaunch}){
+
+// ── ResPrelaunchSurvey ─────────────────────────────────────────────────────────
+// Resident fills in a business's pre-launch survey from their Updates tab
+// Firebase: writes to prelaunch_responses/{surveyId}/responses/{uid}
+function ResPrelaunchSurvey({notif, survey, onBack, coinAlloc}) {
+  var questions = (survey.questions||[]).slice(0,8);
+  var [answers, setAnswers] = useState({});
+  var [submitted, setSubmitted] = useState(false);
+
+  var allAnswered = questions.length > 0 && questions.every(function(q){
+    return answers[q.id] != null;
+  });
+
+  if(submitted) return (
+    <div style={{padding:"40px 20px",textAlign:"center",fontFamily:sans}}>
+      <div style={{width:64,height:64,borderRadius:20,background:C.green+"15",border:"1px solid "+C.green+"25",
+        display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 20px"}}>
+        <Check size={30} color={C.green}/>
+      </div>
+      <div style={{...ty.h2,marginBottom:8}}>Answers sent</div>
+      <div style={{...ty.body,color:C.t3,lineHeight:1.65,marginBottom:24}}>
+        Your responses go directly to the business. They'll use them to shape what they build — opening hours, format, pricing, what to stock.
+      </div>
+      <div style={{padding:"14px 16px",background:C.surface,border:"1px solid "+C.line,borderRadius:14,textAlign:"left",marginBottom:20}}>
+        <div style={{...ty.label,color:C.coral,marginBottom:6}}>What happens next</div>
+        <div style={{...ty.sm,color:C.t2,lineHeight:1.65}}>Once the business collects enough responses, you'll get an update in your notifications. If they open, you'll be one of the first to know.</div>
+      </div>
+      <button onClick={onBack} style={{padding:"13px 28px",background:C.coral,color:"#fff",border:"none",borderRadius:14,cursor:"pointer",fontFamily:sans,fontWeight:700,fontSize:15}}>
+        Back to Updates
+      </button>
+    </div>
+  );
+
+  return (
+    <div style={{background:C.bg,minHeight:"100vh",fontFamily:sans,color:C.t1}}>
+      {/* Header */}
+      <div style={{position:"sticky",top:0,background:C.bg+"F5",backdropFilter:"blur(12px)",borderBottom:"1px solid "+C.line,padding:"14px 20px",display:"flex",alignItems:"center",gap:14,zIndex:50}}>
+        <button onClick={onBack} style={{background:"transparent",border:"none",color:C.t3,cursor:"pointer",fontFamily:sans,fontSize:13,padding:0}}>← Back</button>
+        <div style={{...ty.bodyMd,fontSize:14,flex:1}}>Business survey</div>
+        <div style={{...ty.meta,color:C.t3,fontSize:11}}>{Object.keys(answers).length}/{questions.length} answered</div>
+      </div>
+
+      <div style={{padding:"20px 20px 100px"}}>
+        {/* Business card */}
+        <div style={{background:"linear-gradient(135deg,"+C.coral+"12,"+C.surface+")",border:"1px solid "+C.coral+"25",borderRadius:16,padding:"16px 18px",marginBottom:24}}>
+          <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:10}}>
+            <div style={{width:44,height:44,borderRadius:12,background:C.coral+"18",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0}}>{survey.emoji}</div>
+            <div style={{flex:1}}>
+              <div style={{...ty.h3,marginBottom:2}}>{survey.label}</div>
+              <div style={{...ty.meta,color:C.t3}}>{survey.area} · {survey.opening||"Opening soon"}</div>
+            </div>
+          </div>
+          {survey.blurb&&<div style={{...ty.sm,color:C.t2,lineHeight:1.65,fontStyle:"italic"}}>"{survey.blurb}"</div>}
+          <div style={{...ty.meta,color:C.t3,marginTop:10,lineHeight:1.5}}>
+            🔒 Your answers are anonymous. The business only sees aggregated responses.
+          </div>
+        </div>
+
+        {/* Why you're seeing this */}
+        <div style={{padding:"10px 14px",background:C.purple+"0C",border:"1px solid "+C.purple+"25",borderRadius:10,marginBottom:20}}>
+          <div style={{...ty.meta,color:C.purple,lineHeight:1.5}}>
+            You're seeing this because you voted for something similar in {survey.area}. Your input matters — it's exactly the resident signal this business needs.
+          </div>
+        </div>
+
+        {/* Questions */}
+        {questions.map(function(q, qi){
+          return (
+            <div key={q.id} style={{marginBottom:20}}>
+              <div style={{...ty.sm,color:C.t1,fontWeight:600,marginBottom:10,lineHeight:1.5}}>
+                {qi+1}. {q.q}
+              </div>
+              <div style={{display:"flex",flexDirection:"column",gap:7}}>
+                {q.opts.map(function(opt){
+                  var selected = answers[q.id]===opt;
+                  return(
+                    <button key={opt} onClick={function(){
+                      setAnswers(function(a){return Object.assign({},a,{[q.id]:opt});});
+                    }}
+                      style={{padding:"11px 14px",borderRadius:11,cursor:"pointer",fontFamily:sans,fontSize:13,
+                        textAlign:"left",transition:"all .12s",
+                        background:selected?C.coral+"12":C.surface,
+                        border:"1px solid "+(selected?C.coral+"60":C.line),
+                        color:selected?C.t1:C.t2,fontWeight:selected?600:400}}>
+                      {opt}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Submit */}
+        <button disabled={!allAnswered} onClick={function(){setSubmitted(true);}}
+          style={{width:"100%",padding:"15px",borderRadius:14,marginTop:8,
+            background:allAnswered?C.coral:C.surface2,
+            color:allAnswered?"#fff":C.t3,
+            border:"none",cursor:allAnswered?"pointer":"default",
+            fontFamily:sans,fontWeight:700,fontSize:15,transition:"all .2s"}}>
+          {allAnswered ? "Send my answers →" : "Answer all questions to submit"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function ResNotifications({user, coinAlloc, onAllocate, onShowPrelaunch}){
   const [dismissed, setDismissed] = useState([]);
   const [ctaNotif,  setCtaNotif]  = useState(null);
-  const visible = ALL_NOTIFS.filter(n=>!dismissed.includes(n.id));
+  // Firebase: query notifications where area in user.areas AND (type!=="prelaunch" OR user voted in that cat)
+  // In prototype: filter prelaunch notifs to only show if resident voted in that category
+  var userArea = (user&&user.homeArea)||"SW4";
+  var userCats = {};
+  if(coinAlloc) {
+    Object.keys(coinAlloc).forEach(function(id){
+      var item = FEED.find(function(f){return f.id===id;});
+      if(item && coinAlloc[id]>0) userCats[item.cat] = true;
+    });
+  }
+  const visible = ALL_NOTIFS.filter(function(n){
+    if(dismissed.includes(n.id)) return false;
+    // Non-prelaunch: show if area matches
+    if(n.type!=="prelaunch") return !n.area || n.area===userArea;
+    // Prelaunch: area match + voted in same category
+    var areaMatch = !n.area || n.area===userArea;
+    var catMatch = !n.cat || userCats[n.cat] || Object.keys(userCats).length===0;
+    return areaMatch && catMatch;
+  });
 
   const dismiss = id => setDismissed(p=>[...p,id]);
 
@@ -3807,28 +5953,37 @@ function ResNotifications({user, onAllocate, onShowPrelaunch}){
     </div>
   );
 
-  if(ctaNotif) return (
-    <div style={{padding:"20px 16px 100px"}}>
-      <button onClick={()=>setCtaNotif(null)}
-        style={{display:"flex",alignItems:"center",gap:6,background:"none",border:"none",color:C.t3,cursor:"pointer",fontFamily:sans,marginBottom:20,padding:0,...ty.sm}}>
-        ← Back
-      </button>
-      <div style={{background:`${ctaNotif.color}0C`,border:`1px solid ${ctaNotif.color}25`,borderRadius:18,padding:"22px 20px"}}>
-        <div style={{display:"flex",gap:12,alignItems:"flex-start",marginBottom:16}}>
-          <div style={{width:44,height:44,borderRadius:13,background:`${ctaNotif.color}20`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0}}>{ctaNotif.icon}</div>
-          <div style={{flex:1}}>
-            <div style={{...ty.h3,fontSize:16,marginBottom:4}}>{ctaNotif.title}</div>
-            <div style={{...ty.meta,color:C.t3}}>{ctaNotif.area} · {ctaNotif.ts}</div>
+  if(ctaNotif) {
+    // For prelaunch notifications: show the actual inline survey
+    if(ctaNotif.type==="prelaunch") {
+      var surveyPage = PRELAUNCH_PAGES.find(function(p){return p.id===ctaNotif.surveyId;}) ||
+        {id:"demo_pl1", label:"Late-night ramen bar", emoji:"🍜", cat:"food", area:ctaNotif.area,
+         blurb:"Authentic tonkotsu, open until 2am.", questions:PRELAUNCH_QUESTIONS["restaurant"]||[], responseCount:31, status:"active"};
+      return <ResPrelaunchSurvey notif={ctaNotif} survey={surveyPage} onBack={function(){setCtaNotif(null);}} coinAlloc={coinAlloc}/>;
+    }
+    return (
+      <div style={{padding:"20px 16px 100px"}}>
+        <button onClick={function(){setCtaNotif(null);}}
+          style={{display:"flex",alignItems:"center",gap:6,background:"none",border:"none",color:C.t3,cursor:"pointer",fontFamily:sans,marginBottom:20,padding:0,...ty.sm}}>
+          ← Back
+        </button>
+        <div style={{background:ctaNotif.color+"0C",border:"1px solid "+ctaNotif.color+"25",borderRadius:18,padding:"22px 20px"}}>
+          <div style={{display:"flex",gap:12,alignItems:"flex-start",marginBottom:16}}>
+            <div style={{width:44,height:44,borderRadius:13,background:ctaNotif.color+"20",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0}}>{ctaNotif.icon}</div>
+            <div style={{flex:1}}>
+              <div style={{...ty.h3,fontSize:16,marginBottom:4}}>{ctaNotif.title}</div>
+              <div style={{...ty.meta,color:C.t3}}>{ctaNotif.area} · {ctaNotif.ts}</div>
+            </div>
+          </div>
+          <div style={{...ty.body,color:C.t1,lineHeight:1.75,marginBottom:20}}>{ctaNotif.body}</div>
+          <div style={{padding:"14px 16px",borderRadius:12,background:C.surface2,border:"1px solid "+C.line}}>
+            <div style={{...ty.label,color:ctaNotif.color,marginBottom:8}}>When Cravz launches</div>
+            <div style={{...ty.sm,color:C.t2,lineHeight:1.75}}>{CTA_COPY[ctaNotif.type]||CTA_COPY.nudge}</div>
           </div>
         </div>
-        <div style={{...ty.body,color:C.t1,lineHeight:1.75,marginBottom:20}}>{ctaNotif.body}</div>
-        <div style={{padding:"14px 16px",borderRadius:12,background:C.surface2,border:`1px solid ${C.line}`}}>
-          <div style={{...ty.label,color:ctaNotif.color,marginBottom:8}}>When Cravz launches</div>
-          <div style={{...ty.sm,color:C.t2,lineHeight:1.75}}>{CTA_COPY[ctaNotif.type]||CTA_COPY.nudge}</div>
-        </div>
       </div>
-    </div>
-  );
+    );
+  }
 
   return (
     <div style={{padding:"20px 16px 100px"}}>
@@ -3875,11 +6030,20 @@ function ResNotifications({user, onAllocate, onShowPrelaunch}){
    THE BRIEF — data, constants, helpers
 ================================================== */
 
-const BRIEF_BRANDS = [
-  "Barry's","F45","1Rebel","Third Space","PureGym","Gail's","Dishoom",
-  "Megan's","Ottolenghi","Gambado","Trampoline Park","Aesop","Gymbox",
-  "Digme","BXR","Core Collective","Redemption Roasters","Notes Coffee",
-];
+const BRIEF_BRANDS_BY_CAT = {
+  food:    ["Gail's","Dishoom","Megan's","Ottolenghi","Redemption Roasters","Notes Coffee","Caravan","Monmouth Coffee","Flat Iron","Hawksmoor"],
+  fitness: ["Barry's","F45","1Rebel","Third Space","PureGym","Gymbox","Digme","BXR","Core Collective","Psycle","Triyoga","Frame"],
+  kids:    ["Gambado","Trampoline Park","Little Kickers","Tumble Tots","Gymboree","Monkey Music"],
+  health:  ["Third Space","Cowshed","Bamford","Glow Bar","FACEGYM"],
+  retail:  ["Aesop","Anya Hindmarch","Labour and Wait","Magma","Daunt Books"],
+  entertain:["Electric Brixton","Omeara","Village Underground","Jazz Cafe"],
+  services:["Third Space","1Rebel","Barry's","F45"],
+};
+// Flat list for autocomplete (all brands)
+const BRIEF_BRANDS = Object.values(BRIEF_BRANDS_BY_CAT).reduce(function(all,arr){
+  arr.forEach(function(b){ if(all.indexOf(b)===-1) all.push(b); });
+  return all;
+},[]);
 
 const BRIEF_LOCATIONS = [
   "Clapham High Street","Rectory Grove","Near the Common",
@@ -3896,40 +6060,40 @@ const BRIEF_ATTRIBUTES = [
 
 // Seed comments per concept id — realistic Clapham resident voices
 const BRIEF_SEED_COMMENTS = {
-  "b75": [
+  "s75": [
     {id:"bc1", text:"Would love a Barry's or F45 with creche -- impossible to find in SW4", upvotes:14, ts:"2 days ago"},
     {id:"bc2", text:"Something near Rectory Grove would be perfect for the school run crowd", upvotes:11, ts:"3 days ago"},
     {id:"bc3", text:"Needs to be properly premium, not a glorified ball pit. Good coffee essential", upvotes:9, ts:"4 days ago"},
     {id:"bc4", text:"Gambado would be amazing here -- there's nothing like it south of the river", upvotes:7, ts:"5 days ago"},
     {id:"bc5", text:"Outdoor area would be a huge bonus given proximity to the Common", upvotes:6, ts:"1 week ago"},
   ],
-  "b29": [
+  "s29": [
     {id:"bc6", text:"A natural wine bar please -- somewhere that feels like it belongs here not a chain", upvotes:18, ts:"1 day ago"},
     {id:"bc7", text:"Venn Street would be the perfect location, already has the footfall", upvotes:13, ts:"2 days ago"},
     {id:"bc8", text:"Needs outdoor seating. The Common crowd would make this work easily", upvotes:10, ts:"3 days ago"},
     {id:"bc9", text:"Something like Sager + Wilde or P.Franco but in Clapham. Please.", upvotes:8, ts:"4 days ago"},
   ],
-  "b81": [
+  "s81": [
     {id:"bc10", text:"Electric Brixton is always packed — we need our own version in SW4", upvotes:16, ts:"1 day ago"},
     {id:"bc11", text:"Near Clapham High Street station would make sense for late nights", upvotes:12, ts:"2 days ago"},
     {id:"bc12", text:"Would happily travel for this but would rather not go to Brixton every time", upvotes:7, ts:"5 days ago"},
   ],
-  "b66": [
+  "s66": [
     {id:"bc13", text:"The Climbing Hangar or Boulder World — either would transform the area", upvotes:15, ts:"1 day ago"},
     {id:"bc14", text:"Needs to be accessible without a car — near a tube would be key", upvotes:11, ts:"2 days ago"},
     {id:"bc15", text:"With a decent café please. The post-climb coffee is non-negotiable", upvotes:9, ts:"3 days ago"},
   ],
-  "b23": [
+  "s23": [
     {id:"bc16", text:"Notes or Redemption Roasters please — we have enough Costas", upvotes:19, ts:"1 day ago"},
     {id:"bc17", text:"Laptop friendly with good wifi — the area is crying out for it", upvotes:14, ts:"2 days ago"},
     {id:"bc18", text:"Abbeville Village would be the dream location", upvotes:10, ts:"3 days ago"},
     {id:"bc19", text:"Dog friendly essential. Half of Clapham has a dog.", upvotes:8, ts:"4 days ago"},
   ],
-  "a13": [
+  "s94": [
     {id:"bc20", text:"Baz Arts or similar — proper Latin dance not just beginner salsa", upvotes:12, ts:"2 days ago"},
     {id:"bc21", text:"Evening classes essential — working people need post-6pm slots", upvotes:9, ts:"3 days ago"},
   ],
-  "a8": [
+  "s89": [
     {id:"bc22", text:"Triyoga quality but local — not worth going all the way to Chelsea", upvotes:16, ts:"1 day ago"},
     {id:"bc23", text:"Hot yoga option would make this even better", upvotes:11, ts:"2 days ago"},
   ],
@@ -3947,14 +6111,15 @@ function getBriefComments(conceptId) {
 }
 
 // Simple keyword extractor from comment text
-function extractSignals(comments) {
-  const brands = {};
-  const locations = {};
-  const attributes = {};
+function extractSignals(comments, cat) {
+  var brands = {};
+  var locations = {};
+  var attributes = {};
+  var brandList = (cat && BRIEF_BRANDS_BY_CAT[cat]) ? BRIEF_BRANDS_BY_CAT[cat] : BRIEF_BRANDS;
   comments.forEach(function(c) {
-    const txt = c.text.toLowerCase();
-    BRIEF_BRANDS.forEach(function(b) {
-      if(txt.includes(b.toLowerCase())) {
+    var txt = c.text.toLowerCase();
+    brandList.forEach(function(b) {
+      if(txt.indexOf(b.toLowerCase()) !== -1) {
         brands[b] = (brands[b]||0) + 1;
       }
     });
@@ -3979,129 +6144,204 @@ function extractSignals(comments) {
 /* ==================================================
    THE BRIEF COMPONENT
 ================================================== */
+/* ==================================================
+   LEGAL PAGE COMPONENT
+================================================== */
+function LegalPage({doc, onBack}) {
+  return (
+    <div style={{minHeight:"100vh",background:C.bg,fontFamily:sans,color:C.t1}}>
+      {/* Sticky header */}
+      <div style={{position:"sticky",top:0,zIndex:50,background:C.bg+"F5",backdropFilter:"blur(12px)",borderBottom:"1px solid "+C.line,padding:"14px 20px",display:"flex",alignItems:"center",gap:14}}>
+        <button onClick={onBack}
+          style={{background:"transparent",border:"none",color:C.t3,cursor:"pointer",fontFamily:sans,fontSize:13,padding:0,display:"flex",alignItems:"center",gap:6}}>
+          ← Back
+        </button>
+        <div style={{...ty.bodyMd,fontSize:14}}>{doc.title}</div>
+      </div>
+      {/* Content */}
+      <div style={{padding:"28px 24px 80px",maxWidth:640,margin:"0 auto"}}>
+        <div style={{marginBottom:24}}>
+          <h1 style={{fontFamily:serif,fontSize:22,fontWeight:700,marginBottom:6,color:C.t1}}>{doc.title}</h1>
+          <div style={{...ty.meta,color:C.t3}}>Last updated: {doc.updated}</div>
+        </div>
+        {doc.sections.map(function(sec, i){return(
+          <div key={i} style={{marginBottom:20}}>
+            {sec.heading&&(
+              <div style={{...ty.sm,color:C.t1,fontWeight:600,marginBottom:8}}>{sec.heading}</div>
+            )}
+            <div style={{...ty.sm,color:C.t2,lineHeight:1.8}}>{sec.body}</div>
+          </div>
+        );})}
+      </div>
+    </div>
+  );
+}
+
+/* ==================================================
+   REPORT MODAL COMPONENT
+================================================== */
+function LegalScreen({onBack}) {
+  const [openDoc, setOpenDoc] = useState(null);
+  if(openDoc) return <LegalPage doc={openDoc} onBack={function(){setOpenDoc(null);}}/>;
+  return (
+    <div style={{minHeight:"100vh",background:C.bg,fontFamily:sans,color:C.t1}}>
+      <div style={{position:"sticky",top:0,zIndex:50,background:C.bg+"F5",backdropFilter:"blur(12px)",borderBottom:"1px solid "+C.line,padding:"14px 20px",display:"flex",alignItems:"center",gap:14}}>
+        <button onClick={onBack} style={{background:"transparent",border:"none",color:C.t3,cursor:"pointer",fontFamily:sans,fontSize:13,padding:0}}>← Back</button>
+        <div style={{...ty.bodyMd,fontSize:14}}>Legal</div>
+      </div>
+      <div style={{padding:"24px 20px 80px",maxWidth:520,margin:"0 auto"}}>
+        <div style={{marginBottom:24}}>
+          <h2 style={{fontFamily:serif,fontSize:20,fontWeight:700,marginBottom:6}}>Legal documents</h2>
+          <div style={{...ty.meta,color:C.t3,lineHeight:1.65}}>Tale Labs Ltd · hello@cravz.co</div>
+        </div>
+        <div style={{display:"flex",flexDirection:"column"}}>
+          {LEGAL_DOCS.map(function(doc,i){return(
+            <button key={doc.id} onClick={function(){setOpenDoc(doc);}}
+              style={{display:"flex",alignItems:"center",justifyContent:"space-between",
+                padding:"14px 0",background:"transparent",border:"none",
+                borderBottom:"1px solid "+C.line,cursor:"pointer",fontFamily:sans,textAlign:"left",width:"100%"}}>
+              <span style={{...ty.sm,color:C.t1}}>{doc.title}</span>
+              <ChevronDown size={13} color={C.t3} style={{transform:"rotate(-90deg)",flexShrink:0}}/>
+            </button>
+          );})}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ReportModal({onClose, onSubmit}) {
+  var [reason, setReason] = useState("");
+  var reasons = ["Misleading","Spam","Inappropriate","Other"];
+  return (
+    <div style={{position:"fixed",inset:0,background:"#000000CC",zIndex:600,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={onClose}>
+      <div style={{background:C.surface,borderRadius:"22px 22px 0 0",padding:"24px 20px 40px",width:"100%",maxWidth:480}} onClick={function(e){e.stopPropagation();}}>
+        <div style={{...ty.h3,marginBottom:4}}>Report this content</div>
+        <div style={{...ty.meta,color:C.t3,marginBottom:20}}>Help us maintain data quality and trust.</div>
+        <div style={{display:"flex",flexDirection:"column",gap:8,marginBottom:20}}>
+          {reasons.map(function(r){
+            var on = reason===r;
+            return(
+              <button key={r} onClick={function(){setReason(r);}}
+                style={{padding:"11px 14px",borderRadius:12,textAlign:"left",width:"100%",cursor:"pointer",fontFamily:sans,
+                  background:on?C.coral+"12":C.surface2, border:"1px solid "+(on?C.coral+"50":C.line)}}>
+                <span style={{...ty.sm,color:on?C.t1:C.t2,fontWeight:on?600:400}}>{r}</span>
+              </button>
+            );
+          })}
+        </div>
+        <button onClick={function(){if(reason){onSubmit(reason);onClose();}}}
+          disabled={!reason}
+          style={{width:"100%",padding:"13px",background:reason?C.coral:C.surface2,color:reason?"#fff":C.t3,
+            border:"none",borderRadius:14,cursor:reason?"pointer":"default",fontFamily:sans,fontWeight:700,fontSize:14,marginBottom:10}}>
+          Submit report
+        </button>
+        <button onClick={onClose}
+          style={{width:"100%",padding:"10px",background:"transparent",border:"none",cursor:"pointer",fontFamily:sans,fontSize:13,color:C.t3}}>
+          Cancel
+        </button>
+      </div>
+    </div>
+  );
+}
+
+
 function TheBrief({coinAlloc, user}) {
-  // Voted items = ANY item across full catalogue that has coins
-  const allCatalogueItems = Object.values(CATALOGUE).flat();
-  const votedItems = allCatalogueItems.filter(function(i){ return (coinAlloc[i.id]||0)>0; });
-  // For unvoted "other concepts" use FEED_WITH_METRICS as the curated list
-  const feedItems = FEED_WITH_METRICS;
-  const unvotedFeedItems = feedItems.filter(function(i){ return (coinAlloc[i.id]||0)===0; });
-  // Selected concept — prefer voted, fallback to first feed item
-  const allSelectableItems = votedItems.concat(unvotedFeedItems);
-  
-  const [selId, setSelId] = useState(votedItems.length>0 ? votedItems[0].id : feedItems[0].id);
-  // selItem may come from catalogue or feed
-  const selItem = allCatalogueItems.find(function(i){return i.id===selId;}) 
-    || feedItems.find(function(i){return i.id===selId;}) 
-    || feedItems[0];
-  const cc = CAT_CFG[selItem.cat] || CAT_CFG[selItem.subcat] || CAT_CFG.business;
+  var allCatalogueItems = SERVICES;
+  var votedItems = allCatalogueItems.filter(function(i){ return (coinAlloc[i.id]||0)>0; });
+  var feedItems = FEED_WITH_METRICS;
+  var selIdDefault = votedItems.length>0 ? votedItems[0].id : null;
 
-  // Comment state — seed + user added
-  const [comments, setComments] = useState(function(){
-    var seed = getBriefComments(selId);
-    return seed.map(function(c){ return {...c, userUpvoted:false}; });
+  var [selId, setSelId] = useState(selIdDefault);
+  var [comments, setComments] = useState(function(){
+    var seed = getBriefComments(selIdDefault);
+    return seed.map(function(c){ return Object.assign({},c,{userUpvoted:false}); });
   });
-  const [userUpvoted, setUserUpvoted] = useState({});
-  const [showInput, setShowInput] = useState(false);
-  const [inputText, setInputText] = useState("");
-  const [locText, setLocText] = useState("");
-  const [showLocSuggestions, setShowLocSuggestions] = useState(false);
-  const [showBrandSuggestions, setShowBrandSuggestions] = useState(false);
-  const [brandSuggestions, setBrandSuggestions] = useState([]);
-  const [submitted, setSubmitted] = useState(false);
+  var [userUpvoted, setUserUpvoted] = useState({});
+  var [showInput, setShowInput] = useState(false);
+  var [inputText, setInputText] = useState("");
+  var [locText, setLocText] = useState("");
+  var [showLocSugg, setShowLocSugg] = useState(false);
+  var [showBrandSugg, setShowBrandSugg] = useState(false);
+  var [brandSugg, setBrandSugg] = useState([]);
+  var [submitted, setSubmitted] = useState(false);
+  var [reportTarget, setReportTarget] = useState(null);
 
-  // Update comments when concept changes
   useEffect(function(){
     var seed = getBriefComments(selId);
-    setComments(seed.map(function(c){ return {...c, userUpvoted:false}; }));
+    setComments(seed.map(function(c){ return Object.assign({},c,{userUpvoted:false}); }));
     setUserUpvoted({});
     setShowInput(false);
     setInputText("");
     setLocText("");
-    setBrandSuggestions([]);
-    setShowBrandSuggestions(false);
+    setBrandSugg([]);
+    setShowBrandSugg(false);
   }, [selId]);
 
-  // Brand autocomplete — detect as user types
   function handleInputChange(val) {
     setInputText(val);
-    if(val.length < 2) { setBrandSuggestions([]); setShowBrandSuggestions(false); return; }
-    const words = val.split(/\s+/);
-    const last = words[words.length-1].toLowerCase();
-    if(last.length < 2) { setBrandSuggestions([]); setShowBrandSuggestions(false); return; }
-    const matches = BRIEF_BRANDS.filter(function(b){ return b.toLowerCase().startsWith(last); }).slice(0,4);
-    setBrandSuggestions(matches);
-    setShowBrandSuggestions(matches.length > 0);
+    if(val.length < 2) { setBrandSugg([]); setShowBrandSugg(false); return; }
+    var words = val.split(/\s+/);
+    var last = words[words.length-1].toLowerCase();
+    if(last.length < 2) { setBrandSugg([]); setShowBrandSugg(false); return; }
+    var catBrands = selItem && BRIEF_BRANDS_BY_CAT[selItem.cat] ? BRIEF_BRANDS_BY_CAT[selItem.cat] : BRIEF_BRANDS;
+    var matches = catBrands.filter(function(b){ return b.toLowerCase().indexOf(last)===0; }).slice(0,4);
+    setBrandSugg(matches);
+    setShowBrandSugg(matches.length > 0);
   }
 
   function selectBrand(brand) {
-    const words = inputText.split(/\s+/);
+    var words = inputText.split(/\s+/);
     words[words.length-1] = brand;
     setInputText(words.join(" ") + " ");
-    setShowBrandSuggestions(false);
-    setBrandSuggestions([]);
+    setShowBrandSugg(false);
+    setBrandSugg([]);
   }
 
-  function handleUpvote(commentId) {
-    if(userUpvoted[commentId]) return;
-    setComments(function(prev){ return prev.map(function(c){ return c.id===commentId ? {...c, upvotes:c.upvotes+1} : c; }); });
-    setUserUpvoted(function(prev){ return {...prev, [commentId]:true}; });
+  function handleUpvote(cid) {
+    if(userUpvoted[cid]) return;
+    setComments(function(prev){ return prev.map(function(c){ return c.id===cid ? Object.assign({},c,{upvotes:c.upvotes+1}) : c; }); });
+    setUserUpvoted(function(prev){ return Object.assign({},prev,{[cid]:true}); });
   }
 
   function handleSubmit() {
     if(!inputText.trim()) return;
-    var newComment = {
-      id: "user_" + Date.now(),
-      text: inputText.trim() + (locText.trim() ? " — " + locText.trim() : ""),
-      upvotes: 0,
-      userUpvoted: false,
-      ts: "Just now",
-      isOwn: true,
-    };
-    setComments(function(prev){ return [newComment, ...prev]; });
-    setInputText("");
-    setLocText("");
-    setShowInput(false);
-    setSubmitted(true);
+    var nc = {id:"u_"+Date.now(), text:inputText.trim()+(locText.trim()?" — "+locText.trim():""), upvotes:0, userUpvoted:false, ts:"Just now", isOwn:true};
+    setComments(function(prev){ return [nc].concat(prev); });
+    setInputText(""); setLocText(""); setShowInput(false); setSubmitted(true);
     setTimeout(function(){ setSubmitted(false); }, 3000);
   }
 
-  // Sort by upvotes
+  var selItem = selId ? (allCatalogueItems.find(function(i){return i.id===selId;})||feedItems.find(function(i){return i.id===selId;})) : null;
+  var cc = selItem ? (CAT_CFG[selItem.cat]||{color:C.coral,bg:C.surface2,label:"",emoji:""}) : {color:C.coral,bg:C.surface2,label:"",emoji:""};
+  var hasVoted = selId ? (coinAlloc[selId]||0) > 0 : false;
   var sorted = comments.slice().sort(function(a,b){ return b.upvotes - a.upvotes; });
-  
-  // Extract signals from all comments for display
-  var allText = comments.map(function(c){return {text:c.text, upvotes:c.upvotes};});
-  var signals = extractSignals(comments);
-
-  const hasVoted = (coinAlloc[selId]||0) > 0;
+  var signals = extractSignals(comments, selItem ? selItem.cat : null);
 
   return (
-    <div style={{padding:"20px 16px 100px", maxWidth:680, margin:"0 auto"}}>
+    <div style={{padding:"20px 16px 100px",maxWidth:680,margin:"0 auto"}}>
+      {reportTarget&&<ReportModal onClose={function(){setReportTarget(null);}} onSubmit={function(reason){console.log("Report:",reportTarget,reason);setReportTarget(null);}}/>}
       <div style={{marginBottom:20}}>
-        <h2 style={{...ty.h2, marginBottom:4}}>The Brief</h2>
-        <div style={{...ty.body, color:C.t3}}>Residents who backed a concept shape what it should look like.</div>
+        <h2 style={{...ty.h2,marginBottom:4}}>The Brief</h2>
+        <div style={{...ty.body,color:C.t3}}>Residents who backed a concept shape what it should look like.</div>
       </div>
 
-      {/* Concept selector — voted first, prominent; unvoted take backseat */}
-      {/* Your voted concepts — prominent chips at top */}
-      {votedItems.length > 0 && (
+      {votedItems.length>0&&(
         <div style={{marginBottom:16}}>
-          <div style={{...ty.label, marginBottom:8}}>Your backed concepts</div>
-          <div style={{display:"flex", gap:8, overflowX:"auto", paddingBottom:4, scrollbarWidth:"none"}}>
+          <div style={{...ty.label,marginBottom:8}}>Your backed concepts</div>
+          <div style={{display:"flex",gap:8,overflowX:"auto",paddingBottom:4}}>
             {votedItems.map(function(item){
-              const isel = item.id === selId;
-              const icc = CAT_CFG[item.cat] || CAT_CFG.business;
-              return (
+              var isel = item.id===selId;
+              var icc = CAT_CFG[item.cat]||{color:C.coral};
+              return(
                 <button key={item.id} onClick={function(){setSelId(item.id);}}
-                  style={{flexShrink:0, padding:"9px 16px", borderRadius:20,
-                    background: isel ? (icc.color||C.coral) : C.surface,
-                    border: "1px solid " + (isel ? (icc.color||C.coral) : C.line),
-                    color: isel ? "#fff" : C.t1,
-                    cursor:"pointer", fontFamily:sans, fontSize:13, fontWeight:isel?700:500,
-                    display:"flex", alignItems:"center", gap:7}}>
+                  style={{flexShrink:0,padding:"9px 16px",borderRadius:20,
+                    background:isel?icc.color:C.surface,
+                    border:"1px solid "+(isel?icc.color:C.line),
+                    color:isel?"#fff":C.t1,cursor:"pointer",fontFamily:sans,fontSize:13,fontWeight:isel?700:500,
+                    display:"flex",alignItems:"center",gap:7}}>
                   <span style={{fontSize:15}}>{item.emoji}</span>
                   <span>{item.label}</span>
-                  {isel && <div style={{width:6,height:6,borderRadius:"50%",background:"rgba(255,255,255,0.8)",flexShrink:0}}/>}
                 </button>
               );
             })}
@@ -4109,8 +6349,6 @@ function TheBrief({coinAlloc, user}) {
         </div>
       )}
 
-
-      {/* Empty state when no votes yet */}
       {votedItems.length===0&&(
         <div style={{padding:"20px",background:C.surface,border:"1px dashed "+C.line,borderRadius:14,textAlign:"center",marginBottom:20}}>
           <div style={{fontSize:32,marginBottom:8}}>🗳️</div>
@@ -4119,221 +6357,198 @@ function TheBrief({coinAlloc, user}) {
         </div>
       )}
 
-      {/* Concept header */}
-      <div style={{background:"linear-gradient(135deg, " + cc.color + "14 0%, " + C.surface + " 100%)",
-        border:"1px solid " + cc.color + "25", borderRadius:16, padding:"16px 18px", marginBottom:20}}>
-        <div style={{display:"flex", alignItems:"center", gap:12}}>
-          <div style={{width:44,height:44,borderRadius:12,background:cc.bg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:24,flexShrink:0}}>{selItem.emoji}</div>
-          <div style={{flex:1}}>
-            <div style={{...ty.bodyMd, fontSize:15, marginBottom:2}}>{selItem.label}</div>
-            <div style={{...ty.meta, color:C.t3}}>{selItem.voters} voices · {comments.length} brief contributions</div>
-          </div>
-          {hasVoted && <div style={{padding:"4px 10px", borderRadius:20, background:cc.color+"22", border:"1px solid "+cc.color+"40"}}>
-            <span style={{...ty.meta, color:cc.color, fontWeight:700}}>You backed this</span>
-          </div>}
-        </div>
-      </div>
-
-      {/* Signals extracted — only show if there are matches */}
-      {(signals.brands.length>0 || signals.locations.length>0) && (
-        <div style={{marginBottom:20}}>
-          <div style={{...ty.label, marginBottom:10}}>Patterns emerging</div>
-          <div style={{display:"flex", gap:8, flexWrap:"wrap"}}>
-            {signals.brands.slice(0,3).map(function(b){
-              return (
-                <div key={b[0]} style={{padding:"5px 12px", borderRadius:20, background:C.purple+"18",
-                  border:"1px solid "+C.purple+"30", display:"flex", alignItems:"center", gap:6}}>
-                  <span style={{...ty.meta, color:C.purple, fontWeight:600}}>{b[0]}</span>
-                  <span style={{...ty.meta, color:C.t3}}>mentioned {b[1]}×</span>
-                </div>
-              );
-            })}
-            {signals.locations.slice(0,2).map(function(l){
-              return (
-                <div key={l[0]} style={{padding:"5px 12px", borderRadius:20, background:C.amber+"18",
-                  border:"1px solid "+C.amber+"30", display:"flex", alignItems:"center", gap:6}}>
-                  <MapPin size={10} color={C.amber}/>
-                  <span style={{...ty.meta, color:C.amber, fontWeight:600}}>{l[0]}</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* Locked state for unvoted concepts */}
-      {!hasVoted ? (
-        <div style={{marginBottom:20}}>
-          <div style={{background:C.surface, border:"1px solid "+C.line, borderRadius:16, overflow:"hidden"}}>
-            {/* Blurred preview of comments */}
-            <div style={{padding:"14px 16px", filter:"blur(4px)", pointerEvents:"none", userSelect:"none", opacity:0.5}}>
-              {sorted.slice(0,3).map(function(c){
-                return (
-                  <div key={c.id} style={{background:C.surface2, borderRadius:10, padding:"10px 12px", marginBottom:8}}>
-                    <div style={{...ty.sm, color:C.t1, marginBottom:4}}>{c.text}</div>
-                    <div style={{...ty.meta, color:C.t3}}>👍 {c.upvotes}</div>
-                  </div>
-                );
-              })}
-            </div>
-            {/* Lock overlay */}
-            <div style={{padding:"16px 18px", borderTop:"1px solid "+C.line, textAlign:"center", background:C.surface2}}>
-              <Lock size={16} color={C.t3} style={{margin:"0 auto 8px"}}/>
-              <div style={{...ty.bodyMd, fontSize:13, marginBottom:4}}>Vote to join the conversation</div>
-              <div style={{...ty.meta, color:C.t3, marginBottom:12, lineHeight:1.6}}>{sorted.length} residents have shared ideas about this concept</div>
-              <div style={{...ty.meta, color:C.t3, fontSize:10}}>Place your coins on {selItem.label} to read and contribute</div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div style={{marginBottom:20}}>
-          <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12}}>
-            <div style={{...ty.label}}>What residents want from it</div>
-            <div style={{...ty.meta, color:C.t3}}>{sorted.length} voices</div>
-          </div>
-
-          {/* INPUT AT THE TOP — before comments */}
-          {submitted && (
-            <div style={{padding:"10px 14px", background:C.green+"18", border:"1px solid "+C.green+"30",
-              borderRadius:10, marginBottom:12, display:"flex", alignItems:"center", gap:8}}>
-              <Check size={14} color={C.green}/>
-              <span style={{...ty.sm, color:C.green}}>Your voice has been added to the brief</span>
-            </div>
-          )}
-
-          {!showInput ? (
-            <button onClick={function(){setShowInput(true);}}
-              style={{width:"100%", padding:"12px 14px", borderRadius:12, marginBottom:14,
-                background:cc.color+"12", border:"1px solid "+cc.color+"30",
-                color:cc.color, cursor:"pointer", fontFamily:sans, fontSize:13, fontWeight:500,
-                display:"flex", alignItems:"center", justifyContent:"center", gap:8}}>
-              <Plus size={14} color={cc.color}/>
-              Add your voice to the brief
-            </button>
-          ) : (
-            <div style={{background:C.surface, border:"1px solid "+cc.color+"40", borderRadius:14, padding:"14px", marginBottom:14, position:"relative"}}>
-              <div style={{...ty.label, color:cc.color, marginBottom:10}}>What would you want from this?</div>
-              
-              <div style={{position:"relative", marginBottom:10}}>
-                <textarea value={inputText} onChange={function(e){handleInputChange(e.target.value);}}
-                  placeholder="e.g. Barry's would do really well here · near the school run · premium, not a basic chain"
-                  rows={3}
-                  style={{width:"100%", background:C.bg, border:"1px solid "+C.line,
-                    borderRadius:10, padding:"10px 12px", color:C.t1, fontSize:13,
-                    fontFamily:sans, outline:"none", resize:"none", lineHeight:1.5,
-                    boxSizing:"border-box"}}/>
-                {showBrandSuggestions && (
-                  <div style={{position:"absolute", top:"100%", left:0, right:0, zIndex:20,
-                    background:C.surface, border:"1px solid "+C.line, borderRadius:10,
-                    marginTop:4, overflow:"hidden", boxShadow:"0 8px 24px rgba(0,0,0,0.4)"}}>
-                    {brandSuggestions.map(function(b){
-                      return (
-                        <button key={b} onClick={function(){selectBrand(b);}}
-                          style={{width:"100%", padding:"9px 14px", background:"transparent",
-                            border:"none", borderBottom:"1px solid "+C.line,
-                            cursor:"pointer", fontFamily:sans, textAlign:"left",
-                            display:"flex", alignItems:"center", gap:8}}>
-                          <Zap size={11} color={C.amber}/>
-                          <span style={{...ty.sm, color:C.t1}}>{b}</span>
-                          <span style={{...ty.meta, color:C.t3, marginLeft:"auto"}}>brand</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
+      {selItem&&(
+        <div>
+          <div style={{background:"linear-gradient(135deg,"+cc.color+"14 0%,"+C.surface+" 100%)",
+            border:"1px solid "+cc.color+"25",borderRadius:16,padding:"16px 18px",marginBottom:20}}>
+            <div style={{display:"flex",alignItems:"center",gap:12}}>
+              <div style={{width:44,height:44,borderRadius:12,background:cc.bg||C.surface2,display:"flex",alignItems:"center",justifyContent:"center",fontSize:24,flexShrink:0}}>{selItem.emoji}</div>
+              <div style={{flex:1}}>
+                <div style={{...ty.bodyMd,fontSize:15,marginBottom:2}}>{selItem.label}</div>
+                <div style={{...ty.meta,color:C.t3}}>{selItem.voters} voices · {comments.length} brief contributions</div>
               </div>
+              {hasVoted&&<div style={{padding:"4px 10px",borderRadius:20,background:cc.color+"22",border:"1px solid "+cc.color+"40"}}>
+                <span style={{...ty.meta,color:cc.color,fontWeight:700}}>You backed this</span>
+              </div>}
+            </div>
+          </div>
 
-              <div style={{position:"relative", marginBottom:14}}>
-                <input value={locText}
-                  onChange={function(e){setLocText(e.target.value); setShowLocSuggestions(e.target.value.length>0);}}
-                  onFocus={function(){if(locText.length>0) setShowLocSuggestions(true);}}
-                  placeholder="Suggested location (optional)"
-                  style={{width:"100%", background:C.bg, border:"1px solid "+C.line,
-                    borderRadius:10, padding:"9px 12px", color:C.t1, fontSize:12,
-                    fontFamily:sans, outline:"none", boxSizing:"border-box"}}/>
-                {showLocSuggestions && (
-                  <div style={{position:"absolute", top:"100%", left:0, right:0, zIndex:20,
-                    background:C.surface, border:"1px solid "+C.line, borderRadius:10,
-                    marginTop:4, overflow:"hidden", boxShadow:"0 8px 24px rgba(0,0,0,0.4)"}}>
-                    {BRIEF_LOCATIONS.filter(function(l){return l.toLowerCase().includes(locText.toLowerCase());}).slice(0,5).map(function(l){
-                      return (
-                        <button key={l} onClick={function(){setLocText(l); setShowLocSuggestions(false);}}
-                          style={{width:"100%", padding:"9px 14px", background:"transparent",
-                            border:"none", borderBottom:"1px solid "+C.line,
-                            cursor:"pointer", fontFamily:sans, textAlign:"left",
-                            display:"flex", alignItems:"center", gap:8}}>
-                          <MapPin size={11} color={C.t3}/>
-                          <span style={{...ty.sm, color:C.t1}}>{l}</span>
-                        </button>
-                      );
-                    })}
+          {(signals.brands.length>0||signals.locations.length>0)&&(
+            <div style={{marginBottom:20}}>
+              <div style={{...ty.label,marginBottom:10}}>Patterns emerging</div>
+              <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+                {signals.brands.slice(0,3).map(function(b){return(
+                  <div key={b[0]} style={{padding:"5px 12px",borderRadius:20,background:C.purple+"18",border:"1px solid "+C.purple+"30",display:"flex",alignItems:"center",gap:6}}>
+                    <span style={{...ty.meta,color:C.purple,fontWeight:600}}>{b[0]}</span>
+                    <span style={{...ty.meta,color:C.t3}}>mentioned {b[1]}×</span>
                   </div>
-                )}
-              </div>
-
-              <div style={{display:"flex", gap:8}}>
-                <button onClick={function(){setShowInput(false); setInputText(""); setLocText(""); setBrandSuggestions([]); setShowBrandSuggestions(false);}}
-                  style={{padding:"10px 16px", borderRadius:10, background:"transparent",
-                    border:"1px solid "+C.line, color:C.t3, cursor:"pointer", fontFamily:sans, fontSize:13}}>
-                  Cancel
-                </button>
-                <button onClick={handleSubmit} disabled={!inputText.trim()}
-                  style={{flex:1, padding:"10px", borderRadius:10,
-                    background:inputText.trim()?cc.color:C.surface,
-                    border:"1px solid "+(inputText.trim()?cc.color:C.line),
-                    color:inputText.trim()?"#fff":C.t3,
-                    cursor:inputText.trim()?"pointer":"default",
-                    fontFamily:sans, fontWeight:600, fontSize:13, transition:"all .15s"}}>
-                  Add to brief →
-                </button>
+                );})}
+                {signals.locations.slice(0,2).map(function(l){return(
+                  <div key={l[0]} style={{padding:"5px 12px",borderRadius:20,background:C.amber+"18",border:"1px solid "+C.amber+"30",display:"flex",alignItems:"center",gap:6}}>
+                    <MapPin size={10} color={C.amber}/>
+                    <span style={{...ty.meta,color:C.amber,fontWeight:600}}>{l[0]}</span>
+                  </div>
+                );})}
               </div>
             </div>
           )}
 
-          {/* Comment feed — below input */}
-          <div style={{display:"flex", flexDirection:"column", gap:10}}>
-            {sorted.map(function(c, i){
-              const isPopular = c.upvotes >= 8;
-              const alreadyUpvoted = userUpvoted[c.id];
-              return (
-                <div key={c.id} style={{
-                  background: c.isOwn ? cc.color+"0A" : C.surface,
-                  border: "1px solid " + (isPopular ? cc.color+"40" : C.line),
-                  borderRadius:12, padding:"12px 14px",
-                  position:"relative"}}>
-                  {isPopular && (
-                    <div style={{position:"absolute", top:-1, right:12,
-                      background:cc.color, borderRadius:"0 0 8px 8px",
-                      padding:"1px 8px"}}>
-                      <span style={{...ty.meta, color:"#fff", fontSize:9, fontWeight:700}}>POPULAR IDEA</span>
+          {!hasVoted ? (
+            <div style={{marginBottom:20}}>
+              <div style={{background:C.surface,border:"1px solid "+C.line,borderRadius:16,overflow:"hidden"}}>
+                <div style={{padding:"14px 16px",filter:"blur(4px)",pointerEvents:"none",userSelect:"none",opacity:0.5}}>
+                  {sorted.slice(0,3).map(function(c){return(
+                    <div key={c.id} style={{background:C.surface2,borderRadius:10,padding:"10px 12px",marginBottom:8}}>
+                      <div style={{...ty.sm,color:C.t1,marginBottom:4}}>{c.text}</div>
+                      <div style={{...ty.meta,color:C.t3}}>👍 {c.upvotes}</div>
                     </div>
-                  )}
-                  <div style={{...ty.sm, color:C.t1, lineHeight:1.55, marginBottom:8, paddingTop:isPopular?8:0}}>{c.text}</div>
-                  <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
-                    <span style={{...ty.meta, color:C.t3}}>{c.ts}</span>
-                    <button onClick={function(){handleUpvote(c.id);}} disabled={alreadyUpvoted}
-                      style={{display:"flex", alignItems:"center", gap:5, background:"transparent",
-                        border:"1px solid "+(alreadyUpvoted?cc.color:C.line),
-                        borderRadius:20, padding:"3px 10px", cursor:alreadyUpvoted?"default":"pointer",
-                        color:alreadyUpvoted?cc.color:C.t3, fontFamily:sans}}>
-                      <span style={{fontSize:12}}>👍</span>
-                      <span style={{...ty.meta, fontWeight:alreadyUpvoted?700:400, color:alreadyUpvoted?cc.color:C.t3}}>{c.upvotes}</span>
+                  );})}
+                </div>
+                <div style={{padding:"16px 18px",borderTop:"1px solid "+C.line,textAlign:"center",background:C.surface2}}>
+                  <Lock size={16} color={C.t3} style={{margin:"0 auto 8px"}}/>
+                  <div style={{...ty.bodyMd,fontSize:13,marginBottom:4}}>Vote to join the conversation</div>
+                  <div style={{...ty.meta,color:C.t3,marginBottom:12,lineHeight:1.6}}>{sorted.length} residents have shared their brief for this concept.</div>
+                  <div style={{...ty.meta,color:C.t3,fontSize:10}}>Place your coins on {selItem.label} to read and contribute.</div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div style={{marginBottom:20}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
+                <div style={{...ty.label}}>What residents want from it</div>
+                <div style={{...ty.meta,color:C.t3}}>{sorted.length} voices</div>
+              </div>
+              {submitted&&(
+                <div style={{padding:"10px 14px",background:C.green+"18",border:"1px solid "+C.green+"30",borderRadius:10,marginBottom:12,display:"flex",alignItems:"center",gap:8}}>
+                  <Check size={14} color={C.green}/>
+                  <span style={{...ty.sm,color:C.green}}>Your voice has been added to the brief</span>
+                </div>
+              )}
+              {!showInput ? (
+                <button onClick={function(){setShowInput(true);}}
+                  style={{width:"100%",padding:"12px 14px",borderRadius:12,marginBottom:14,
+                    background:cc.color+"12",border:"1px solid "+cc.color+"30",
+                    color:cc.color,cursor:"pointer",fontFamily:sans,fontSize:13,fontWeight:500,
+                    display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
+                  <Plus size={14} color={cc.color}/>
+                  Add your voice to the brief
+                </button>
+              ) : (
+                <div style={{background:C.surface,border:"1px solid "+cc.color+"40",borderRadius:14,padding:"14px",marginBottom:14}}>
+                  <div style={{...ty.label,color:cc.color,marginBottom:10}}>What would you want from this?</div>
+                  <div style={{position:"relative",marginBottom:10}}>
+                    <textarea value={inputText} onChange={function(e){handleInputChange(e.target.value);}}
+                      placeholder={
+                      selItem && selItem.cat === "food" ? "e.g. Dishoom vibes but local · near the Common · great natural wine list" :
+                      selItem && selItem.cat === "fitness" ? "e.g. Barry's-style classes · early morning slots · proper changing rooms" :
+                      selItem && selItem.cat === "kids" ? "e.g. Gambado-style · soft play plus decent coffee for parents" :
+                      selItem && selItem.cat === "health" ? "e.g. Glow Bar type facials · members pricing · Venn Street location" :
+                      selItem && selItem.cat === "retail" ? "e.g. Labour and Wait feel · independent · curated homeware" :
+                      selItem && selItem.cat === "entertain" ? "e.g. intimate like Jazz Cafe · proper sound · local acts" :
+                      "e.g. something independent · near the Common · premium not a chain"
+                    }
+                      rows={3}
+                      style={{width:"100%",background:C.bg,border:"1px solid "+C.line,
+                        borderRadius:10,padding:"10px 12px",color:C.t1,fontSize:13,
+                        fontFamily:sans,outline:"none",resize:"none",lineHeight:1.5,boxSizing:"border-box"}}/>
+                    {showBrandSugg&&(
+                      <div style={{position:"absolute",top:"100%",left:0,right:0,zIndex:20,
+                        background:C.surface,border:"1px solid "+C.line,borderRadius:10,marginTop:4,overflow:"hidden"}}>
+                        {brandSugg.map(function(b){return(
+                          <button key={b} onClick={function(){selectBrand(b);}}
+                            style={{width:"100%",padding:"9px 14px",background:"transparent",border:"none",
+                              borderBottom:"1px solid "+C.line,cursor:"pointer",fontFamily:sans,textAlign:"left",
+                              display:"flex",alignItems:"center",gap:8}}>
+                            <Zap size={11} color={C.amber}/>
+                            <span style={{...ty.sm,color:C.t1}}>{b}</span>
+                          </button>
+                        );})}
+                      </div>
+                    )}
+                  </div>
+                  <div style={{position:"relative",marginBottom:14}}>
+                    <input value={locText}
+                      onChange={function(e){setLocText(e.target.value);setShowLocSugg(e.target.value.length>0);}}
+                      placeholder="Suggested location (optional)"
+                      style={{width:"100%",background:C.bg,border:"1px solid "+C.line,
+                        borderRadius:10,padding:"9px 12px",color:C.t1,fontSize:12,
+                        fontFamily:sans,outline:"none",boxSizing:"border-box"}}/>
+                    {showLocSugg&&(
+                      <div style={{position:"absolute",top:"100%",left:0,right:0,zIndex:20,
+                        background:C.surface,border:"1px solid "+C.line,borderRadius:10,marginTop:4,overflow:"hidden"}}>
+                        {BRIEF_LOCATIONS.filter(function(l){return l.toLowerCase().indexOf(locText.toLowerCase())!==-1;}).slice(0,5).map(function(l){return(
+                          <button key={l} onClick={function(){setLocText(l);setShowLocSugg(false);}}
+                            style={{width:"100%",padding:"9px 14px",background:"transparent",border:"none",
+                              borderBottom:"1px solid "+C.line,cursor:"pointer",fontFamily:sans,textAlign:"left",
+                              display:"flex",alignItems:"center",gap:8}}>
+                            <MapPin size={11} color={C.t3}/>
+                            <span style={{...ty.sm,color:C.t1}}>{l}</span>
+                          </button>
+                        );})}
+                      </div>
+                    )}
+                  </div>
+                  <div style={{display:"flex",gap:8}}>
+                    <button onClick={function(){setShowInput(false);setInputText("");setLocText("");setBrandSugg([]);}}
+                      style={{padding:"10px 16px",borderRadius:10,background:"transparent",
+                        border:"1px solid "+C.line,color:C.t3,cursor:"pointer",fontFamily:sans,fontSize:13}}>
+                      Cancel
+                    </button>
+                    <button onClick={handleSubmit} disabled={!inputText.trim()}
+                      style={{flex:1,padding:"10px",borderRadius:10,
+                        background:inputText.trim()?cc.color:C.surface,
+                        border:"1px solid "+(inputText.trim()?cc.color:C.line),
+                        color:inputText.trim()?"#fff":C.t3,
+                        cursor:inputText.trim()?"pointer":"default",
+                        fontFamily:sans,fontWeight:600,fontSize:13}}>
+                      Add to brief →
                     </button>
                   </div>
                 </div>
-              );
-            })}
-          </div>
+              )}
+              <div style={{display:"flex",flexDirection:"column",gap:10}}>
+                {sorted.map(function(c){
+                  var isPopular = c.upvotes>=8;
+                  var alreadyUp = userUpvoted[c.id];
+                  return(
+                    <div key={c.id} style={{background:c.isOwn?cc.color+"0A":C.surface,
+                      border:"1px solid "+(isPopular?cc.color+"40":C.line),
+                      borderRadius:12,padding:"12px 14px",position:"relative"}}>
+                      {isPopular&&(
+                        <div style={{position:"absolute",top:-1,right:12,background:cc.color,borderRadius:"0 0 8px 8px",padding:"1px 8px"}}>
+                          <span style={{...ty.meta,color:"#fff",fontSize:9,fontWeight:700}}>POPULAR IDEA</span>
+                        </div>
+                      )}
+                      <div style={{...ty.sm,color:C.t1,lineHeight:1.55,marginBottom:8,paddingTop:isPopular?8:0}}>{c.text}</div>
+                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                        <span style={{...ty.meta,color:C.t3}}>{c.ts}</span>
+                        <div style={{display:"flex",alignItems:"center",gap:6}}>
+                        <button onClick={function(){handleUpvote(c.id);}} disabled={alreadyUp}
+                          style={{display:"flex",alignItems:"center",gap:5,background:"transparent",
+                            border:"1px solid "+(alreadyUp?cc.color:C.line),
+                            borderRadius:20,padding:"3px 10px",cursor:alreadyUp?"default":"pointer",
+                            color:alreadyUp?cc.color:C.t3,fontFamily:sans}}>
+                          <span style={{fontSize:12}}>👍</span>
+                          <span style={{...ty.meta,fontWeight:alreadyUp?700:400,color:alreadyUp?cc.color:C.t3}}>{c.upvotes}</span>
+                        </button>
+                        <button onClick={function(){setReportTarget(c.id);}}
+                          style={{...ty.meta,color:C.t3,background:"transparent",border:"none",cursor:"pointer",fontFamily:sans,padding:"3px 6px",borderRadius:20,fontSize:10}}>
+                          Report
+                        </button>
+                      </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
   );
 }
 
-
-/* ==================================================
-   BUSINESS REQUEST ACCESS — pre-login tier page
-================================================== */
 
 const BIZ_TIERS_WEB = [
   {
@@ -4345,7 +6560,7 @@ const BIZ_TIERS_WEB = [
     locked:["Spend & frequency data","Revenue estimates","Demographics","The Brief insights"],
   },
   {
-    id:"starter", name:"Starter", price:"£99", period:"/month",
+    id:"builder_old", name:"Builder", price:"£149", period:"30 days",
     color:C.amber, badge:null,
     headline:"Validate your concept",
     desc:"Core demand data to de-risk your location decision.",
@@ -4357,11 +6572,11 @@ const BIZ_TIERS_WEB = [
     color:C.coral, badge:"Most popular",
     headline:"Build your business case",
     desc:"Everything you need to convince yourself — and your investors.",
-    features:["Everything in Starter","Monthly & annual revenue estimates","Full demographic profile","Demand leakage rate","Attribute tag breakdown","The Brief — resident intent signals","Pre-launch survey data"],
+    features:["Everything in Builder","Monthly & annual revenue estimates","Full demographic profile","Demand leakage rate","Attribute tag breakdown","The Brief — resident intent signals","Pre-launch survey data"],
     locked:[],
   },
   {
-    id:"proplus", name:"Pro+", price:"£499", period:"/month",
+    id:"investor_old", name:"Investor", price:"£499", period:"/month",
     color:C.purple, badge:null,
     headline:"Multi-site intelligence",
     desc:"For operators and investors evaluating multiple locations.",
@@ -4369,7 +6584,7 @@ const BIZ_TIERS_WEB = [
     locked:[],
   },
   {
-    id:"enterprise", name:"Enterprise", price:"£6,000+", period:"/year",
+    id:"enterprise_old", name:"Enterprise", price:"£6,000+", period:"/year",
     color:C.green, badge:"For councils & developers",
     headline:"Borough-level demand intelligence",
     desc:"Full data access, API, and white-label options.",
@@ -4379,159 +6594,243 @@ const BIZ_TIERS_WEB = [
 ];
 
 // Mock submitted leads
+
 const MOCK_LEADS = [
   {id:"l1", name:"Sarah Chen", biz:"The Clap Coffee Co.", email:"sarah@clapcoffee.com", type:"Operator", area:"SW4", tier:"Pro", status:"pending", ts:"2 hours ago"},
   {id:"l2", name:"James Wright", biz:"JW Property Group", email:"james@jwproperty.co.uk", type:"Developer", area:"SW9, SW4", tier:"Enterprise", status:"approved", ts:"1 day ago"},
-  {id:"l3", name:"Priya Kapoor", biz:"Fit London Group", email:"priya@fitlondon.co.uk", type:"Operator", area:"SW4", tier:"Starter", status:"pending", ts:"2 days ago"},
+  {id:"l3", name:"Priya Kapoor", biz:"Fit London Group", email:"priya@fitlondon.co.uk", type:"Operator", area:"SW4", tier:"builder", status:"pending", ts:"2 days ago"},
 ];
 
-function BizRequestPage({onBack}) {
-  const [selTier, setSelTier] = useState(null);
-  const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({name:"",biz:"",email:"",type:"",area:"",reason:"",tier:""});
-  const [submitted, setSubmitted] = useState(false);
-  const [showAdmin, setShowAdmin] = useState(false);
-  const [leads, setLeads] = useState(MOCK_LEADS);
 
-  function handleRequest(tierId) {
-    setSelTier(tierId);
-    setForm(function(f){ return {...f, tier:tierId}; });
-    setShowForm(true);
+function BizRequestPage({onBack, onDemoBiz, onFreeAccess}) {
+  var [step, setStep] = useState("pricing");
+  var [form, setForm] = useState({
+    name:"", email:"", biz:"", type:"", stage:"", areas:[], reason:"", tier:"free"
+  });
+
+  function setField(k, v) {
+    setForm(function(f){ return Object.assign({}, f, {[k]:v}); });
   }
 
-  function handleSubmit() {
-    if(!form.name.trim()||!form.email.trim()) return;
-    setLeads(function(l){ return [{id:"l"+Date.now(), ...form, status:"pending", ts:"Just now"}, ...l]; });
-    setSubmitted(true);
-  }
+  var isFree = form.tier === "free";
+  var canSubmit = form.name.trim() && form.email.trim() && form.biz.trim() && form.type && form.areas.length > 0;
 
-  const canSubmit = form.name.trim()&&form.email.trim()&&form.biz.trim()&&form.type;
+  var typeOpts = [
+    {id:"operator",  label:"Business operator",  sub:"Opening or running a business"},
+    {id:"investor",  label:"Investor",            sub:"Backing businesses or evaluating deals"},
+    {id:"agent",     label:"Property agent",      sub:"Matching tenants to commercial spaces"},
+    {id:"developer", label:"Developer / council", sub:"Building sites or planning strategy"},
+    {id:"other",     label:"Just exploring",      sub:"Curious about local demand data"},
+  ];
+  var stageOpts = [
+    "Actively researching a location",
+    "Evaluating a specific site",
+    "Planning to open in 6-12 months",
+    "Already open — expanding",
+    "Investor / feasibility only",
+  ];
+  var areaOpts = ["SW4","SW9","SW11","SW2","SW8","SW12","SE5","SE1","SW16","SW17","SW18","SW19"];
 
-  if(submitted) return (
-    <div style={{minHeight:"100vh", background:C.bg, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"40px 24px", fontFamily:sans, textAlign:"center"}}>
-      <div style={{width:72, height:72, borderRadius:20, background:C.green+"18", border:"1px solid "+C.green+"30", display:"flex", alignItems:"center", justifyContent:"center", fontSize:32, marginBottom:24}}>✓</div>
-      <h2 style={{...ty.h2, marginBottom:12}}>Request received</h2>
-      <div style={{...ty.body, color:C.t2, maxWidth:320, lineHeight:1.7, marginBottom:32}}>
-        We'll review your request and be in touch within 24 hours. You'll get access to the <strong style={{color:C.t1}}>{(BIZ_TIERS_WEB.find(function(t){return t.id===form.tier;})||{name:form.tier}).name}</strong> tier as soon as we've confirmed your details.
-      </div>
-      <button onClick={onBack} style={{padding:"13px 28px", borderRadius:12, background:C.coral, color:"#fff", border:"none", cursor:"pointer", fontFamily:sans, fontWeight:600, fontSize:14}}>Back to Cravz</button>
-    </div>
-  );
+  var pricingCards = [
+    {
+      id:"free", name:"Free", price:"£0", period:"",
+      color:C.green, highlight:false,
+      sub:"See what your area is missing",
+      features:["1 area included","Top concepts ranking","Demand level (High / Medium / Low)","Voice count"],
+    },
+    {
+      id:"builder", name:"Builder", price:"£149", period:"30 days access",
+      color:C.purple, highlight:false,
+      sub:"Validate your concept before you commit",
+      features:["3 areas included","Full concept rankings","What demand is growing vs fading","How often people will come","How much they will spend","How far people will travel","Compare multiple concepts"],
+      footer:"Requires approval",
+    },
+    {
+      id:"investor", name:"Investor", price:"£399", period:"90 days access",
+      color:C.coral, highlight:true,
+      sub:"Know if it is worth opening before you spend a pound",
+      features:["Everything in Builder, plus:","Revenue potential (monthly and yearly)","Customer demographics","Demand leakage — unmet demand leaving the area","What people actually care about","The Brief — what locals are asking for","Pre-launch survey data","Multi-area comparison"],
+      footer:"Requires approval",
+    },
+  ];
 
-  if(showAdmin) return (
-    <div style={{minHeight:"100vh", background:C.bg, fontFamily:sans, padding:"24px 20px"}}>
-      <div style={{maxWidth:760, margin:"0 auto"}}>
-        <div style={{display:"flex", alignItems:"center", gap:12, marginBottom:24}}>
-          <button onClick={function(){setShowAdmin(false);}} style={{background:"none", border:"none", color:C.t3, cursor:"pointer", fontSize:13, fontFamily:sans}}>← Back</button>
-          <h2 style={{...ty.h2}}>Access Requests</h2>
-          <div style={{marginLeft:"auto", padding:"4px 10px", borderRadius:20, background:C.amber+"20", border:"1px solid "+C.amber+"30"}}>
-            <span style={{...ty.meta, color:C.amber, fontWeight:700}}>{leads.filter(function(l){return l.status==="pending";}).length} pending</span>
-          </div>
-        </div>
-        {leads.map(function(lead){
-          return (
-            <div key={lead.id} style={{background:C.surface, border:"1px solid "+(lead.status==="approved"?C.green+"40":C.line), borderRadius:14, padding:"16px 18px", marginBottom:10}}>
-              <div style={{display:"flex", alignItems:"center", gap:12, flexWrap:"wrap"}}>
-                <div style={{flex:1, minWidth:200}}>
-                  <div style={{...ty.bodyMd, marginBottom:3}}>{lead.name} · {lead.biz}</div>
-                  <div style={{...ty.meta, color:C.t3}}>{lead.email} · {lead.area} · {lead.type}</div>
-                </div>
-                <div style={{display:"flex", alignItems:"center", gap:8}}>
-                  <span style={{padding:"3px 9px", borderRadius:20, background:C.purple+"18", border:"1px solid "+C.purple+"30"}}>
-                    <span style={{...ty.meta, color:C.purple, fontWeight:600}}>{lead.tier}</span>
-                  </span>
-                  <span style={{padding:"3px 9px", borderRadius:20,
-                    background:lead.status==="approved"?C.green+"18":C.amber+"18",
-                    border:"1px solid "+(lead.status==="approved"?C.green+"30":C.amber+"30")}}>
-                    <span style={{...ty.meta, color:lead.status==="approved"?C.green:C.amber, fontWeight:600, textTransform:"capitalize"}}>{lead.status}</span>
-                  </span>
-                  <span style={{...ty.meta, color:C.t3}}>{lead.ts}</span>
-                </div>
-              </div>
-              {lead.reason&&<div style={{...ty.sm, color:C.t2, marginTop:10, padding:"8px 10px", background:C.bg, borderRadius:8}}>{lead.reason}</div>}
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-
-  if(showForm) {
-    const tier = BIZ_TIERS_WEB.find(function(t){return t.id===selTier;});
+  // ── PRICING PAGE ─────────────────────────────────────────────
+  if(step === "pricing") {
     return (
-      <div style={{minHeight:"100vh", background:C.bg, fontFamily:sans, padding:"32px 20px"}}>
-        <div style={{maxWidth:520, margin:"0 auto"}}>
-          <button onClick={function(){setShowForm(false);}} style={{background:"none", border:"none", color:C.t3, cursor:"pointer", fontSize:13, fontFamily:sans, marginBottom:24, display:"flex", alignItems:"center", gap:6}}>
-            <span>←</span> Back to plans
-          </button>
-          <div style={{background:"linear-gradient(135deg, "+tier.color+"14, "+C.surface+")", border:"1px solid "+tier.color+"30", borderRadius:16, padding:"18px 20px", marginBottom:24}}>
-            <div style={{...ty.label, color:tier.color, marginBottom:4}}>Requesting access</div>
-            <div style={{...ty.h3, marginBottom:4}}>{tier.name} — {tier.price}{tier.period}</div>
-            <div style={{...ty.sm, color:C.t2}}>{tier.headline}</div>
+      <div style={{minHeight:"100vh",background:C.bg,fontFamily:sans,color:C.t1}}>
+        <div style={{padding:"20px 20px 0",display:"flex",alignItems:"center",gap:12}}>
+          <button onClick={onBack} style={{background:"transparent",border:"none",color:C.t3,cursor:"pointer",fontFamily:sans,fontSize:13,padding:0}}>← Back</button>
+        </div>
+        <div style={{padding:"32px 20px 40px",maxWidth:480,margin:"0 auto"}}>
+          <div style={{textAlign:"center",marginBottom:32}}>
+            <h1 style={{fontFamily:serif,fontSize:26,fontWeight:700,lineHeight:1.2,marginBottom:10,color:C.t1}}>Understand demand<br/>before you invest</h1>
+            <div style={{...ty.body,color:C.t3,lineHeight:1.6}}>Start with free access. Unlock deeper insights inside.</div>
           </div>
-          {/* Text fields */}
-          {[
-            {key:"name",  label:"Your name",             placeholder:"First and last name",        type:"text"},
-            {key:"biz",   label:"Business / organisation",placeholder:"e.g. The Clap Coffee Co.",  type:"text"},
-            {key:"email", label:"Email address",          placeholder:"you@yourbusiness.com",        type:"email"},
-            {key:"area",  label:"Area(s) of interest",   placeholder:"e.g. SW4, SW9, Clapham",     type:"text"},
-          ].map(function(f){
-            return (
-              <div key={f.key} style={{marginBottom:14}}>
-                <div style={{...ty.meta, color:C.t3, marginBottom:5, textTransform:"uppercase", letterSpacing:0.8, fontSize:10}}>{f.label}</div>
-                <input value={form[f.key]} type={f.type}
-                  onChange={function(e){ var v=e.target.value; setForm(function(prev){ var n={...prev}; n[f.key]=v; return n; }); }}
-                  placeholder={f.placeholder}
-                  style={{width:"100%", background:C.surface, border:"1px solid "+(form[f.key].trim()?C.green:C.line),
-                    borderRadius:10, padding:"12px 14px", color:C.t1, fontSize:13,
-                    fontFamily:sans, outline:"none", boxSizing:"border-box"}}/>
+          <div style={{display:"flex",flexDirection:"column",gap:12,marginBottom:28}}>
+            {pricingCards.map(function(card){return(
+              <div key={card.id} style={{
+                background:card.highlight?card.color+"0D":C.surface,
+                border:"1px solid "+(card.highlight?card.color+"50":C.line),
+                borderRadius:18, padding:"20px 18px", position:"relative",
+                boxShadow:card.highlight?"0 4px 24px "+card.color+"18":"none",
+              }}>
+                {card.highlight&&(
+                  <div style={{position:"absolute",top:-1,right:20,background:card.color,borderRadius:"0 0 10px 10px",padding:"3px 12px"}}>
+                    <span style={{...ty.meta,color:"#fff",fontWeight:700,fontSize:10}}>MOST POPULAR</span>
+                  </div>
+                )}
+                <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",marginBottom:8}}>
+                  <div>
+                    <div style={{fontFamily:serif,fontSize:18,fontWeight:700,color:card.highlight?card.color:C.t1,marginBottom:2}}>{card.name}</div>
+                    <div style={{...ty.meta,color:C.t3,lineHeight:1.5}}>{card.sub}</div>
+                  </div>
+                  <div style={{textAlign:"right",flexShrink:0,marginLeft:12}}>
+                    <div style={{fontFamily:serif,fontSize:20,fontWeight:700,color:card.color}}>{card.price}</div>
+                    {card.period&&<div style={{...ty.meta,color:C.t3,fontSize:10}}>{card.period}</div>}
+                  </div>
+                </div>
+                <div style={{borderTop:"1px solid "+C.line,paddingTop:12,marginTop:4}}>
+                  {card.features.map(function(f,fi){return(
+                    <div key={fi} style={{display:"flex",alignItems:"flex-start",gap:8,marginBottom:6}}>
+                      <div style={{width:14,height:14,borderRadius:"50%",background:card.color+"20",border:"1px solid "+card.color+"40",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,marginTop:1}}>
+                        <div style={{width:4,height:4,borderRadius:"50%",background:card.color}}/>
+                      </div>
+                      <span style={{...ty.meta,color:C.t2,lineHeight:1.5}}>{f}</span>
+                    </div>
+                  );})}
+                </div>
+                {card.footer&&(
+                  <div style={{...ty.meta,color:C.t3,fontSize:10,marginTop:10,paddingTop:10,borderTop:"1px solid "+C.line}}>{card.footer}</div>
+                )}
               </div>
-            );
-          })}
+            );})}
+          </div>
+          <button onClick={function(){setStep("form");}}
+            style={{width:"100%",padding:"16px",background:C.coral,color:"#fff",border:"none",borderRadius:16,cursor:"pointer",fontFamily:sans,fontWeight:700,fontSize:16,marginBottom:10}}>
+            Get access →
+          </button>
+          <div style={{...ty.meta,color:C.t3,textAlign:"center",lineHeight:1.6}}>Start free. Upgrade inside when you need deeper insights.</div>
+          {onDemoBiz&&(
+            <button onClick={onDemoBiz}
+              style={{width:"100%",marginTop:14,padding:"10px",background:"transparent",border:"1px dashed "+C.line,borderRadius:12,cursor:"pointer",fontFamily:sans,fontSize:12,color:C.t3}}>
+              ⚡ Demo: jump straight to business dashboard
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
 
-          {/* I am a — chips */}
-          <div style={{marginBottom:18}}>
-            <div style={{...ty.meta, color:C.t3, marginBottom:8, textTransform:"uppercase", letterSpacing:0.8, fontSize:10}}>I am a...</div>
-            <div style={{display:"flex", gap:8, flexWrap:"wrap"}}>
-              {["Operator","Investor","Property agent","Developer","Council / public sector","Other"].map(function(opt){
-                const on = form.type === opt;
-                return (
-                  <button key={opt} onClick={function(){setForm(function(prev){return {...prev, type:opt};});}}
-                    style={{padding:"8px 14px", borderRadius:20,
-                      background: on ? tier.color : C.surface,
-                      border: "1px solid " + (on ? tier.color : C.line),
-                      color: on ? "#fff" : C.t2,
-                      cursor:"pointer", fontFamily:sans, fontSize:12, fontWeight:on?600:400,
-                      transition:"all .15s"}}>
-                    {opt}
+  // ── PROFILE + TIER FORM ──────────────────────────────────────
+  if(step === "form") {
+    return (
+      <div style={{minHeight:"100vh",background:C.bg,fontFamily:sans,color:C.t1}}>
+        <div style={{padding:"20px 20px 0",display:"flex",alignItems:"center",gap:12}}>
+          <button onClick={function(){setStep("pricing");}} style={{background:"transparent",border:"none",color:C.t3,cursor:"pointer",fontFamily:sans,fontSize:13,padding:0}}>← Back</button>
+        </div>
+        <div style={{padding:"24px 20px 60px",maxWidth:480,margin:"0 auto"}}>
+          <h2 style={{fontFamily:serif,fontSize:22,fontWeight:700,marginBottom:6}}>Create your profile</h2>
+          <div style={{...ty.body,color:C.t3,marginBottom:24,lineHeight:1.6}}>Tell us about yourself. Free access is instant. Builder and Investor tiers are reviewed before access is granted.</div>
+
+          {/* Name, Email, Business */}
+          {[
+            {k:"name",  label:"Your name",              ph:"Jane Smith"},
+            {k:"email", label:"Email",                  ph:"jane@example.com"},
+            {k:"biz",   label:"Business or organisation",ph:"The Nest SW4 / JW Property Group"},
+          ].map(function(f){return(
+            <div key={f.k} style={{marginBottom:16}}>
+              <div style={{...ty.label,marginBottom:6}}>{f.label}</div>
+              <input value={form[f.k]} onChange={function(e){setField(f.k,e.target.value);}}
+                placeholder={f.ph}
+                style={{width:"100%",background:C.surface,border:"1px solid "+C.line,borderRadius:12,padding:"12px 14px",color:C.t1,fontSize:14,fontFamily:sans,outline:"none",boxSizing:"border-box"}}/>
+            </div>
+          );})}
+
+          {/* Account type */}
+          <div style={{marginBottom:16}}>
+            <div style={{...ty.label,marginBottom:8}}>I am a</div>
+            <div style={{display:"flex",flexDirection:"column",gap:7}}>
+              {typeOpts.map(function(opt){
+                var on = form.type===opt.id;
+                return(
+                  <button key={opt.id} onClick={function(){setField("type",opt.id);}}
+                    style={{display:"flex",alignItems:"center",gap:12,padding:"11px 14px",borderRadius:12,
+                      background:on?C.coral+"12":C.surface, border:"1px solid "+(on?C.coral+"50":C.line),
+                      cursor:"pointer",fontFamily:sans,textAlign:"left",width:"100%"}}>
+                    <div style={{flex:1}}>
+                      <div style={{...ty.sm,color:C.t1,fontWeight:on?600:400}}>{opt.label}</div>
+                      <div style={{...ty.meta,color:C.t3,marginTop:1}}>{opt.sub}</div>
+                    </div>
+                    {on&&<div style={{width:8,height:8,borderRadius:"50%",background:C.coral,flexShrink:0}}/>}
                   </button>
                 );
               })}
             </div>
-            {!form.type && <div style={{...ty.meta, color:C.t3, marginTop:6, fontSize:10}}>Select one to continue</div>}
           </div>
 
-          {/* Stage — chips */}
-          <div style={{marginBottom:18}}>
-            <div style={{...ty.meta, color:C.t3, marginBottom:8, textTransform:"uppercase", letterSpacing:0.8, fontSize:10}}>Where are you right now?</div>
-            <div style={{display:"flex", gap:8, flexWrap:"wrap"}}>
+          {/* Stage */}
+          <div style={{marginBottom:16}}>
+            <div style={{...ty.label,marginBottom:8}}>Where are you in the process?</div>
+            <div style={{display:"flex",flexDirection:"column",gap:6}}>
+              {stageOpts.map(function(s){
+                var on = form.stage===s;
+                return(
+                  <button key={s} onClick={function(){setField("stage",s);}}
+                    style={{padding:"10px 14px",borderRadius:10,textAlign:"left",width:"100%",cursor:"pointer",
+                      fontFamily:sans, background:on?C.purple+"12":C.surface,
+                      border:"1px solid "+(on?C.purple+"50":C.line)}}>
+                    <span style={{...ty.sm,color:on?C.t1:C.t2,fontWeight:on?600:400}}>{s}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Areas */}
+          <div style={{marginBottom:16}}>
+            <div style={{...ty.label,marginBottom:6}}>Areas you are interested in</div>
+            <div style={{...ty.meta,color:C.t3,marginBottom:10}}>Select the postcodes you want to explore.</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
+              {areaOpts.map(function(a){
+                var on = form.areas.indexOf(a)!==-1;
+                return(
+                  <button key={a} onClick={function(){
+                    setField("areas", on ? form.areas.filter(function(x){return x!==a;}) : form.areas.concat([a]));
+                  }}
+                    style={{padding:"8px 14px",borderRadius:20,cursor:"pointer",fontFamily:sans,fontSize:13,
+                      background:on?C.coral+"15":C.surface, border:"1px solid "+(on?C.coral+"60":C.line),
+                      color:on?C.t1:C.t3, fontWeight:on?600:400}}>
+                    {a}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Tier selection */}
+          <div style={{marginBottom:16}}>
+            <div style={{...ty.label,marginBottom:8}}>Access level</div>
+            <div style={{display:"flex",flexDirection:"column",gap:8}}>
               {[
-                {v:"exploring",   l:"Just exploring",       sub:"Getting a feel for what's possible"},
-                {v:"researching", l:"Actively researching", sub:"Evaluating a specific area or concept"},
-                {v:"committing",  l:"Ready to commit",      sub:"Have a site or concept, need data to confirm"},
-                {v:"operating",   l:"Already operating",    sub:"Looking to expand or optimise"},
+                {id:"free",     label:"Free",     desc:"Instant access. Core demand data for 1 area.",                    color:C.green,  note:"Instant"},
+                {id:"builder",  label:"Builder",  desc:"£149 — 30 days. Full validation data for 3 areas.",              color:C.purple, note:"Requires approval"},
+                {id:"investor", label:"Investor", desc:"£399 — 90 days. Full decision data including revenue and demographics.", color:C.coral, note:"Requires approval"},
               ].map(function(opt){
-                const on = form.stage === opt.v;
-                return (
-                  <button key={opt.v} onClick={function(){setForm(function(prev){return {...prev, stage:opt.v};});}}
-                    style={{padding:"9px 14px", borderRadius:12,
-                      background: on ? tier.color+"18" : C.surface,
-                      border: "1px solid " + (on ? tier.color : C.line),
-                      color: on ? tier.color : C.t2,
-                      cursor:"pointer", fontFamily:sans, fontSize:12, fontWeight:on?600:400,
-                      textAlign:"left", transition:"all .15s"}}>
-                    <div style={{fontWeight:on?700:500, marginBottom:2}}>{opt.l}</div>
-                    <div style={{fontSize:10, color:on?tier.color:C.t3, opacity:0.8}}>{opt.sub}</div>
+                var on = form.tier===opt.id;
+                return(
+                  <button key={opt.id} onClick={function(){setField("tier",opt.id);}}
+                    style={{display:"flex",alignItems:"center",gap:12,padding:"13px 16px",borderRadius:14,
+                      background:on?opt.color+"12":C.surface,
+                      border:"1px solid "+(on?opt.color+"50":C.line),
+                      cursor:"pointer",fontFamily:sans,textAlign:"left",width:"100%"}}>
+                    <div style={{flex:1}}>
+                      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:3}}>
+                        <span style={{...ty.sm,color:on?opt.color:C.t1,fontWeight:700}}>{opt.label}</span>
+                        <span style={{...ty.meta,fontSize:9,color:on?opt.color:C.t3,background:on?opt.color+"15":C.surface2,padding:"1px 7px",borderRadius:20,border:"1px solid "+(on?opt.color+"30":C.line)}}>{opt.note}</span>
+                      </div>
+                      <div style={{...ty.meta,color:C.t3,lineHeight:1.5}}>{opt.desc}</div>
+                    </div>
+                    {on&&<div style={{width:8,height:8,borderRadius:"50%",background:opt.color,flexShrink:0}}/>}
                   </button>
                 );
               })}
@@ -4539,166 +6838,97 @@ function BizRequestPage({onBack}) {
           </div>
 
           {/* Reason */}
-          <div style={{marginBottom:20}}>
-            <div style={{...ty.meta, color:C.t3, marginBottom:5, textTransform:"uppercase", letterSpacing:0.8, fontSize:10}}>What are you looking for? (optional)</div>
-            <textarea value={form.reason} onChange={function(e){setForm(function(f){return {...f,reason:e.target.value};});}}
-              placeholder="e.g. Evaluating a site on Clapham High Street for a second location..."
+          <div style={{marginBottom:24}}>
+            <div style={{...ty.label,marginBottom:6}}>
+              What are you trying to decide?
+              <span style={{color:C.t3,fontWeight:400,textTransform:"none",fontSize:10,letterSpacing:0}}> (optional)</span>
+            </div>
+            <textarea value={form.reason} onChange={function(e){setField("reason",e.target.value);}}
+              placeholder="e.g. Evaluating two sites in Clapham for a wine bar. Want to understand footfall patterns and competition."
               rows={3}
-              style={{width:"100%", background:C.surface, border:"1px solid "+C.line,
-                borderRadius:10, padding:"12px 14px", color:C.t1, fontSize:13,
-                fontFamily:sans, outline:"none", resize:"none", lineHeight:1.5, boxSizing:"border-box"}}/>
+              style={{width:"100%",background:C.surface,border:"1px solid "+C.line,borderRadius:12,
+                padding:"12px 14px",color:C.t1,fontSize:13,fontFamily:sans,
+                outline:"none",resize:"none",lineHeight:1.5,boxSizing:"border-box"}}/>
           </div>
-          <button onClick={handleSubmit} disabled={!canSubmit}
-            style={{width:"100%", padding:"15px", borderRadius:14,
-              background:canSubmit?tier.color:C.surface,
-              border:"1px solid "+(canSubmit?tier.color:C.line),
+
+          {/* CTA — different outcome based on tier */}
+          <button
+            onClick={function(){
+              if(!canSubmit) return;
+              if(form.tier==="free" && onFreeAccess) {
+                onFreeAccess({
+                  type:"business", tier:"free",
+                  areas:form.areas.slice(0,1),
+                  email:form.email,
+                  name:form.name,
+                  biz:form.biz,
+                  acctType:form.type||"business",
+                  stage:form.stage,
+                });
+              } else {
+                setStep("submitted");
+              }
+            }}
+            disabled={!canSubmit}
+            style={{width:"100%",padding:"15px",
+              background:canSubmit?C.coral:C.surface2,
               color:canSubmit?"#fff":C.t3,
+              border:"none",borderRadius:14,
               cursor:canSubmit?"pointer":"default",
-              fontFamily:sans, fontWeight:600, fontSize:15, transition:"all .2s"}}>
-            Request access →
+              fontFamily:sans,fontWeight:700,fontSize:15,transition:"all .15s"}}>
+            {isFree ? "Enter for free →" : "Request access →"}
           </button>
-          <div style={{...ty.meta, color:C.t3, textAlign:"center", marginTop:12, lineHeight:1.7}}>We'll review and respond within 24 hours. No payment until access is confirmed.</div>
+          {isFree&&canSubmit&&(
+            <div style={{...ty.meta,color:C.green,textAlign:"center",marginTop:8}}>You will be taken straight in — no approval needed.</div>
+          )}
+          {!isFree&&canSubmit&&(
+            <div style={{...ty.meta,color:C.t3,textAlign:"center",marginTop:8}}>We will review your request and get back to you within 24 hours.</div>
+          )}
+          {!canSubmit&&(
+            <div style={{...ty.meta,color:C.t3,textAlign:"center",marginTop:8}}>Fill in your name, email, business and select at least one area to continue.</div>
+          )}
         </div>
       </div>
     );
   }
 
-  // Tier overview page
+  // ── SUBMITTED (paid tiers only) ──────────────────────────────
   return (
-    <div style={{minHeight:"100vh", background:C.bg, fontFamily:sans}}>
-      {/* Header */}
-      <div style={{padding:"28px 24px 20px", borderBottom:"1px solid "+C.line, display:"flex", alignItems:"center", justifyContent:"space-between", maxWidth:1100, margin:"0 auto"}}>
-        <div style={{display:"flex", alignItems:"center", gap:16}}>
-          <CravzLogo size={32}/>
-          <div style={{...ty.label, color:C.t3}}>Demand Intelligence</div>
-        </div>
-        <div style={{display:"flex", gap:10}}>
-          <button onClick={function(){setShowAdmin(true);}} style={{padding:"8px 16px", borderRadius:10, background:C.surface, border:"1px solid "+C.line, color:C.t3, cursor:"pointer", fontFamily:sans, fontSize:12}}>Admin view</button>
-          <button onClick={onBack} style={{padding:"8px 16px", borderRadius:10, background:"transparent", border:"1px solid "+C.line, color:C.t2, cursor:"pointer", fontFamily:sans, fontSize:12}}>← Back</button>
-        </div>
+    <div style={{minHeight:"100vh",background:C.bg,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"40px 24px",fontFamily:sans,textAlign:"center"}}>
+      <div style={{width:72,height:72,borderRadius:20,background:C.green+"18",border:"1px solid "+C.green+"30",display:"flex",alignItems:"center",justifyContent:"center",fontSize:32,marginBottom:24}}>✓</div>
+      <h2 style={{...ty.h2,marginBottom:12}}>Request received</h2>
+      <div style={{...ty.body,color:C.t3,maxWidth:300,lineHeight:1.65,marginBottom:32}}>
+        We will review your profile and send you access within 24 hours.
       </div>
-
-      {/* Hero */}
-      <div style={{padding:"52px 24px 40px", textAlign:"center", background:"radial-gradient(ellipse 80% 50% at 50% 0%, "+C.coral+"12, "+C.bg+" 60%)"}}>
-        <div style={{...ty.label, color:C.coral, marginBottom:12}}>OPERATOR INTELLIGENCE</div>
-        <h1 style={{...ty.hero, fontSize:42, maxWidth:520, margin:"0 auto 16px", lineHeight:1.1}}>Verified resident demand.<br/>Before you commit.</h1>
-        <p style={{...ty.body, fontSize:15, color:C.t2, maxWidth:440, margin:"0 auto 32px", lineHeight:1.7}}>Real spend intent, frequency, demographics and concept preferences — from verified residents in your target postcode.</p>
-        <div style={{display:"flex", gap:16, justifyContent:"center", flexWrap:"wrap"}}>
-          {[{v:"1,076+",l:"Verified voters"},{v:"8",l:"Concepts tracked"},{v:"SW postcodes",l:"Currently live"}].map(function(s){
-            return (
-              <div key={s.l} style={{padding:"14px 20px", background:C.surface, border:"1px solid "+C.line, borderRadius:12, textAlign:"center"}}>
-                <div style={{fontFamily:serif, fontSize:22, fontWeight:700, color:C.coral, marginBottom:2}}>{s.v}</div>
-                <div style={{...ty.meta, color:C.t3}}>{s.l}</div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Teaser report preview */}
-      <div style={{padding:"32px 24px", maxWidth:1100, margin:"0 auto"}}>
-        <div style={{...ty.label, marginBottom:16, textAlign:"center"}}>What you get access to</div>
-        <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(200px, 1fr))", gap:12, marginBottom:40}}>
-          {[
-            {emoji:"📊", title:"Demand ranking", desc:"All concepts ranked by verified voices in your area"},
-            {emoji:"💰", title:"Spend signals", desc:"Declared avg spend and visit frequency per concept"},
-            {emoji:"🗺️", title:"Catchment data", desc:"How far residents will travel — hyper-local to destination"},
-            {emoji:"👥", title:"Demographics", desc:"Age, household type, gender split per concept"},
-            {emoji:"📈", title:"Revenue estimates", desc:"Monthly and annual revenue from verified demand signals"},
-            {emoji:"✍️", title:"The Brief", desc:"Resident intent — brands, locations, concept direction"},
-          ].map(function(card){
-            return (
-              <div key={card.title} style={{background:C.surface, border:"1px solid "+C.line, borderRadius:14, padding:"16px 14px"}}>
-                <div style={{fontSize:24, marginBottom:8}}>{card.emoji}</div>
-                <div style={{...ty.bodyMd, fontSize:13, marginBottom:4}}>{card.title}</div>
-                <div style={{...ty.meta, color:C.t3, lineHeight:1.6}}>{card.desc}</div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Tiers */}
-        <div style={{...ty.label, marginBottom:16, textAlign:"center"}}>Choose your plan</div>
-        <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))", gap:14, marginBottom:48}}>
-          {BIZ_TIERS_WEB.map(function(tier){
-            return (
-              <div key={tier.id} style={{
-                background: tier.badge==="Most popular" ? "linear-gradient(160deg, "+tier.color+"18, "+C.surface+")" : C.surface,
-                border: "1px solid " + (tier.badge==="Most popular" ? tier.color+"50" : C.line),
-                borderRadius:16, padding:"20px 18px", display:"flex", flexDirection:"column",
-                position:"relative"}}>
-                {tier.badge && (
-                  <div style={{position:"absolute", top:-1, left:18, background:tier.color, borderRadius:"0 0 8px 8px", padding:"2px 10px"}}>
-                    <span style={{...ty.meta, color:"#fff", fontSize:9, fontWeight:700}}>{tier.badge.toUpperCase()}</span>
-                  </div>
-                )}
-                <div style={{paddingTop:tier.badge?12:0}}>
-                  <div style={{...ty.label, color:tier.color, marginBottom:6}}>{tier.name.toUpperCase()}</div>
-                  <div style={{display:"flex", alignItems:"baseline", gap:4, marginBottom:4}}>
-                    <span style={{fontFamily:serif, fontSize:28, fontWeight:700, color:C.t1}}>{tier.price}</span>
-                    <span style={{...ty.meta, color:C.t3}}>{tier.period}</span>
-                  </div>
-                  <div style={{...ty.sm, color:C.t2, marginBottom:14, lineHeight:1.5}}>{tier.headline}</div>
-                  <div style={{flex:1, marginBottom:16}}>
-                    {tier.features.map(function(f){
-                      return (
-                        <div key={f} style={{display:"flex", alignItems:"flex-start", gap:7, marginBottom:7}}>
-                          <Check size={12} color={tier.color} style={{flexShrink:0, marginTop:2}}/>
-                          <span style={{...ty.meta, color:C.t2, lineHeight:1.5}}>{f}</span>
-                        </div>
-                      );
-                    })}
-                    {tier.locked.map(function(f){
-                      return (
-                        <div key={f} style={{display:"flex", alignItems:"flex-start", gap:7, marginBottom:7, opacity:0.4}}>
-                          <Lock size={11} color={C.t3} style={{flexShrink:0, marginTop:2}}/>
-                          <span style={{...ty.meta, color:C.t3, lineHeight:1.5}}>{f}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-                <button onClick={function(){handleRequest(tier.id);}}
-                  style={{width:"100%", padding:"11px", borderRadius:10,
-                    background:tier.id==="free"?"transparent":tier.color,
-                    border:"1px solid "+(tier.id==="free"?C.line:tier.color),
-                    color:tier.id==="free"?C.t2:"#fff",
-                    cursor:"pointer", fontFamily:sans, fontWeight:600, fontSize:13, transition:"all .15s"}}>
-                  {tier.id==="free" ? "Get free access" : "Request access →"}
-                </button>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      <button onClick={onBack}
+        style={{padding:"13px 28px",background:C.coral,color:"#fff",border:"none",borderRadius:14,cursor:"pointer",fontFamily:sans,fontWeight:700,fontSize:15}}>
+        Back to home
+      </button>
     </div>
   );
 }
-
 function BottomNav({active,onChange}){
-  const tabs=[{id:"feed",Icon:Home,l:"Feed"},{id:"brief",Icon:FileText,l:"Brief"},{id:"insights",Icon:BarChart2,l:"Insights"},{id:"suggest",Icon:Lightbulb,l:"Suggest"},{id:"notifs",Icon:Bell,l:"Updates",badge:ALL_NOTIFS.length},{id:"profile",Icon:User,l:"Profile"}];
+  const tabs=[{id:"feed",Icon:Home,l:"Feed"},{id:"vote",Icon:Lightbulb,l:"Vote"},{id:"brief",Icon:FileText,l:"Brief"},{id:"insights",Icon:BarChart2,l:"Insights"},{id:"notifs",Icon:Bell,l:"Updates",badge:ALL_NOTIFS.length},{id:"profile",Icon:User,l:"Profile"}];
   return <div style={{position:"fixed",bottom:0,left:0,right:0,zIndex:100,background:`${C.bg}F6`,backdropFilter:"blur(14px)",borderTop:`1px solid ${C.line}`,display:"flex",paddingBottom:"env(safe-area-inset-bottom,10px)"}}>{tabs.map(t=>{const {id,Icon,l}=t;const on=active===id;return <button key={id} onClick={()=>onChange(id)} style={{flex:1,padding:"10px 4px 8px",background:"transparent",border:"none",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:4,position:"relative"}}><Icon size={20} color={on?C.coral:C.t3} strokeWidth={on?2:1.5}/>{t.badge>0&&!on&&<div style={{position:"absolute",top:6,right:"24%",width:15,height:15,borderRadius:"50%",background:C.coral,display:"flex",alignItems:"center",justifyContent:"center",fontSize:9,fontWeight:700,color:"#fff"}}>{t.badge}</div>}<span style={{...ty.tab,color:on?C.coral:C.t3,fontSize:10}}>{l}</span>{on&&<div style={{position:"absolute",bottom:2,left:"50%",transform:"translateX(-50%)",width:4,height:4,borderRadius:"50%",background:C.coral}}/>}</button>;})}</div>;
 }
 
 /* ==================================================
    ROOT
 ================================================== */
-export default 
-function CravzApp(){
-  useEffect(()=>{
+export default function CravzApp(){
+  useEffect(function(){
     if(document.getElementById("cravz-fonts")) return;
-    const s=document.createElement("style"); s.id="cravz-fonts"; s.textContent=FONT_CSS;
+    var s=document.createElement("style"); s.id="cravz-fonts"; s.textContent=FONT_CSS;
     document.head.appendChild(s);
   },[]);
-  useEffect(()=>{
+  useEffect(function(){
     if(document.getElementById("cravz-web")) return;
-    const s=document.createElement("style"); s.id="cravz-web";
-    s.textContent="@media(min-width:768px){.cravz-sidebar{display:flex !important;}.cravz-main{margin-left:220px !important;max-width:none !important;}}.cravz-main{max-width:480px;margin:0 auto;}";
+    var s=document.createElement("style"); s.id="cravz-web";
+    s.textContent="@media(min-width:768px){.cravz-sidebar{display:flex !important;}.cravz-main{margin-left:240px !important;max-width:none !important;min-height:100vh;}.cravz-bottom-nav{display:none !important;}.cravz-content{max-width:680px;margin:0 auto;padding:0 32px;}}.cravz-main{max-width:480px;margin:0 auto;}.cravz-content{padding:0;}";
     document.head.appendChild(s);
   },[]);
 
-  const [session,  setSession]  = useState(()=>{try{const s=sessionStorage.getItem("cravz_v15");return s?JSON.parse(s):null;}catch{return null;}});
-  const setUser = (updater) => setSession(s => ({...s, user: typeof updater === 'function' ? updater(s.user) : updater}));
+  const [session,  setSession]  = useState(function(){try{var s=sessionStorage.getItem("cravz_v15");return s?JSON.parse(s):null;}catch(e){return null;}});
   const [authRoute,setAuthRoute]= useState("landing");
   const [userType, setUserType] = useState(null);
   const [tab,      setTab]      = useState("feed");
@@ -4706,52 +6936,82 @@ function CravzApp(){
   const [isSuggest,setIsSuggest]= useState(false);
   const [coinAlloc,setCoinAlloc]= useState({});
   const [itemMeta, setItemMeta] = useState({});
-  const [modQueue,    setModQueue]    = useState([]);
+  const [modQueue, setModQueue] = useState([]);
 
-  useEffect(()=>{try{if(session)sessionStorage.setItem("cravz_v15",JSON.stringify(session));else sessionStorage.removeItem("cravz_v15");}catch{}},[session]);
+  useEffect(function(){
+    try{
+      if(session) sessionStorage.setItem("cravz_v15",JSON.stringify(session));
+      else sessionStorage.removeItem("cravz_v15");
+    }catch(e){}
+  },[session]);
 
-  const openVote=(suggest=false,item=null)=>{setIsSuggest(suggest);setVoteItem(item);setTab("vote");};
-  useEffect(()=>{ window.__cravzOnSuggest=s=>setModQueue(q=>[...q,{...s,id:"sug_"+Date.now(),status:"pending",ts:new Date().toLocaleDateString("en-GB",{day:"numeric",month:"short"})}]); },[]);
-  const handleDone=result=>{setSession(result);setTab("feed");};
-  const handleLogout=()=>{setSession(null);setAuthRoute("landing");setCoinAlloc({});setItemMeta({});};
+  function openVote(suggest,item){
+    setIsSuggest(suggest||false);
+    setVoteItem(item||null);
+    setTab("vote");
+  }
+  useEffect(function(){
+    window.__cravzOnSuggest=function(s){
+      setModQueue(function(q){
+        return q.concat([Object.assign({},s,{id:"sug_"+Date.now(),status:"pending",ts:new Date().toLocaleDateString("en-GB",{day:"numeric",month:"short"})})]);
+      });
+    };
+  },[]);
 
-  if(!session){
-    if(authRoute==="landing") return <Landing onResident={()=>{setUserType("resident");setAuthRoute("auth");}} onBusiness={()=>{setUserType("business");setAuthRoute("auth");}} onBizRequest={()=>setAuthRoute("bizrequest")}/>;
-    if(authRoute==="bizrequest") return <BizRequestPage onBack={()=>setAuthRoute("landing")}/>;
-    return <AuthFlow userType={userType} onBack={()=>setAuthRoute("landing")} onDone={handleDone}/>;
+  function handleDone(result){setSession(result);setTab("feed");}
+  function handleLogout(){setSession(null);setAuthRoute("landing");setCoinAlloc({});setItemMeta({});}
+  function setUser(updater){
+    setSession(function(s){
+      var newUser = typeof updater==="function" ? updater(s&&s.user) : updater;
+      return Object.assign({},s,{user:newUser});
+    });
   }
 
-  if(session.type==="business") return <BizDashboard session={session} onLogout={handleLogout} onUpdateSession={s=>setSession(s)}/>;
+  if(!session){
+    if(authRoute==="landing") return <Landing
+  onResident={function(){setUserType("resident");setAuthRoute("auth");}}
+  onBusiness={function(){setUserType("business");setAuthRoute("auth");}}
+  onBizRequest={function(){setAuthRoute("bizrequest");}}
+/>;
+    if(authRoute==="bizrequest") return <BizRequestPage
+  onBack={function(){setAuthRoute("landing");}}
+  onDemoBiz={function(){setSession({type:"business",tier:"investor",areas:["SW4","SW9"],email:"demo@cravz.co",acctType:"business",name:"Demo User",biz:"Cravz Demo Co.",stage:"Actively researching a location"});}}
+  onFreeAccess={function(sess){setSession(sess);}}
+/>;
+    return <AuthFlow userType={userType} onBack={function(){setAuthRoute("landing");}} onDone={handleDone}/>;
+  }
 
-  const user=session.user||{postcode:"SW4"};
+  if(session.type==="business") return <BizDashboard session={session} onLogout={handleLogout} onUpdateSession={function(s){setSession(s);}}/>;
+
+  var user=session.user||{postcode:"SW4"};
   return (
     <div style={{background:C.bg,minHeight:"100vh",color:C.t1,fontFamily:sans,position:"relative"}}>
-{/* web layout styles injected via useEffect in CravzApp */}
       {/* Desktop sidebar */}
-      <div className="cravz-sidebar" style={{display:"none",position:"fixed",top:0,left:0,bottom:0,width:220,background:C.surface,borderRight:"1px solid "+C.line,flexDirection:"column",zIndex:50,padding:"24px 0"}}>
+      <div className="cravz-sidebar" style={{display:"none",position:"fixed",top:0,left:0,bottom:0,width:240,background:C.surface,borderRight:"1px solid "+C.line,flexDirection:"column",zIndex:50,padding:"24px 0"}}>
         <div style={{padding:"0 20px 24px",borderBottom:"1px solid "+C.line,marginBottom:16}}>
           <CravzLogo size={28}/>
           <div style={{...ty.meta,color:C.t3,marginTop:4}}>{user.postcode}</div>
         </div>
         {[
-          {id:"feed",Icon:Home,l:"Feed"},
-          {id:"brief",Icon:FileText,l:"The Brief"},
-          {id:"insights",Icon:BarChart2,l:"Insights"},
-          {id:"notifs",Icon:Bell,l:"Updates"},
-          {id:"profile",Icon:User,l:"Profile"},
+          {id:"feed",    Icon:Home,      l:"Feed"},
+          {id:"brief",   Icon:FileText,  l:"The Brief"},
+          {id:"insights",Icon:BarChart2, l:"Insights"},
+          {id:"notifs",  Icon:Bell,      l:"Updates"},
+          {id:"profile", Icon:User,      l:"Profile"},
         ].map(function(t){
-          const on=tab===t.id;
+          var on=tab===t.id;
+          var TIcon=t.Icon;
           return (
-            <button key={t.id} onClick={()=>{if(t.id==="suggest"){openVote(true);}else setTab(t.id);}}
+            <button key={t.id} onClick={function(){if(t.id==="vote"){openVote(true);}else{setTab(t.id);}}}
               style={{display:"flex",alignItems:"center",gap:12,padding:"11px 20px",background:on?C.coral+"14":"transparent",border:"none",borderLeft:"3px solid "+(on?C.coral:"transparent"),cursor:"pointer",fontFamily:sans,color:on?C.coral:C.t2,fontSize:13,fontWeight:on?600:400,width:"100%",textAlign:"left"}}>
-              <t.Icon size={16} color={on?C.coral:C.t3}/>
+              <TIcon size={16} color={on?C.coral:C.t3}/>
               {t.l}
               {t.id==="notifs"&&ALL_NOTIFS.length>0&&<div style={{marginLeft:"auto",width:18,height:18,borderRadius:"50%",background:C.coral,display:"flex",alignItems:"center",justifyContent:"center",fontSize:9,fontWeight:700,color:"#fff"}}>{ALL_NOTIFS.length}</div>}
             </button>
           );
         })}
         <div style={{marginTop:"auto",padding:"16px 20px",borderTop:"1px solid "+C.line}}>
-          <button onClick={()=>setSession(null)} style={{width:"100%",padding:"10px",borderRadius:10,background:C.surface2,border:"1px solid "+C.line,color:C.t3,cursor:"pointer",fontFamily:sans,fontSize:12,fontWeight:400}}>
+          <button onClick={function(){setSession(null);}} style={{width:"100%",padding:"10px",borderRadius:10,background:C.surface2,border:"1px solid "+C.line,color:C.t3,cursor:"pointer",fontFamily:sans,fontSize:12,fontWeight:400}}>
             Sign out
           </button>
         </div>
@@ -4759,13 +7019,15 @@ function CravzApp(){
       {/* Main content */}
       <div className="cravz-main">
         <TopBar user={user}/>
-        {tab==="vote"     &&<VoteFlow coinAlloc={coinAlloc} setCoinAlloc={setCoinAlloc} itemMeta={itemMeta} setItemMeta={setItemMeta} preItem={voteItem} isSuggestMode={isSuggest} onClose={()=>{setVoteItem(null);setIsSuggest(false);setTab("feed");}}/>}
-        {tab==="feed"     &&<ResFeed     user={user} coinAlloc={coinAlloc} itemMeta={itemMeta} onAllocate={openVote} onShowNotifs={()=>setTab("notifs")} onGoInsights={()=>setTab("insights")} modQueue={modQueue} onSuggest={s=>setModQueue(q=>[...q,{...s,id:"sug_"+Date.now(),status:"pending",ts:new Date().toLocaleDateString("en-GB",{day:"numeric",month:"short"})}])}/>}
+        <div className="cravz-content">
+        {tab==="vote"     &&<VoteFlow coinAlloc={coinAlloc} setCoinAlloc={setCoinAlloc} itemMeta={itemMeta} setItemMeta={setItemMeta} preItem={voteItem} isSuggestMode={isSuggest} onClose={function(){setVoteItem(null);setIsSuggest(false);setTab("feed");}} onGoToBrief={function(){setVoteItem(null);setIsSuggest(false);setTab("brief");}}/>}
+        {tab==="feed"     &&<ResFeed user={user} coinAlloc={coinAlloc} itemMeta={itemMeta} onAllocate={openVote} onShowNotifs={function(){setTab("notifs");}} onGoInsights={function(){setTab("insights");}} modQueue={modQueue} onSuggest={function(s){setModQueue(function(q){return q.concat([Object.assign({},s,{id:"sug_"+Date.now(),status:"pending",ts:new Date().toLocaleDateString("en-GB",{day:"numeric",month:"short"})})]);});}}/>}
         {tab==="brief"    &&<TheBrief coinAlloc={coinAlloc} user={user}/>}
-        {tab==="notifs"   &&<ResNotifications user={user} onAllocate={openVote}/>}
+        {tab==="notifs"   &&<ResNotifications user={user} coinAlloc={coinAlloc} onAllocate={openVote}/>}
         {tab==="insights" &&<ResInsights user={user} coinAlloc={coinAlloc} itemMeta={itemMeta} onAllocate={openVote}/>}
-        {tab==="profile"  &&<ResProfile  user={user} setUser={setUser} onLogout={handleLogout}/>}
-        <BottomNav active={tab} onChange={t=>{if(t==="suggest"){openVote(true);}else setTab(t);}}/>
+        {tab==="profile"  &&<ResProfile user={user} setUser={setUser} onLogout={handleLogout}/>}
+        </div>
+        <div className="cravz-bottom-nav"><BottomNav active={tab} onChange={function(t){if(t==="vote"){openVote(true);}else{setTab(t);}}}/></div>
       </div>
     </div>
   );
