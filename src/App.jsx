@@ -2701,25 +2701,111 @@ function ResInsights({user,coinAlloc,itemMeta,onAllocate}){
 ================================================== */
 function ResProfile({user,setUser,onLogout}){
   const [legalDoc, setLegalDoc] = useState(null);
-  const [editing,setEditing]=useState(false);
-  const [age,  setAge]  =useState(user.age||"");
-  const [gndr, setGndr] =useState(user.gender||"");
-  const [hh,   setHH]   =useState(user.household||"");
-  const [kids, setKids] =useState(user.kids!=null?user.kids:null);
+  const [editing, setEditing] = useState(false);
+  const [editingPostcode, setEditingPostcode] = useState(false);
+  const [age,  setAge]  = useState(user.age||"");
+  const [gndr, setGndr] = useState(user.gender||"");
+  const [hh,   setHH]   = useState(user.household||"");
+  const [kids, setKids] = useState(user.kids!=null?user.kids:null);
+  const [newPc, setNewPc] = useState(user.fullPostcode||user.postcode||"");
+
+  // 90-day postcode lock
+  // Firebase: users/{uid}.area_changed_at timestamp
+  var areaChangedAt = user.area_changed_at ? new Date(user.area_changed_at) : null;
+  var daysSinceChange = areaChangedAt ? Math.floor((Date.now()-areaChangedAt.getTime())/(1000*60*60*24)) : 999;
+  var postcodeLockedDays = 90;
+  var canChangePostcode = daysSinceChange >= postcodeLockedDays;
+  var daysUntilUnlock = canChangePostcode ? 0 : postcodeLockedDays - daysSinceChange;
+
+  var pcValid = /^[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}$/.test(newPc.trim().toUpperCase());
+  var displayPostcode = user.fullPostcode || user.postcode || "—";
 
   function saveProfile(){
-    setUser(u=>({...u,age,gender:gndr,household:hh,kids}));
+    setUser(function(u){return Object.assign({},u,{age:age,gender:gndr,household:hh,kids:kids});});
     setEditing(false);
+  }
+
+  function savePostcode(){
+    if(!pcValid || !canChangePostcode) return;
+    var full = newPc.trim().toUpperCase();
+    var parts = full.split(" ");
+    var district = parts[0];
+    var sector = parts.length>1 ? parts[0]+" "+parts[1][0] : district;
+    setUser(function(u){return Object.assign({},u,{
+      postcode: district,
+      sector: sector,
+      fullPostcode: full,
+      area_changed_at: new Date().toISOString(),
+    });});
+    setEditingPostcode(false);
   }
 
   return (
     <div style={{padding:"26px 16px 100px"}}>
       <h2 style={{...ty.h2,marginBottom:4}}>Profile</h2>
-      <div style={{...ty.body,marginBottom:20}}>Update your details any time — your allocation history is kept.</div>
+      <div style={{...ty.body,marginBottom:20}}>Your details are anonymous — businesses only see aggregated signals.</div>
 
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+      {/* ── POSTCODE SECTION ── */}
+      <div style={{marginBottom:16}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
+          <SLabel noMargin>Your postcode</SLabel>
+          {!editingPostcode&&(
+            canChangePostcode
+              ? <button onClick={function(){setNewPc(displayPostcode);setEditingPostcode(true);}}
+                  style={{background:"none",border:"1px solid "+C.line,borderRadius:8,padding:"4px 10px",cursor:"pointer",color:C.t2,...ty.meta,fontWeight:600}}>
+                  Edit
+                </button>
+              : <span style={{...ty.meta,color:C.t3,fontSize:11}}>Locked · {daysUntilUnlock}d left</span>
+          )}
+        </div>
+
+        {!editingPostcode ? (
+          <Card style={{padding:"14px 18px"}}>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+              <div>
+                <div style={{fontFamily:serif,fontSize:20,fontWeight:700,color:C.t1,letterSpacing:2}}>{displayPostcode}</div>
+                <div style={{...ty.meta,color:C.t3,marginTop:3}}>District: {user.postcode||"—"} · Sector: {user.sector||"—"}</div>
+              </div>
+              <MapPin size={18} color={C.coral}/>
+            </div>
+            {!canChangePostcode&&(
+              <div style={{...ty.meta,color:C.t3,fontSize:11,marginTop:10,lineHeight:1.5}}>
+                Postcode can be changed once every 90 days to keep demand signals trustworthy. Unlocks in {daysUntilUnlock} day{daysUntilUnlock!==1?"s":""}.
+              </div>
+            )}
+          </Card>
+        ) : (
+          <Card style={{padding:"16px 18px"}}>
+            <div style={{...ty.meta,color:C.t3,marginBottom:10,lineHeight:1.5}}>
+              Changing postcode updates your demand area. This can only be done once every 90 days.
+            </div>
+            <input
+              value={newPc}
+              onChange={function(e){setNewPc(e.target.value.toUpperCase().replace(/[^A-Z0-9 ]/g,""));}}
+              placeholder="e.g. SW4 9BZ"
+              maxLength={8}
+              style={{width:"100%",background:C.surface2,border:"1px solid "+(pcValid?C.green:C.line),borderRadius:10,padding:"12px 14px",color:C.t1,fontSize:18,fontFamily:serif,outline:"none",textAlign:"center",letterSpacing:3,marginBottom:10,boxSizing:"border-box"}}
+            />
+            {pcValid&&<div style={{...ty.meta,color:C.green,textAlign:"center",marginBottom:10,display:"flex",alignItems:"center",justifyContent:"center",gap:5}}><Check size={11} color={C.green}/> Valid UK postcode</div>}
+            <div style={{display:"flex",gap:8}}>
+              <button onClick={function(){setEditingPostcode(false);setNewPc(displayPostcode);}}
+                style={{flex:1,padding:"11px",borderRadius:10,background:"transparent",border:"1px solid "+C.line,color:C.t2,cursor:"pointer",fontFamily:sans,fontSize:13}}>
+                Cancel
+              </button>
+              <button onClick={savePostcode} disabled={!pcValid}
+                style={{flex:2,padding:"11px",borderRadius:10,background:pcValid?C.coral:C.surface2,color:pcValid?"#fff":C.t3,border:"none",cursor:pcValid?"pointer":"default",fontFamily:sans,fontWeight:600,fontSize:13}}>
+                Save postcode
+              </button>
+            </div>
+          </Card>
+        )}
+      </div>
+
+      {/* ── PERSONAL DETAILS ── */}
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
         <SLabel noMargin>Your details</SLabel>
-        <button onClick={()=>setEditing(e=>!e)} style={{background:"none",border:`1px solid ${editing?C.coral:C.line}`,borderRadius:8,padding:"4px 10px",cursor:"pointer",color:editing?C.coral:C.t2,...ty.meta,fontWeight:600}}>
+        <button onClick={function(){setEditing(function(e){return !e;});}}
+          style={{background:"none",border:"1px solid "+(editing?C.coral:C.line),borderRadius:8,padding:"4px 10px",cursor:"pointer",color:editing?C.coral:C.t2,...ty.meta,fontWeight:600}}>
           {editing?"Cancel":"Edit"}
         </button>
       </div>
@@ -2727,71 +2813,52 @@ function ResProfile({user,setUser,onLogout}){
       {!editing?(
         <Card style={{padding:0,overflow:"hidden",marginBottom:20}}>
           {[
-            {l:"District",          v:user.postcode},
             {l:"Age range",         v:user.age||"—"},
             {l:"Gender",            v:user.gender||"—"},
             {l:"Household",         v:user.household||"—"},
-            {l:"Children under 12", v:user.kids?"Yes":"No"},
-          ].map((row,i)=>(
+            {l:"Children under 12", v:user.kids!=null?(user.kids?"Yes":"No"):"—"},
+          ].map(function(row,i){return(
             <div key={row.l}>{i>0&&<HR/>}
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"13px 18px"}}>
                 <span style={{...ty.sm,color:C.t2}}>{row.l}</span>
                 <span style={{...ty.bodyMd,fontSize:13}}>{row.v}</span>
               </div>
             </div>
-          ))}
+          );})}
         </Card>
       ):(
         <Card style={{marginBottom:20}}>
-          {[{l:"Age bracket",opts:AGES,v:age,s:setAge,c:C.coral},{l:"Gender",opts:GNDR,v:gndr,s:setGndr,c:C.coral},{l:"Household",opts:HHLD,v:hh,s:setHH,c:C.coral}].map(f=>(
+          {[
+            {l:"Age bracket",opts:AGES,v:age,s:setAge},
+            {l:"Gender",opts:GNDR,v:gndr,s:setGndr},
+            {l:"Household",opts:HHLD,v:hh,s:setHH},
+          ].map(function(f){return(
             <div key={f.l} style={{marginBottom:16}}>
               <SLabel>{f.l}</SLabel>
-              <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>{f.opts.map(o=><Chip key={o} label={o} active={f.v===o} onClick={()=>f.s(o)} color={f.c} sm/>)}</div>
+              <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
+                {f.opts.map(function(o){return <Chip key={o} label={o} active={f.v===o} onClick={function(){f.s(o);}} sm/>;})}</div>
             </div>
-          ))}
+          );})}
           <div style={{marginBottom:16}}>
             <SLabel>Children under 12 at home?</SLabel>
             <div style={{display:"flex",gap:8}}>
-              {["Yes","No"].map(v=><button key={v} onClick={()=>setKids(v==="Yes")} style={{flex:1,padding:"11px",borderRadius:10,border:`1px solid ${kids===(v==="Yes")?C.coral:C.line}`,background:kids===(v==="Yes")?`${C.coral}15`:"transparent",color:kids===(v==="Yes")?C.coral:C.t2,cursor:"pointer",fontFamily:sans,fontSize:13,fontWeight:kids===(v==="Yes")?600:400}}>{v}</button>)}
+              {["Yes","No"].map(function(v){return(
+                <button key={v} onClick={function(){setKids(v==="Yes");}}
+                  style={{flex:1,padding:"11px",borderRadius:10,border:"1px solid "+(kids===(v==="Yes")?C.coral:C.line),background:kids===(v==="Yes")?C.coral+"15":"transparent",color:kids===(v==="Yes")?C.coral:C.t2,cursor:"pointer",fontFamily:sans,fontSize:13,fontWeight:kids===(v==="Yes")?600:400}}>
+                  {v}
+                </button>
+              );})}
             </div>
           </div>
-          <button onClick={saveProfile} style={{width:"100%",padding:"12px",borderRadius:12,background:C.coral,color:"#fff",border:"none",cursor:"pointer",...ty.btn}}>Save changes →</button>
+          <button onClick={saveProfile}
+            style={{width:"100%",padding:"13px",borderRadius:14,background:C.coral,color:"#fff",border:"none",cursor:"pointer",fontFamily:sans,fontWeight:600,fontSize:15}}>
+            Save changes
+          </button>
         </Card>
       )}
 
-      {/* Data transparency */}
-      <SLabel>What we share — and what we don't</SLabel>
-      <Card style={{marginBottom:12,padding:0,overflow:"hidden"}}>
-        <div style={{padding:"14px 16px"}}>
-          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
-            <div style={{width:20,height:20,borderRadius:"50%",background:"#E8A83020",border:"1px solid #E8A83030",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Check size={11} color={C.amber}/></div>
-            <div style={{...ty.sm,color:C.amber,fontWeight:600}}>Shared with businesses — anonymously</div>
-          </div>
-          <div style={{...ty.meta,color:C.t2,lineHeight:1.7,marginLeft:28}}>Age range · Gender · Household type · Whether children at home · Spend ranges · Visit frequency · Travel distance · District (e.g. SW4) — sector-level (e.g. SW4 9) visible to Investor tier only</div>
-          <div style={{...ty.meta,color:C.t3,lineHeight:1.6,marginLeft:28,marginTop:6}}>Businesses see aggregated signals only — e.g. "42% of voters are families aged 25–34". They never see individual responses.</div>
-        </div>
-        <div style={{height:1,background:C.line}}/>
-        <div style={{padding:"14px 16px"}}>
-          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
-            <div style={{width:20,height:20,borderRadius:"50%",background:"#2ECC8A20",border:"1px solid #2ECC8A30",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><X size={11} color={C.green}/></div>
-            <div style={{...ty.sm,color:C.green,fontWeight:600}}>Never shared or sold</div>
-          </div>
-          <div style={{...ty.meta,color:C.t2,lineHeight:1.7,marginLeft:28}}>Your email · Your name · Your full postcode (stored securely, never shared) · Your individual votes · Any data that could identify you personally</div>
-        </div>
-      </Card>
-
-      <Card style={{marginBottom:20,background:"#9B7DF50A",border:"1px solid #9B7DF520"}}>
-        <div style={{display:"flex",gap:10,alignItems:"flex-start"}}>
-          <div style={{flexShrink:0,marginTop:1,fontSize:14}}>🔄</div>
-          <div>
-            <div style={{...ty.sm,color:C.purple,fontWeight:600,marginBottom:3}}>How your votes work over time</div>
-            <div style={{...ty.meta,color:C.t2,lineHeight:1.65}}>Your 10 coins stay active for 12 months. After that, we will ask you to reconfirm your preferences — things change and the data should reflect where you are now. Votes that are not reconfirmed are removed after 18 months.</div>
-          </div>
-        </div>
-      </Card>
-
-      {/* Legal links */}
-      <div style={{marginTop:24,marginBottom:16}}>
+      {/* ── LEGAL ── */}
+      <div style={{marginTop:8,marginBottom:16}}>
         <div style={{...ty.label,color:C.t3,marginBottom:12}}>Legal</div>
         {["Terms & Conditions","Privacy Policy","Data & Insights","Community Guidelines"].map(function(title){
           var doc = LEGAL_DOCS.find(function(d){return d.title===title;});
@@ -2811,7 +2878,6 @@ function ResProfile({user,setUser,onLogout}){
     </div>
   );
 }
-
 
 /* ==================================================
    PRE-LAUNCH PAGE DATA
@@ -6924,7 +6990,7 @@ export default function CravzApp(){
   useEffect(function(){
     if(document.getElementById("cravz-web")) return;
     var s=document.createElement("style"); s.id="cravz-web";
-    s.textContent="@media(min-width:768px){.cravz-sidebar{display:flex !important;}.cravz-main{margin-left:240px !important;max-width:none !important;min-height:100vh;}.cravz-bottom-nav{display:none !important;}.cravz-content{max-width:680px;margin:0 auto;padding:0 32px;}}.cravz-main{max-width:480px;margin:0 auto;}.cravz-content{padding:0;}";
+    s.textContent="@media(min-width:768px){.cravz-sidebar{display:flex !important;}.cravz-main{margin-left:240px !important;max-width:none !important;width:calc(100vw - 240px) !important;min-height:100vh;}.cravz-bottom-nav{display:none !important;}.cravz-content{max-width:960px;margin:0 auto;padding:0 40px;}}.cravz-main{max-width:480px;margin:0 auto;}.cravz-content{padding:0;}";
     document.head.appendChild(s);
   },[]);
 
@@ -6994,6 +7060,7 @@ export default function CravzApp(){
         </div>
         {[
           {id:"feed",    Icon:Home,      l:"Feed"},
+          {id:"vote",    Icon:Lightbulb, l:"Vote"},
           {id:"brief",   Icon:FileText,  l:"The Brief"},
           {id:"insights",Icon:BarChart2, l:"Insights"},
           {id:"notifs",  Icon:Bell,      l:"Updates"},
