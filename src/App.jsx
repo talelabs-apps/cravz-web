@@ -5849,7 +5849,7 @@ function AuthFlow({userType,onBack,onDone}){
    SHELL
 ================================================== */
 function TopBar({user}){
-  return <div style={{position:"sticky",top:0,zIndex:50,background:`${C.bg}F2`,backdropFilter:"blur(14px)",borderBottom:`1px solid ${C.line}`,padding:"0 18px"}}><div style={{display:"flex",alignItems:"center",justifyContent:"space-between",height:54}}><CravzLogo size={23}/><span style={{...ty.meta,color:C.t3}}>{(user&&user.postcode)}</span><button style={{background:C.surface,border:`1px solid ${C.line}`,borderRadius:10,width:36,height:36,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",color:C.t2}}><MoreHorizontal size={17}/></button></div></div>;
+  return <div className="cravz-top-bar" style={{position:"sticky",top:0,zIndex:50,background:`${C.bg}F2`,backdropFilter:"blur(14px)",borderBottom:`1px solid ${C.line}`,padding:"0 18px"}}><div style={{display:"flex",alignItems:"center",justifyContent:"space-between",height:54}}><CravzLogo size={23}/><span style={{...ty.meta,color:C.t3}}>{(user&&user.postcode)}</span><button style={{background:C.surface,border:`1px solid ${C.line}`,borderRadius:10,width:36,height:36,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",color:C.t2}}><MoreHorizontal size={17}/></button></div></div>;
 }
 
 /* ==================================================
@@ -6990,7 +6990,7 @@ export default function CravzApp(){
   useEffect(function(){
     if(document.getElementById("cravz-web")) return;
     var s=document.createElement("style"); s.id="cravz-web";
-    s.textContent="@media(min-width:768px){.cravz-sidebar{display:flex !important;}.cravz-main{margin-left:240px !important;max-width:none !important;width:calc(100vw - 240px) !important;min-height:100vh;}.cravz-bottom-nav{display:none !important;}.cravz-content{max-width:960px;margin:0;padding:0 32px;}}.cravz-main{max-width:480px;margin:0 auto;}.cravz-content{padding:0;}";
+    s.textContent=".cravz-main{max-width:480px;margin:0 auto;}.cravz-content{padding:0;}.cravz-top-bar{display:block;}@media(min-width:768px){.cravz-sidebar{display:flex !important;}.cravz-main{margin-left:240px !important;max-width:none !important;width:calc(100vw - 240px) !important;min-height:100vh;}.cravz-bottom-nav{display:none !important;}.cravz-content{max-width:none;width:100%;margin:0;padding:0 32px;}.cravz-top-bar{display:none !important;}}";
     document.head.appendChild(s);
   },[]);
 
