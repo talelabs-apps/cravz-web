@@ -6990,7 +6990,7 @@ export default function CravzApp(){
   useEffect(function(){
     if(document.getElementById("cravz-web")) return;
     var s=document.createElement("style"); s.id="cravz-web";
-    s.textContent=".cravz-main{max-width:480px;margin:0 auto;}.cravz-content{padding:0;}.cravz-top-bar{display:block;}@media(min-width:768px){.cravz-sidebar{display:flex !important;}.cravz-main{margin-left:240px !important;max-width:none !important;width:auto !important;min-height:100vh;}.cravz-bottom-nav{display:none !important;}.cravz-content{max-width:none !important;width:auto;margin:0;padding:16px 32px;}.cravz-top-bar{display:none !important;}}";
+    s.textContent=".cravz-main{max-width:480px;margin:0 auto;}.cravz-content{padding:0;}.cravz-top-bar{display:block;}@media(min-width:768px){.cravz-sidebar{display:flex !important;}.cravz-main{margin:0 0 0 240px !important;max-width:none !important;min-height:100vh;}.cravz-bottom-nav{display:none !important;}.cravz-content{padding:16px 32px;}.cravz-top-bar{display:none !important;}}";
     document.head.appendChild(s);
   },[]);
 
